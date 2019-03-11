@@ -38,7 +38,7 @@ entityDef weapon_fists {
 
 	"weapon_scriptobject"		"weapon_fists"
 	"def_melee"					"damage_fists"
-	"melee_distance"			"48"
+	"melee_distance"			"56"
 	"ammoType"					""
 	"ammoRequired"				"0"
 	"clipSize"					"0"
@@ -61,6 +61,8 @@ entityDef weapon_fists {
 	"controllerShakeHighTime"	"50"
 	"controllerShakeLowMag"		"0.6"
 	"controllerShakeLowTime"	"100"
+	"recoilTime"				"175"
+	"recoilAngles"				"1.25 0 0.75"
 }
 
 model viewmodel_fists {
@@ -92,7 +94,7 @@ entityDef damage_fists {
 	"knockback"			"20"
 	"push"				"20000"
 
-	"gib"				"1"
+	"gib"				"0"
 	"smoke_wound_flesh"	"burstysquirt.prt"
 	"mtr_wound_flesh"	"textures/decals/hurt02"
 

@@ -68,7 +68,6 @@ model model_monster_zsec_shotgun {
 	}
 
 	anim sight						models/md5/monsters/zombies/zsec_shotgun/sight.md5anim {
-		frame 1							sound_voice monster_zombie_security_sight
 		frame 1							sound_body monster_zombie_security_footstep
 		frame 14						sound_body monster_zombie_security_footstep
 	}
@@ -355,7 +354,7 @@ entityDef damage_bullet_zsec_shotgun {
 	"snd_flesh"						"shotgun_impact_flesh"
 
 	"kick_time"						"400"
-	"kick_amplitude"				"1"
+	"kick_amplitude"				"0.5"
 
 	"dv_time"						"100"
 }

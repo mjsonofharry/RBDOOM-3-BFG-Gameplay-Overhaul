@@ -235,14 +235,12 @@ model monster_demon_imp {
 		frame 45						launch_missile RMissile
 	}
 	anim range_attack3				models/md5/monsters/imp/range4.md5anim {
-		frame 1							sound_body snd_sight
 		frame 2							sound_weapon snd_createmissile
 		frame 2							create_missile RMissile
 		frame 37						sound_weapon snd_attackmissile
 		frame 37						launch_missile RMissile
 	}
 	anim turret_attack1				models/md5/monsters/imp/turret_attack1.md5anim {
-		frame 1							sound_body snd_sight
 		frame 2							sound_weapon snd_createmissile
 		frame 2							create_missile RMissile
 		frame 22						sound_weapon snd_attackmissile
@@ -294,7 +292,6 @@ model monster_demon_imp {
 		frame 1							sound_voice snd_pain
 	}
 	anim leap_attack				models/md5/monsters/imp/scurry_leap.md5anim {
-		frame 1							sound_voice snd_sight8
 		frame 4							sound_body snd_footstep
 		frame 15						sound_body snd_footstep
 		frame 16						attack_begin melee_impLeapAttack
@@ -410,8 +407,8 @@ entityDef monster_demon_imp {
 	"snd_sight"						"monster_demon_imp_sight"
 	"snd_sight2"					"monster_demon_imp_sight2"
 	"snd_sight8"					"monster_demon_imp_sight8"
-	"snd_chatter"					"monster_demon_imp_chatter"
-	"snd_chatter_combat"			"monster_demon_imp_chatter_combat"
+	"snd_chatter"					""
+	"snd_chatter_combat"			""
 	"snd_pain"						"monster_demon_imp_pain"
 	"snd_attackmelee_1"				"monster_demon_imp_attackmelee_1"
 	"snd_attackmelee_2"				"monster_demon_imp_attackmelee_2"
@@ -533,7 +530,7 @@ entityDef monster_demon_imp_crawler {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"1"
-	"health"						"130"
+	"health"						"160"
 	"melee_damage" 					"35"
 	"melee_range"					"40"
 	"def_projectile"				"projectile_impfireball"
@@ -630,7 +627,7 @@ entityDef projectile_impfireball {
 									
 	"launchFromBarrel"				"1"
 	"health"						"5"					// amount of damage projectile can take if damaged (0 means it can't be destroyed)
-	"velocity"						"475 0 -150"			// how fast the projectile leaves the gun (or distance if fuse is 0)
+	"velocity"						"525 0 -150"			// how fast the projectile leaves the gun (or distance if fuse is 0)
 	"angular_velocity"				"0 0 0"				// how the projectile is rotating when it leaves the gun
 	"thrust"						"0"					// the rate of acceleration (always in the direction of the projectiles model)
 	"thrust_start"					"0"					// when to start accelerating

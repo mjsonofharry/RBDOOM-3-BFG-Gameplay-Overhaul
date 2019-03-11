@@ -64,14 +64,14 @@ entityDef weapon_machinegun {
 	"def_projectile"			"projectile_bullet_machinegun"
 	"ammoType"					"ammo_clip"
 	"ammoRequired"				"1"
-	"clipSize"					"60"
+	"clipSize"					"0"
 	"lowAmmo"					"10"
 	"mtr_flashShader"			"muzzleflash"
 	"flashColor"				"1 0.8 0.4"
 	"flashRadius"				"120"
 	"silent_fire"				"0"
 	
-	"gui"						"guis/weapons/machinegun.gui"
+	"gui"						"guis/override/weapons/machinegun.gui"
 	"mtr_guiLightShader"		"lights/viewWeaponGuiLight"
 	
 	"icon"						"guis/assets/hud/wpn_3"
@@ -81,7 +81,7 @@ entityDef weapon_machinegun {
 	"muzzle_kick_maxtime"		"0.6"
 	"muzzle_kick_angles"		"0 0 0"
 	"muzzle_kick_offset"		"1 1 2"
-	"recoilTime"				"145"
+	"recoilTime"				"90"
 	"recoilAngles"				"-1 0 0"
 
 	"hide_time"					"0.3"								// time to hide weapon when talking to npcs or looking at guis
@@ -147,7 +147,7 @@ model viewmodel_machinegun {
 }
 
 entityDef damage_bullet_machinegun {
-	"damage"			"9"
+	"damage"			"14"
 	"kickDir"			"1 0 0"
 
 	"mtr_blob"			"genericDamage"
@@ -170,7 +170,7 @@ entityDef damage_bullet_machinegun {
 
 	"dv_time"			"100"
 
-	"gib"				"1"
+	"gib"				"0"
 	"smoke_wound_flesh"	"burstysquirt.prt"
 	
 }

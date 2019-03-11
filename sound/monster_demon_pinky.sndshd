@@ -39,7 +39,7 @@ monster_demon_pinky_hand {
 
 	minDistance	1
 	maxDistance	25
-	volume		-3
+	volume		3
 
 	sound/ed/pinky/fleshstep_test11.wav
 	sound/ed/pinky/fleshstep_test12.wav
@@ -53,7 +53,7 @@ admin_monster_demon_pinky_hand {
 
 	minDistance	10
 	maxDistance	25
-	volume		3
+	volume		5
 	no_occlusion
 	no_dups
 

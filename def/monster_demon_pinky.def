@@ -183,7 +183,7 @@ entityDef monster_demon_pinky {
 	"use_aas"						"aas96"
 	"team"							"1"
 	"rank"							"1"
-	"health"						"220"
+	"health"						"325"
 	"melee_range"					"60"
 	"mass"							"300"
 
@@ -243,7 +243,7 @@ entityDef melee_pinky_back {
 	"blob_height"					"650"
 	"knockback"						"100"
 	"kick_time"						"800"
-	"kick_amplitude"				"2"
+	"kick_amplitude"				"1"
 	"dv_time"						"400"
 }
 

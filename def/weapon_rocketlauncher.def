@@ -66,13 +66,13 @@ entityDef weapon_rocketlauncher {
 	"def_projectile"			"projectile_rocket"
 	"ammoType"					"ammo_rockets"
 	"ammoRequired"				"1"
-	"clipSize"					"5"
+	"clipSize"					"0"
 	"lowAmmo"					"1"
 	"mtr_flashShader"			"muzzleflash"
 	"flashColor"				"1 0.8 0.4"
 	"flashRadius"				"120"
 	"silent_fire"				"0"
-	"recoilTime"				"325"
+	"recoilTime"				"425"
 	"recoilAngles"				"-1 0 0"
 
 	"weaponAngleOffsetAverages" "15"
@@ -153,9 +153,9 @@ entityDef projectile_rocket {
 
 	"launchFromBarrel"			"1"					// launch from barrel
 	"health"					"5"					// amount of damage projectile can take if damaged (0 means it can't be destroyed)
-	"velocity"					"900 0 0"			// how fast the projectile leaves the gun (or distance if fuse is 0)
+	"velocity"					"1000 0 0"			// how fast the projectile leaves the gun (or distance if fuse is 0)
 	"angular_velocity"			"0 0 0"				// how the projectile is rotating when it leaves the gun
-	"thrust"					"0"					// the rate of acceleration (always in the direction of the projectiles model)
+	"thrust"					"0"				// the rate of acceleration (always in the direction of the projectiles model)
 	"thrust_start"				"0"					// when to start accelerating
 	"thrust_end"				"4"					// when to stop accelerating
 	"linear_friction"			"0"					// "air" friction

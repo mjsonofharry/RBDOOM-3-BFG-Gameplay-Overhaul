@@ -80,7 +80,7 @@ entityDef monster_flying_cacodemon {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"2"
-	"health"						"200"
+	"health"						"860"
 	"melee_range"					"48"
 	"def_projectile"				"projectile_cacodemon_fireball"
 	"attack_cone"					"50"

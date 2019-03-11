@@ -87,7 +87,6 @@ model model_monster_zsec_shield {
 	anim idle						models/md5/monsters/zombies/zsec_shield/shield_stand.md5anim
 
 	anim sight						models/md5/monsters/zombies/zsec_shield/shield_sight.md5anim {
-		frame 1							sound_voice monster_zombie_security_sight
 	}
 	
 	anim walk 						models/md5/monsters/zombies/zsec_shield/shield_walk.md5anim {
@@ -279,7 +278,7 @@ entityDef monster_zsec_shield {
 	"damage_zone right_arm"			"*Rshldr"
 	"damage_zone legs"				"*Hips"
 	"damage_zone shield"			"*shield"
-	"damage_scale shield"			"0"
+	"damage_scale shield"			"0.05"
 	"damage_scale head"				"1.25"
 	
 	"ragdoll"						"monster_zombie_security_pistol"
@@ -345,7 +344,7 @@ entityDef	damage_bullet_zsec_shield {
 	"snd_flesh"						"bullet_impact_flesh"
 
 	"kick_time"						"400"
-	"kick_amplitude"				"1"
+	"kick_amplitude"				"0.3"
 
 	"dv_time"						"100"
 }

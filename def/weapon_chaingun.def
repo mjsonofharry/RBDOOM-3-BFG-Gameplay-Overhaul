@@ -53,14 +53,14 @@ entityDef weapon_chaingun {
 	"pdaIcon"					"guis/assets/hud/icons/chaingun_new.tga"
 	"hudIcon"					"guis/assets/hud/icons/chaingunw.tga"	
 
-	"gui"						"guis/weapons/chaingun.gui"
+	"gui"						"guis/override/weapons/chaingun.gui"
 	"mtr_guiLightShader"		"lights/viewWeaponGuiLight"
 	
 	"weapon_scriptobject"		"weapon_chaingun"
 	"def_projectile"			"projectile_chaingunbullet"
 	"ammoType"					"ammo_belt"
 	"ammoRequired"				"1"
-	"clipSize"					"60"
+	"clipSize"					"0"
 	"lowAmmo"					"10"
 	"mtr_flashShader"			"muzzleflash"
 	"flashColor"				"1 0.8 0.4"
@@ -85,8 +85,6 @@ entityDef weapon_chaingun {
 	"smoke_wound_metal"				"bulletricochet.prt"
 	"smoke_wound_ricochet"			"bulletricochet.prt"
 
-	"smoke_muzzle"				"cgmuzzlesmoke.prt"
-
 	"snd_acquire"				"player_chaingun_acquire"
 	"snd_respawn"				"sound_weapon_respawn"
 	"snd_fire"					"player_chaingun_fire"
@@ -100,7 +98,7 @@ entityDef weapon_chaingun {
 	"def_ejectBrass"			"debris_brass"
 	"ejectBrassDelay"			"10"
 	
-	"spread"					"5"
+	"spread"					"3"
 
 	"controllerShakeHighMag"	"1.0"
 	"controllerShakeHighTime"	"100"
@@ -225,7 +223,7 @@ entityDef projectile_chaingunbullet {
 }
 
 entityDef	damage_bullet_chaingun {
-	"damage"			"20"
+	"damage"			"14"
 	"kickDir"			"1 0 0"
 
 	"mtr_blob"			"genericDamage"

@@ -4,7 +4,7 @@ windowDef Desktop
 	visible	1
 
 	onEvent {
-		if ("gui::player_clip_low" == 1) {
+		if ("gui::player_totalammo" <= 2) {
 			set "cliplow::visible" "1" ;
 			set "cliplow2::visible" "1" ;
 			set "clipempty::visible" "0" ;
@@ -12,38 +12,23 @@ windowDef Desktop
 			set "ammoempty::visible" "0" ;
 			set "ammoempty2::visible" "0" ;
 			set "ammovalue::forecolor" "1 0.5 0 0.7" ;
-		}
-		if ("gui::player_clip_empty" == 1) {
-			set "clipempty::visible" "1" ;
-			set "clipempty2::visible" "1" ;
-			set "cliplow::visible" "0" ;
-			set "cliplow2::visible" "0" ;
-			set "ammoempty::visible" "0" ;
-			set "ammoempty2::visible" "0" ;
-		}
-		if ("gui::player_ammo_empty" == 1) {
-			set "ammoempty::visible" "1" ;
-			set "ammoempty2::visible" "1" ;
-			set "clipempty::visible" "1" ;
-			set "clipempty2::visible" "1" ;
-			set "cliplow::visible" "0" ;
-			set "cliplow2::visible" "0" ;
-			set "ammovalue3::forecolor" "1 0.5 0 0.5" ;
-		}
-		if ("gui::player_clip_empty" == 0) {
-			set "clipempty::visible" "0" ;
-			set "clipempty2::visible" "0" ;
-		}
-		if ("gui::player_clip_low" == 0) {
+		} else {
 			set "clipempty::visible" "0" ;
 			set "clipempty2::visible" "0" ;
 			set "cliplow::visible" "0" ;
 			set "cliplow2::visible" "0" ;
 			set "ammovalue::forecolor" "0.6 0.95 1 0.7" ;
 		}
-		if ("gui::player_ammo_empty" == 0) {
+		if ("gui::player_ammo_empty" == 1) {
+			set "clipempty::visible" "1" ;
+			set "clipempty2::visible" "1" ;
+			set "cliplow::visible" "0" ;
+			set "cliplow2::visible" "0" ;
 			set "ammoempty::visible" "0" ;
-			set "ammovalue3::forecolor" "0.6 0.95 1 0.5" ;
+			set "ammoempty2::visible" "0" ;
+		} else {
+			set "clipempty::visible" "0" ;
+			set "clipempty2::visible" "0" ;
 		}
 		if ("gui::powerlevel" >= 0.51) {
 		//	set "Status::text" "CORE : ALERT" ;
@@ -157,33 +142,17 @@ windowDef Desktop
 	}
 	windowDef ammovalue
 	{
-		text	"gui::player_ammo"
-		rect	50,-16,349,331
+		text	"gui::player_totalammo"
+		rect	40,20,349,331
 		forecolor	0.6 ,0.8 ,1 ,0.9
 		visible	1
-		textscale	3.1
+		textscale	2.8
 		font	"fonts/micro"
 		textalign	1
 		forceaspectwidth	450
 		windowDef ammocomplex1
 		{
 			rect	225,53,45,21
-			visible	1
-		}
-	}
-	windowDef ammovalue3
-	{
-		text	"gui::player_totalammo"
-		rect	-2,133,297,64
-		forecolor	0.6 ,0.95 ,1 ,0.6
-		visible	1
-		textscale	1.1
-		textalign	1
-		font	"fonts/micro"
-		forceaspectwidth	300
-		windowDef ammocomplex2
-		{
-			rect	108,20,71,24
 			visible	1
 		}
 	}
@@ -283,12 +252,5 @@ windowDef Desktop
 			matcolor	1 ,1 ,1 ,0.05
 			visible	1
 		}
-	}
-	windowDef NumTest3
-	{
-		rect	202,23,228,144
-		background	"gui/weapons/machinegun/num2"
-		matcolor	0.2 ,0.2 ,0.2 ,1
-		visible	1
 	}
 }

@@ -67,8 +67,8 @@ entityDef weapon_shotgun {
 	"def_projectile"			"projectile_bullet_shotgun"
 	"ammoType"					"ammo_shells"
 	"ammoRequired"				"1"
-	"clipSize"					"8"
-	"lowAmmo"					"2"
+	"clipSize"					"0"
+	"lowAmmo"					"10"
 	"mtr_flashShader"			"muzzleflash"
 	"flashColor"				"1 0.8 0.4"
 	"flashRadius"				"120"
@@ -93,7 +93,7 @@ entityDef weapon_shotgun {
 	"snd_respawn"				"sound_weapon_respawn"
 	"skin_invisible"			"skins/shotgun_invis"
 	
-	"spread"					"22"
+	"spread"					"4"
 
 	"controllerShakeHighMag"	"1.0"
 	"controllerShakeHighTime"	"120"
@@ -138,11 +138,11 @@ model viewmodel_shotgun {
 		frame 1					sound_weapon player_shotgun_fire
 		frame 17				sound_voice player_shotgun_pump
 	}
-	anim fire2 					models/md5/weapons/shotgun_view/fire2.md5anim {
+	anim fire2 					models/md5/weapons/shotgun_view/fire1.md5anim {
 		frame 1					sound_weapon player_shotgun_fire
 		frame 17				sound_voice player_shotgun_pump
 	}
-	anim fire3 					models/md5/weapons/shotgun_view/fire3.md5anim {
+	anim fire3 					models/md5/weapons/shotgun_view/fire1.md5anim {
 		frame 1					sound_weapon player_shotgun_fire
 		frame 17				sound_voice player_shotgun_pump
 	}
@@ -215,9 +215,9 @@ entityDef debris_shotgunbrass {
 	"bounce"					"0.5"				// how much speed a projectile retains when it bounces off of objects (coefficient of restitution).  0 means no bounce.
 	"mass"						"1"
 	"gravity"					"666"				// how much gravity affects the trajectory.  gravity direction is same as the entity that fired it.
-	"fuse"						"3"					// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
+	"fuse"						"3600"				// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
 
-	"detonate_on_fuse"			"1"					// whether projectile should detonate when it's fuse runs out
+	"detonate_on_fuse"			"0"					// whether projectile should detonate when it's fuse runs out
 	"detonate_on_death"			"0"					// whether projectile should detonate when it's "killed" (health runs out)
 	"detonate_on_world"			"0"					// whether projectile should detonate when it hits an obstacle
 	"detonate_on_actor"			"0"					// whether projectile should detonate when it hits a character in the game

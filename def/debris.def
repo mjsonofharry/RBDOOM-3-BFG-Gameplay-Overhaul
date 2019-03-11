@@ -24,7 +24,7 @@ entityDef debris_largeshrapnel {
 	"bounce"					"0.6"				// how much speed a projectile retains when it bounces off of objects (coefficient of restitution).  0 means no bounce.
 	"mass"						"4"
 	"gravity"					"1066"				// how much gravity affects the trajectory.  gravity direction is same as the entity that fired it.
-	"fuse"						"5"					// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
+	"fuse"						"3600"				// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
 
 	"detonate_on_fuse"			"1"					// whether projectile should detonate when it's fuse runs out
 	"detonate_on_death"			"0"					// whether projectile should detonate when it's "killed" (health runs out)
@@ -60,7 +60,7 @@ entityDef debris_shrapnel {
 	"bounce"					"0.5"				// how much speed a projectile retains when it bounces off of objects (coefficient of restitution).  0 means no bounce.
 	"mass"						"3"
 	"gravity"					"1066"				// how much gravity affects the trajectory.  gravity direction is same as the entity that fired it.
-	"fuse"						"4"					// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
+	"fuse"						"3600"				// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
 
 	"detonate_on_fuse"			"1"					// whether projectile should detonate when it's fuse runs out
 	"detonate_on_death"			"0"					// whether projectile should detonate when it's "killed" (health runs out)
@@ -95,7 +95,7 @@ entityDef debris_brass {
 	"bounce"					"0.25"				// how much speed a projectile retains when it bounces off of objects (coefficient of restitution).  0 means no bounce.
 	"mass"						"0.5"
 	"gravity"					"666"				// how much gravity affects the trajectory.  gravity direction is same as the entity that fired it.
-	"fuse"						"3"					// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
+	"fuse"						"3600"				// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
 
 	"detonate_on_fuse"			"1"					// whether projectile should detonate when it's fuse runs out
 	"detonate_on_death"			"0"					// whether projectile should detonate when it's "killed" (health runs out)

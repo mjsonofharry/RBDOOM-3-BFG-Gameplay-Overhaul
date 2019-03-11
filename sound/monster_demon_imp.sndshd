@@ -11,7 +11,7 @@ monster_demon_imp_chomp {
 monster_demon_imp_footstep {
 	minDistance	2
 	maxDistance	25
-	volume		-5
+	volume		0
 	
 	
 	sound/monsters/imp/imp_footstep_01.wav
@@ -24,7 +24,7 @@ monster_demon_imp_footstep_cin {
 	minDistance	2
 	maxDistance	25
 	global
-	volume		-5
+	volume		0
 	
 	sound/monsters/imp/imp_footstep_01.wav
 	sound/monsters/imp/imp_footstep_02.wav
@@ -259,7 +259,7 @@ monster_demon_imp_fireball_create {
 
 	minDistance	6
 	maxDistance	40
-	volume		0
+	volume		-10
 
 	//sound/monsters/imp/fireball_sizzle_03.wav
 	//sound/monsters/imp/fireball_sizzle_02.wav
@@ -271,7 +271,7 @@ monster_demon_imp_fireball_throw {
 
 	minDistance	6
 	maxDistance	35
-	volume		0
+	volume		-5
 	
 	sound/monsters/imp/fireball_throw_01.wav
 }	
@@ -280,7 +280,7 @@ monster_demon_imp_fireball_flight {
 
 	minDistance	6
 	maxDistance	20
-	volume		0
+	volume		-5
 	looping
 	
 	sound/monsters/imp/fireball_flight_03.wav

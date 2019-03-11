@@ -43,20 +43,20 @@ void weapon_rocketlauncher::init() {
 
 void weapon_rocketlauncher::UpdateSkin() {
 	string skinname;
-	float ammoClip;
+	float ammo;
 
 	if ( isInvisible() ) {
 		skinname = skin_invisible;
 	} else {	
-		ammoClip = ammoInClip();
-		if ( ammoClip > 5 ) {
+		ammo = ammoAvailable();
+		if ( ammo > 5 ) {
 			// can happen in MP - weapon Raising with slightly out-of-sync ammoClip
-			ammoClip = 5;
+			ammo = 5;
 		}
-		if ( ammoClip < 0 ) {
-			ammoClip = 0;
+		if ( ammo < 0 ) {
+			ammo = 0;
 		}
-		skinname = "skins/models/weapons/" + ammoClip + "rox.skin";
+		skinname = "skins/models/weapons/" + ammo + "rox.skin";
 	}
 	setSkin( skinname );
 }
@@ -78,15 +78,8 @@ void weapon_rocketlauncher::Lower() {
 	weaponState( "Raise", 0 );
 }
 
-void weapon_rocketlauncher::Idle() {
-	float ammoClip;
-	float avail;
-	float clip_size;
-	float currentTime;
-	
-	clip_size = clipSize();	
-	
-	if ( !ammoInClip() ) {
+void weapon_rocketlauncher::Idle() {	
+	if ( !ammoAvailable() ) {
 		weaponOutOfAmmo();
 	} else {
 		weaponReady();
@@ -96,37 +89,19 @@ void weapon_rocketlauncher::Idle() {
 		if ( WEAPON_LOWERWEAPON ) {
 			weaponState( "Lower", ROCKETLAUNCHER_IDLE_TO_LOWER );
 		}
-		ammoClip = ammoInClip();
-		currentTime = sys.getTime();
-		if ( ( currentTime >= next_attack ) && WEAPON_ATTACK ) {
-			if ( ammoClip > 0 ) {
+		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
+			if ( ammoAvailable() > 0 ) {
 				weaponState( "Fire", ROCKETLAUNCHER_IDLE_TO_FIRE );
-			} else if ( ammoAvailable() > 0 ) {
-				if ( autoReload() ) {
-					netReload();
-					weaponState( "Reload", ROCKETLAUNCHER_IDLE_TO_RELOAD );
-				}
 			}
-		}
-		if ( WEAPON_RELOAD && ( ammoAvailable() > ammoClip ) && ( ammoClip < clip_size ) ) {
-			netReload();
-			weaponState( "Reload", ROCKETLAUNCHER_IDLE_TO_RELOAD );
-		}
-		if ( WEAPON_NETRELOAD ) {
-			WEAPON_NETRELOAD = false;
-			weaponState( "Reload", ROCKETLAUNCHER_IDLE_TO_RELOAD );		
 		}
 		waitFrame();
 	}
 }
 
-void weapon_rocketlauncher::Fire() {
-	float ammoClip;
-	
+void weapon_rocketlauncher::Fire() {	
 	next_attack = sys.getTime() + ROCKETLAUNCHER_FIREDELAY;
 	
-	ammoClip = ammoInClip();
-	if ( ammoClip == ROCKETLAUNCHER_LOWAMMO ) {
+	if ( ammoAvailable() == ROCKETLAUNCHER_LOWAMMO ) {
 		startSound( "snd_lowammo", SND_CHANNEL_ITEM, true );
 	}
 	
@@ -138,12 +113,6 @@ void weapon_rocketlauncher::Fire() {
 }
 
 void weapon_rocketlauncher::Reload() {
-	weaponReloading();
-	playAnim( ANIMCHANNEL_ALL, "reload" );
-	waitUntil( animDone( ANIMCHANNEL_ALL, ROCKETLAUNCHER_RELOAD_FRAME ) );
-	addToClip( clipSize() );
-	UpdateSkin();
-	waitUntil( animDone( ANIMCHANNEL_ALL, ROCKETLAUNCHER_RELOAD_TO_IDLE ) );
 	weaponState( "Idle", ROCKETLAUNCHER_RELOAD_TO_IDLE );
 }
 

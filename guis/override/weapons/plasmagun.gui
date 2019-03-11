@@ -4,7 +4,7 @@ windowDef Desktop {
 
 
 	onEvent {
-		if ("gui::player_clip_low" == 1) {
+		if ("gui::player_totalammo" <= 10) {
 			set "cliplow::visible" "1" ;
 			set "cliplow2::visible" "1" ;
 			set "clipempty::visible" "0" ;
@@ -12,38 +12,23 @@ windowDef Desktop {
 			set "ammoempty::visible" "0" ;
 			set "ammoempty2::visible" "0" ;
 			set "ammovalue::forecolor" "1 0.5 0 0.7" ;
-		}
-		if ("gui::player_clip_empty" == 1) {
-			set "clipempty::visible" "1" ;
-			set "clipempty2::visible" "1" ;
-			set "cliplow::visible" "0" ;
-			set "cliplow2::visible" "0" ;
-			set "ammoempty::visible" "0" ;
-			set "ammoempty2::visible" "0" ;
-		}
-		if ("gui::player_ammo_empty" == 1) {
-			set "ammoempty::visible" "1" ;
-			set "ammoempty2::visible" "1" ;
-			set "clipempty::visible" "1" ;
-			set "clipempty2::visible" "1" ;
-			set "cliplow::visible" "0" ;
-			set "cliplow2::visible" "0" ;
-			set "ammovalue3::forecolor" "1 0.5 0 0.5" ;
-		}
-		if ("gui::player_clip_empty" == 0) {
-			set "clipempty::visible" "0" ;
-			set "clipempty2::visible" "0" ;
-		}
-		if ("gui::player_clip_low" == 0) {
+		} else {
 			set "clipempty::visible" "0" ;
 			set "clipempty2::visible" "0" ;
 			set "cliplow::visible" "0" ;
 			set "cliplow2::visible" "0" ;
 			set "ammovalue::forecolor" "0.6 0.95 1 0.7" ;
 		}
-		if ("gui::player_ammo_empty" == 0) {
+		if ("gui::player_ammo_empty" == 1) {
+			set "clipempty::visible" "1" ;
+			set "clipempty2::visible" "1" ;
+			set "cliplow::visible" "0" ;
+			set "cliplow2::visible" "0" ;
 			set "ammoempty::visible" "0" ;
-			set "ammovalue3::forecolor" "0.6 0.95 1 0.5" ;
+			set "ammoempty2::visible" "0" ;
+		} else {
+			set "clipempty::visible" "0" ;
+			set "clipempty2::visible" "0" ;
 		}
 	} 
 
@@ -79,36 +64,13 @@ windowDef Desktop {
 	}
 
 	windowDef ammovalue {
-		text		"gui::player_ammo"
-		rect		20 ,-20 ,640 ,220 
+		text		"gui::player_totalammo"
+		rect		20 ,60 ,640 ,220 
 		forecolor	0.6 ,0.8 ,1 ,1
 		visible		1
-		textscale	6
+		textscale	4.5
 		font		"fonts/bank"
 		textalign	1
-	}
-
-	windowDef ammovalue3 {
-		text		"gui::player_totalammo"
-		font		"fonts/bank"
-		rect		0 ,250 ,640 ,220 
-		forecolor	0.6 ,0.8 ,1 ,1 
-		visible		1
-		textscale	3
-		textalign	1
-	}
-
-	windowDef ammoempty {
-		rect		265 ,375 ,390 ,-120 
-		background	"gui/weapons/machinegun/warning"
-		matcolor	1 ,1 ,1 ,1 
-		visible		0
-	}
-	windowDef ammoempty2 {
-		rect		-20 ,375 ,-390 ,-120 
-		background	"gui/weapons/machinegun/warning"
-		matcolor	1 ,1 ,1 ,1 
-		visible		0
 	}
 
 	windowDef cliplow {

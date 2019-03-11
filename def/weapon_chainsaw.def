@@ -69,8 +69,8 @@ entityDef weapon_chainsaw {
 	"flashColor"				"1 0.8 0.4"
 	"flashRadius"				"120"	
 	"silent_fire"				"0"
-	"recoilTime"				"0"
-	"recoilAngles"				"0 0 0"
+	"recoilTime"				"75"
+	"recoilAngles"				"1 0.5 0.75"
 
 	"hide_time"					"0.3"								// time to hide weapon when talking to npcs or looking at guis
 	"hide_distance"				"-20"								// distance to offset weapon when talking to npcs or looking at guis

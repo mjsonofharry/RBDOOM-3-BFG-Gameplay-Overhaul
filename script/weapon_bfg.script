@@ -60,15 +60,9 @@ void weapon_bfg::Lower() {
 }
 
 void weapon_bfg::Idle() {
-	float currentTime;
-	float ammoClip;
-	float avail;
-	float clip_size;
-
 	setColor( 0, 0, 0 );
-	clip_size = clipSize();	
 	
-	if ( !ammoInClip() ) {
+	if ( !ammoAvailable() ) {
 		playCycle( ANIMCHANNEL_ALL, "idle_empty" );
 		weaponOutOfAmmo();
 	} else {
@@ -79,25 +73,10 @@ void weapon_bfg::Idle() {
 		if ( WEAPON_LOWERWEAPON ) {
 			weaponState( "Lower", BFG_IDLE_TO_LOWER );
 		}
-		currentTime = sys.getTime();
-		ammoClip = ammoInClip();
-		if ( ( currentTime >= next_attack ) && WEAPON_ATTACK ) {
-			if ( ammoClip > 0 ) {
+		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
+			if ( ammoAvailable() > 0 ) {
 				weaponState( "Fire", BFG_IDLE_TO_FIRE );
-			} else if ( ammoAvailable() > 0 ) {
-				if ( autoReload() ) {
-					netReload();
-					weaponState( "Reload", BFG_IDLE_TO_RELOAD );
-				}
 			}
-		}
-		if ( WEAPON_RELOAD && ( ammoAvailable() > ammoClip ) && ( ammoClip < clip_size ) ) {
-			netReload();
-			weaponState( "Reload", BFG_IDLE_TO_RELOAD );
-		}
-		if ( WEAPON_NETRELOAD ) {
-			WEAPON_NETRELOAD = false;
-			weaponState( "Reload", BFG_IDLE_TO_RELOAD );
 		}
 		waitFrame();
 	}
@@ -151,6 +130,7 @@ void weapon_bfg::Fire() {
 		playAnim( ANIMCHANNEL_ALL, "fire" );
 		fire_time = sys.getTime();
 		launchProjectiles( BFG_NUMPROJECTILES, spread, time_held, 1.0, power );
+		useAmmo ( 1 );
 		while( !animDone( ANIMCHANNEL_ALL, BFG_FIRE_TO_IDLE ) ) {
 			current_time = sys.getTime();
 			intensity = 1 - ( ( current_time - fire_time ) / 0.5 );
@@ -173,10 +153,6 @@ void weapon_bfg::Fire() {
 }
 
 void weapon_bfg::Reload() {
-	weaponReloading();
-	playAnim( ANIMCHANNEL_ALL, "reload" );
-	waitUntil( animDone( ANIMCHANNEL_ALL, BFG_RELOAD_TO_IDLE ) );
-	addToClip( clipSize() );
 	weaponState( "Idle", BFG_RELOAD_TO_IDLE );
 }
 
@@ -190,7 +166,7 @@ void weapon_bfg::OverCharge() {
 	owner = getOwner();
 
 	allowDrop( false );
-	useAmmo( clipSize() );
+	useAmmo( 4 );
 
 	angles = owner.getViewAngles();
 	forward = sys.angToForward( angles );

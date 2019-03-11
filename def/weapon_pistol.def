@@ -76,7 +76,7 @@ entityDef weapon_pistol {
 	"def_projectile"			"projectile_bullet_pistol"
 	"ammoType"					"ammo_bullets"
 	"ammoRequired"				"1"
-	"clipSize"					"12"
+	"clipSize"					"0"
 	"lowAmmo"					"4"
 	"mtr_flashShader"			"muzzleflash"
 	"flashColor"				"1 0.8 0.4"
@@ -103,7 +103,7 @@ entityDef weapon_pistol {
 
 	"skin_invisible"			"skins/pistol_invis"
 
-	"spread"					"0"
+	"spread"					"0.25"
 
 	"controllerShakeHighMag"	"0.6"
 	"controllerShakeHighTime"	"80"
@@ -170,7 +170,7 @@ entityDef	damage_bullet_pistol {
 
 	"knockback"			"1"
 
-	"gib"				"1"
+	"gib"				"0"
 
 
 	"smoke_wound_flesh"	"burstysquirt.prt"

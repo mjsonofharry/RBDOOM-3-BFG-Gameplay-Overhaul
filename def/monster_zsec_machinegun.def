@@ -91,7 +91,6 @@ model model_monster_zsec_machinegun {
 	anim idle						models/md5/monsters/zombies/zsec_machinegun/machinegun_stand.md5anim
 
 	anim sight						models/md5/monsters/zombies/zsec_machinegun/machinegun_sight.md5anim {
-		frame 1						sound_voice monster_zombie_security_sight
 		frame 14						sound_body monster_zombie_security_footstep
 		frame 28						sound_body monster_zombie_security_footstep
 	}
@@ -618,7 +617,7 @@ entityDef damage_bullet_zsec_machinegun {
 	"snd_flesh"						"bullet_impact_flesh"
 
 	"kick_time"						"400"
-	"kick_amplitude"				"1"
+	"kick_amplitude"				"0.3"
 
 	"dv_time"						"100"
 }

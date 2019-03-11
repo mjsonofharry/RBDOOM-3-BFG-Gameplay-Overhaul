@@ -676,14 +676,6 @@ monster_base::state_Dead
 */
 void monster_base::state_Dead() {
 
-	float burnDelay = getFloatKey( "burnaway" );
-	if ( burnDelay != 0 ) {
-		preBurn();
-		sys.wait( burnDelay );
-		burn();
-		startSound( "snd_burn", SND_CHANNEL_BODY, false );
-	}
-	
 	sys.wait( 3 );
 	
 	if ( resurrect ) {
@@ -694,7 +686,6 @@ void monster_base::state_Dead() {
 		// wait until we're resurrected
 		waitUntil( 0 );
 	}
-	remove();
 }
 /*
 =====================

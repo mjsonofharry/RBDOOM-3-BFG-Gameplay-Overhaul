@@ -494,7 +494,7 @@ entityDef	melee_triteLeapAttack {
 	"knockback"						"80"
 
 	"kick_time"						"500"
-	"kick_amplitude"				"1"
+	"kick_amplitude"				"0.3"
 
 	"dv_time"						"350"
 }

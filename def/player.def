@@ -656,7 +656,7 @@ entityDef player_base {
 	"pda_name"							"personal"
 	"player_expansion"					"d3"			
 	
-	"hud"								"guis/hud_a.gui"
+	"hud"								"guis/hud.gui"
 	"mphud"								"guis/mphud.gui"
 	"cursor"							"guis/cursor.gui"
 
@@ -799,15 +799,15 @@ entityDef player_base {
 
 	"weapontoggle0"						"0,1"
 
-	"max_ammo_shells"					"320"
-	"max_ammo_bullets"					"360"
-	"max_ammo_rockets"					"96"
-	"max_ammo_cells"					"500"
+	"max_ammo_shells"					"50"
+	"max_ammo_bullets"					"200"
+	"max_ammo_rockets"					"50"
+	"max_ammo_cells"					"300"
 	"max_ammo_grenades"					"50"
 	"max_ammo_souls"					"5"							// number of kills required to charge the soul cube
-	"max_ammo_bfg"						"32"
-	"max_ammo_clip"						"600"
-	"max_ammo_belt"						"600"
+	"max_ammo_bfg"						"10"
+	"max_ammo_clip"						"200"
+	"max_ammo_belt"						"300"
 	
 	// default weapons
 	// seperate multiple weapons with commas (no spaces).
@@ -818,15 +818,15 @@ entityDef player_base {
 	
 	"pm_jumpheight"						"48"
 	"pm_stepsize"						"16"
-	"pm_crouchspeed"					"100"
+	"pm_crouchspeed"					"125"
 	"pm_walkspeed"						"175"
 	"pm_runspeed"						"275"
 	"pm_noclipspeed"					"300"
 	"pm_minviewpitch"					"-89"	// looking up
 	"pm_maxviewpitch"					"89"	// looking down
-	"pm_stamina"						"24"
-	"pm_staminathreshold"				"4"
-	"pm_staminarate"					"0.75"
+	"pm_stamina"						"0"
+	"pm_staminathreshold"				"-1"
+	"pm_staminarate"					"0"
 	"pm_crouchheight"					"38"
 	"pm_crouchviewheight"				"32"
 
@@ -846,13 +846,13 @@ entityDef player_base {
 	// stats
 	"health"							"100"
 	"maxhealth"							"100"
-	"stamina"							"120"
+	"stamina"							"0"
 	"armor"								"0"
-	"maxarmor"							"125"
+	"maxarmor"							"100"
 
 	// ammo
 	"ammo_shells"						"0"
-	"ammo_bullets"						"48"
+	"ammo_bullets"						"24"
 	"ammo_rockets"						"0"
 	"ammo_cells"						"0"
 	"ammo_grenades"						"0"

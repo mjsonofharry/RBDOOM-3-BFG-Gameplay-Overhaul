@@ -7,7 +7,7 @@ weapon_handgrenade.script
 #define HANDGRENADE_MINRELEASETIME		0.05
 #define HANDGRENADE_FUSE				3
 #define HANDGRENADE_QUICKTHROWTIME		.2
-#define HANDGRENADE_MINPOWER			1.5
+#define HANDGRENADE_MINPOWER			3
 #define HANDGRENADE_MAXPOWER			6
 #define HANDGRENADE_QUICKTHROWLAUNCH	0.55
 #define HANDGRENADE_NORMALTHROWLAUNCH	0.3
@@ -71,7 +71,15 @@ void weapon_handgrenade::Raise() {
 	
 	weaponRising();
 	playAnim( ANIMCHANNEL_ALL, "raise" );
-	waitUntil( animDone( ANIMCHANNEL_ALL, HANDGRENADE_RAISE_TO_IDLE ) );
+	while ( !animDone( ANIMCHANNEL_ALL, HANDGRENADE_RAISE_TO_IDLE ) ) {
+		if ( WEAPON_ATTACK && ( ammoAvailable() > 0 ) ) {
+			break;
+		}
+		if ( WEAPON_LOWERWEAPON ) {
+			break;
+		}
+		waitFrame();
+	}
 	weaponState( "Idle", HANDGRENADE_RAISE_TO_IDLE );
 }
 
