@@ -1,0 +1,294 @@
+windowDef Desktop
+{
+	rect	0 ,0 ,640 ,480
+	visible	1
+
+	onEvent {
+		if ("gui::player_clip_low" == 1) {
+			set "cliplow::visible" "1" ;
+			set "cliplow2::visible" "1" ;
+			set "clipempty::visible" "0" ;
+			set "clipempty2::visible" "0" ;
+			set "ammoempty::visible" "0" ;
+			set "ammoempty2::visible" "0" ;
+			set "ammovalue::forecolor" "1 0.5 0 0.7" ;
+		}
+		if ("gui::player_clip_empty" == 1) {
+			set "clipempty::visible" "1" ;
+			set "clipempty2::visible" "1" ;
+			set "cliplow::visible" "0" ;
+			set "cliplow2::visible" "0" ;
+			set "ammoempty::visible" "0" ;
+			set "ammoempty2::visible" "0" ;
+		}
+		if ("gui::player_ammo_empty" == 1) {
+			set "ammoempty::visible" "1" ;
+			set "ammoempty2::visible" "1" ;
+			set "clipempty::visible" "1" ;
+			set "clipempty2::visible" "1" ;
+			set "cliplow::visible" "0" ;
+			set "cliplow2::visible" "0" ;
+			set "ammovalue3::forecolor" "1 0.5 0 0.5" ;
+		}
+		if ("gui::player_clip_empty" == 0) {
+			set "clipempty::visible" "0" ;
+			set "clipempty2::visible" "0" ;
+		}
+		if ("gui::player_clip_low" == 0) {
+			set "clipempty::visible" "0" ;
+			set "clipempty2::visible" "0" ;
+			set "cliplow::visible" "0" ;
+			set "cliplow2::visible" "0" ;
+			set "ammovalue::forecolor" "0.6 0.95 1 0.7" ;
+		}
+		if ("gui::player_ammo_empty" == 0) {
+			set "ammoempty::visible" "0" ;
+			set "ammovalue3::forecolor" "0.6 0.95 1 0.5" ;
+		}
+		if ("gui::powerlevel" >= 0.51) {
+		//	set "Status::text" "CORE : ALERT" ;
+		//	set "Status::forecolor" "1 0.8 0.1 0.5" ;
+			set "Charge::matcolor" "1 0.6 0.1 0.5" ;
+		}
+		if ("gui::powerlevel" <= 0.5) {
+		//	set "Status::text" "CORE : STABLE" ;
+		//	set "Status::forecolor" "0.6 1 1 0.5" ;
+			set "Charge::matcolor" "0.5 0.7 1 0.5" ;
+		}		
+		if ("gui::powerlevel" >= 0.97) {
+			set "OverCharge::visible" "1" ;
+			set "Status::visible" "0" ;
+			set "Status1::visible" "0" ;
+			set "Charge1::visible" "1" ;
+			set "Charge2::visible" "1" ;
+			set "Charge::matcolor" "1 0.1 0.1 0.5" ;
+		}
+		if ("gui::powerlevel" <= 0.96) {
+			set "OverCharge::visible" "0" ;
+			set "Status::visible" "1" ;
+			set "Status1::visible" "1" ;
+			set "Charge1::visible" "0" ;
+			set "Charge2::visible" "0" ;
+		}
+		
+	}
+
+	windowDef bg
+	{
+		rect	-52,2,718,480
+		background	"guis/assets/bfg/bg"
+		matcolor	1 ,1 ,1 ,0.7
+		visible	1
+	}
+	windowDef gridscroll1
+	{
+		rect	-53,2,718,480
+		background	"gui/weapons/bfg/background"
+		matcolor	1 ,1 ,1 ,0.8
+		visible	1
+	}
+	windowDef OverCharge
+	{
+		text	"#str_00044"
+		rect	85,233,438,69
+		forecolor	1,0.1,0,1
+		visible	0
+		textscale	0.85
+		textalign	1
+		font	"fonts/micro"
+
+		onTime 0 {
+			transition "forecolor" "1 0.1 0 1" "1 0.1 0 0.2" "500" ;
+			transition "Charge1::matcolor" "1 1 1 1" "0.1 0.1 0.1 0.1" "500" ;
+			transition "Charge2::matcolor" "1 1 1 1" "0.1 0.1 0.1 0.1" "500" ;
+		}
+
+		onTime 500 {
+			transition "forecolor" "1 0.1 0 0.2" "1 0.1 0 1" "50" ;
+			transition "Charge1::matcolor" "0.1 0.1 0.1 0.1" "1 1 1 1" "50" ;
+			transition "Charge2::matcolor" "0.1 0.1 0.1 0.1" "1 1 1 1" "50" ;
+		}
+
+		onTime 550 {
+			resetTime "0" ;
+		}
+
+	}
+	windowDef gridscroll
+	{
+		rect	-50 ,-180 ,740 ,820
+		background	"gui/weapons/machinegun/gridscroll"
+		matcolor	1 ,1 ,1 ,0.1
+		visible	0
+	}
+	windowDef Status
+	{
+		text	"#str_04046"
+		rect	126,239,361,49
+		forecolor	0.6,1,1,0.5
+		visible	1
+		textscale	0.7
+		textalign	1
+		font	"fonts/micro"
+		
+		onTime 0 {
+			transition "Status::forecolor" "1 1 1 0.4" "1 1 1 0" "1000" "0" "1" ;
+			transition "Status1::forecolor" "1 1 1 0" "1 1 1 0.4" "1000" "1" "0" ;
+		}
+
+		onTime 3000 {
+			transition "Status1::forecolor" "1 1 1 0.4" "1 1 1 0" "1000" "0" "1" ;
+			transition "Status::forecolor" "1 1 1 0" "1 1 1 0.4" "1000" "1" "0" ;
+		}
+
+		onTime 5000 {
+			resetTime "0" ;
+		}		
+	}	
+	windowDef Status1
+	{
+		text	"#str_04047"
+		rect	126,239,361,49
+		forecolor	0.6,1,1,0.5
+		visible	1
+		textscale	0.7
+		textalign	1
+		font	"fonts/micro"
+	}
+	windowDef ammovalue
+	{
+		text	"gui::player_ammo"
+		rect	50,-16,349,331
+		forecolor	0.6 ,0.8 ,1 ,0.9
+		visible	1
+		textscale	3.1
+		font	"fonts/micro"
+		textalign	1
+		forceaspectwidth	450
+		windowDef ammocomplex1
+		{
+			rect	225,53,45,21
+			visible	1
+		}
+	}
+	windowDef ammovalue3
+	{
+		text	"gui::player_totalammo"
+		rect	-2,133,297,64
+		forecolor	0.6 ,0.95 ,1 ,0.6
+		visible	1
+		textscale	1.1
+		textalign	1
+		font	"fonts/micro"
+		forceaspectwidth	300
+		windowDef ammocomplex2
+		{
+			rect	108,20,71,24
+			visible	1
+		}
+	}
+	windowDef unnamed
+	{
+		rect	70,19,469,228
+		visible	0
+		windowDef bg2
+		{
+			rect	21,-48,430,268
+			background	"gui/weapons/plasmagun/background"
+			matcolor	1 ,1 ,1 ,1
+			visible	1
+		}
+	}
+	windowDef ammoTip1
+	{
+		text	"#str_04046"
+		rect	126,240,361,68
+		forecolor	1,1,1,0.4
+		visible	0
+		textscale	0.65
+		textalign	1
+		font	"fonts/micro"
+
+		onTime 0 {
+			transition "ammotip1::forecolor" "1 1 1 0.4" "1 1 1 0" "1000" "0" "1" ;
+			transition "ammotip2::forecolor" "1 1 1 0" "1 1 1 0.4" "1000" "1" "0" ;
+		}
+
+		onTime 3000 {
+			transition "ammotip2::forecolor" "1 1 1 0.4" "1 1 1 0" "1000" "0" "1" ;
+			transition "ammotip1::forecolor" "1 1 1 0" "1 1 1 0.4" "1000" "1" "0" ;
+		}
+
+		onTime 5000 {
+			resetTime "0" ;
+		}
+
+	}
+	windowDef ammoTip2
+	{
+		text	"#str_04047"
+		rect	126,239,361,49
+		forecolor	1,1,1,0
+		visible	0
+		textscale	0.7
+		textalign	1
+		font	"fonts/micro"
+	}
+	windowDef CircleClip
+	{
+		rect	63,304,477,150
+		visible	1
+		windowDef Circle1Spin
+		{
+			rect	4,-142,472,313
+			visible	1
+			background	"gui/health/circle2"
+			matcolor	0.5,0.7,1,0.5
+		}
+	}
+	windowDef ChargeClip
+	{
+		rect	125,419 - ( "gui::powerlevel" * 125 ),360,155
+		visible	1
+		windowDef Charge
+		{
+			rect	0,-120 + ( "gui::powerlevel" * 125 ),360,125
+			visible	1
+			background	"gui/bfg/charge"
+			matcolor	0.3,0.5,0.8,1
+		}
+	}
+	windowDef Charge1
+	{
+		rect	-11,55,204,288
+		visible	0
+		background	"gui/bfg/warn"
+		matcolor	1,1,1,1
+	}
+	windowDef Charge2
+	{
+		rect	418,55,-204,288
+		visible	0
+		background	"gui/bfg/warn"
+		matcolor	1,1,1,1
+	}
+	windowDef GridClip
+	{
+		rect	130,27,353,169
+		visible	1
+		windowDef gridscroll2
+		{
+			rect	-18,-97,382,367
+			background	"gui/weapons/chaingun/gridscroll"
+			matcolor	1 ,1 ,1 ,0.05
+			visible	1
+		}
+	}
+	windowDef NumTest3
+	{
+		rect	202,23,228,144
+		background	"gui/weapons/machinegun/num2"
+		matcolor	0.2 ,0.2 ,0.2 ,1
+		visible	1
+	}
+}

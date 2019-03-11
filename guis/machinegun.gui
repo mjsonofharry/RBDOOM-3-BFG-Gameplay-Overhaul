@@ -1,0 +1,144 @@
+windowDef Desktop {
+	rect	0 ,0 ,640 ,480 
+	matcolor	1 ,1 ,1 ,1 
+	background	"gui/weapons/machinegun/background"
+	visible	1
+
+	onEvent {
+		if ("gui::player_clip_low" == 1) {
+			set "cliplow::visible" "1" ;
+			set "clipempty::visible" "0" ;
+			set "ammoempty::visible" "0" ;
+			set "ammovalue::forecolor" "1 0.5 0 1" ;
+		}
+		if ("gui::player_clip_empty" == 1) {
+			set "clipempty::visible" "1" ;
+			set "cliplow::visible" "0" ;
+			set "ammoempty::visible" "0" ;
+		}
+		if ("gui::player_ammo_empty" == 1) {
+			set "ammoempty::visible" "1" ;
+			set "clipempty::visible" "0" ;
+			set "cliplow::visible" "0" ;
+			set "ammovalue2::forecolor" "1 0.5 0 1" ;
+			set "ammovalue3::forecolor" "1 0.5 0 1" ;
+		}
+		if ("gui::player_clip_empty" == 0) {
+			set "clipempty::visible" "0" ;
+		}
+		if ("gui::player_clip_low" == 0) {
+			set "clipempty::visible" "0" ;
+			set "cliplow::visible" "0" ;
+			set "ammovalue::forecolor" "0.6 0.8 1 1" ;
+		}
+		if ("gui::player_ammo_empty" == 0) {
+			set "ammoempty::visible" "0" ;
+			set "ammovalue2::forecolor" "0.6 0.8 1 1" ;
+			set "ammovalue3::forecolor" "0.6 0.8 1 1" ;
+		}
+	} 
+
+	windowDef gridscroll {
+		rect		0 ,0 ,640 ,480 
+		background	"gui/weapons/machinegun/gridscroll"
+		matcolor	1 ,1 ,1 ,0.1
+		visible		1
+	}
+
+	windowDef bg2 {
+		rect		0 ,0 ,640 ,480 
+		background	"gui/weapons/machinegun/background"
+		matcolor	1 ,1 ,1 ,1
+		visible		1
+	}
+
+	windowDef NumTest {
+		rect		100 ,190 ,120 ,140 
+		background	"guis/assets/machinegun/numtest"
+		matcolor	0 ,0 ,0 ,0.55
+		visible		1
+	}
+
+	windowDef NumTest2 {
+		rect		200 ,190 ,120 ,140 
+		background	"guis/assets/machinegun/numtest"
+		matcolor	0 ,0 ,0 ,0.55
+		visible		1
+	}
+
+	windowDef ammovalue {
+		text		"gui::player_ammo"
+		rect		65 ,160 ,250 ,220 
+		forecolor	0.6 ,0.8 ,1 ,0.9
+		visible		1
+		textscale	3
+		textalign	2
+	}
+
+	windowDef ammovalue2 {
+		text		"gui::player_clips"
+		rect		325 ,173 ,300 ,220 
+		forecolor	0.6 ,0.8 ,1 ,0.9
+		visible		0
+		textscale	1.5
+		textalign	0
+	}
+
+	windowDef ammovalue3 {
+		text		"gui::player_totalammo"
+	//	rect		325 ,241 ,300 ,220 
+		rect		325 ,200 ,300 ,220 
+		forecolor	0.6 ,0.8 ,1 ,1 
+
+		visible		1
+	//	textscale	1.6
+		textscale	2
+		textalign	0
+	}
+
+	windowDef Raster {
+		rect		0 ,0 ,640 ,480 
+		background	"guis/assets/machinegun/raster2"
+		matcolor	0 ,0 ,0 ,1
+		visible		0
+	}
+
+
+
+	windowDef NumTest3 {
+		rect		100 ,190 ,120 ,140 
+		background	"gui/weapons/machinegun/num"
+	//	background	"guis/assets/machinegun/numtest"
+		matcolor	1 ,1 ,1 ,1
+		visible		1
+	}
+
+	windowDef NumTest4 {
+		rect		200 ,190 ,120 ,140 
+		background	"gui/weapons/machinegun/num"
+	//	background	"guis/assets/machinegun/numtest"
+		matcolor	1 ,1 ,1 ,1
+		visible		1
+	}
+
+	windowDef ammoempty {
+		rect		262 ,120 ,321 ,120 
+		background	"gui/weapons/machinegun/warning"
+		matcolor	1 ,1 ,1 ,1 
+		visible		0
+	}
+
+	windowDef cliplow {
+		rect		262 ,120 ,321 ,120 
+		background	"gui/weapons/machinegun/warning"
+		matcolor	1 ,1 ,1 ,1 
+		visible		0
+	}
+
+	windowDef clipempty {
+		rect		262 ,120 ,321 ,120 
+		background	"gui/weapons/machinegun/warning"
+		matcolor	1 ,1 ,1 ,1 
+		visible		0
+	}
+}
