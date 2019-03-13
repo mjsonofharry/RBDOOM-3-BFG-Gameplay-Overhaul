@@ -692,12 +692,12 @@ entityDef player_base {
 	"weapon3_allowempty"				"1"
 	"weapon3_visible"					"1"					// whether you can see this weapon in the inventory or not
 
-	"def_weapon4"						""
-	"weapon4_best"						"0"
-	"weapon4_cycle"						"0"
+	"def_weapon4"						"weapon_shotgun_double"
+	"weapon4_best"						"1"
+	"weapon4_cycle"						"1"
 	"weapon4_toggle"					"0"
-	"weapon4_allowempty"				"0"
-	"weapon4_visible"					"0"					// whether you can see this weapon in the inventory or not
+	"weapon4_allowempty"				"1"
+	"weapon4_visible"					"1"					// whether you can see this weapon in the inventory or not
 
 	"def_weapon5"						"weapon_machinegun"
 	"weapon5_best"						"1"
@@ -798,6 +798,7 @@ entityDef player_base {
 	"weapon18_visible"					"0"					// whether you can see this weapon in the inventory or not
 
 	"weapontoggle0"						"0,1"
+	"weapontoggle3"						"3,4"
 
 	"max_ammo_shells"					"50"
 	"max_ammo_bullets"					"200"
