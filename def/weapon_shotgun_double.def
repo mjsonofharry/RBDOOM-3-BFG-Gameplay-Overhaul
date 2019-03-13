@@ -180,7 +180,7 @@ entityDef moveable_item_shotgun_double {
 }
 
 entityDef	damage_shotgun_double {
-	"damage"			"16"
+	"damage"			"14"
 	"kickDir"			"1 0 0"
 
 	"mtr_blob"			"genericDamage"

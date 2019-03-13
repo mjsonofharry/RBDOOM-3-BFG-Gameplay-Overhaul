@@ -93,7 +93,7 @@ entityDef weapon_shotgun {
 	"snd_respawn"				"sound_weapon_respawn"
 	"skin_invisible"			"skins/shotgun_invis"
 	
-	"spread"					"4"
+	"spread"					"3"
 
 	"controllerShakeHighMag"	"1.0"
 	"controllerShakeHighTime"	"120"

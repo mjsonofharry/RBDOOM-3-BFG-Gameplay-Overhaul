@@ -30,11 +30,9 @@ weapon_shotgun_double.script
 //#define SHOTGUN_BIG_PROJECTILES 13
 
 #define SHOTGUN_CENTER_WIDTH			5
-#define SHOTGUN_CENTER_HEIGHT			10
-//#define SHOTGUN_CENTER_HEIGHT 12
-#define SHOTGUN_BIG_WIDTH				22
-//#define SHOTGUN_BIG_WIDTH 25
-#define SHOTGUN_BIG_HEIGHT				15
+#define SHOTGUN_CENTER_HEIGHT			4
+#define SHOTGUN_BIG_WIDTH				8
+#define SHOTGUN_BIG_HEIGHT				6
 
 
 object weapon_shotgun_double : weapon_base {
