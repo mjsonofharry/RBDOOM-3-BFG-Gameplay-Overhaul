@@ -100,36 +100,15 @@ void weapon_shotgun_double::Idle() {
 		}
 		currentTime = sys.getTime();
 
-		ammoClip = ammoInClip();
 		ammoAvail = ammoAvailable();
 
 
 		if ( ( currentTime >= next_attack ) && ( WEAPON_ATTACK || WEAPON_NETFIRING ) ) {
-
-			if ( WEAPON_NETFIRING || ammoClip > 0 ) {
+			if ( WEAPON_NETFIRING || ammoAvailable() >= SHOTGUN_DOUBLE_REQUIRED ) {
 				weaponState( "Fire", SHOTGUN_DOUBLE_IDLE_TO_FIRE );
-			} else if ( ammoAvailable() >= SHOTGUN_DOUBLE_REQUIRED ) {
-				if ( autoReload() ) {
-					netReload();
-					weaponState( "Reload", SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
-				} else {
-
-					weaponState( "NoAmmo", SHOTGUN_DOUBLE_IDLE_TO_NOAMMO );
-				}
-			} else {
-				//weaponState( "NoAmmo", SHOTGUN_DOUBLE_IDLE_TO_NOAMMO );
-				nextWeapon();
+			}  else {
+				weaponState( "NoAmmo", SHOTGUN_DOUBLE_IDLE_TO_NOAMMO );
 			}
-		}
-		//if ( WEAPON_RELOAD && ( ammoAvail > ammoClip ) && ( ammoClip < clip_size ) ) {
-		if ( WEAPON_RELOAD && ( ammoAvail >= SHOTGUN_DOUBLE_REQUIRED ) && ( ammoClip != clip_size ) ) {
-			netReload();
-			weaponState( "Reload", SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
-		}
-		if ( WEAPON_NETRELOAD ) {
-
-			WEAPON_NETRELOAD = false;
-			weaponState( "Reload", SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
 		}
 		waitFrame();
 	}
@@ -154,10 +133,8 @@ void weapon_shotgun_double::Fire() {
 
 	if ( WEAPON_NETRELOAD ) {
 		WEAPON_NETRELOAD = false;
-
 		weaponState( "Reload", SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
 	}
-
 
 	next_attack = sys.getTime() + SHOTGUN_DOUBLE_FIRERATE;
 
@@ -167,21 +144,17 @@ void weapon_shotgun_double::Fire() {
 	playAnim( ANIMCHANNEL_ALL, "fire" );
 	waitUntil( animDone( ANIMCHANNEL_ALL, SHOTGUN_DOUBLE_FIRE_TO_IDLE ) );
 
-	if ( autoReload() && ammoAvailable() >= SHOTGUN_DOUBLE_REQUIRED) {
-		WEAPON_RELOAD = true;
+	if ( ammoAvailable() >= SHOTGUN_DOUBLE_REQUIRED) {
+		weaponState( "Reload", SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
 	}
 	weaponState( "Idle", SHOTGUN_DOUBLE_FIRE_TO_IDLE );
 
 }
 
 void weapon_shotgun_double::Reload() {
-	weaponReloading();
-
 	playAnim( ANIMCHANNEL_ALL, "reload_start" );
 
 	waitUntil( animDone( ANIMCHANNEL_ALL, 0 ) );
-
-	addToClip( clipSize() );
 
 	if ( WEAPON_ATTACK ) {
 		weaponState( "Fire", SHOTGUN_DOUBLE_RELOAD_TO_FIRE );

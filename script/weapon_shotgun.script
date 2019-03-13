@@ -74,7 +74,7 @@ void weapon_shotgun::Idle() {
 		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
 			if ( ammoAvailable() > 0 ) {
 				weaponState( "Fire", SHOTGUN_IDLE_TO_FIRE );
-			} else if ( ammoAvailable() == 0 ) {
+			} else {
 				weaponState( "NoAmmo", SHOTGUN_IDLE_TO_NOAMMO );
 			}
 		}
