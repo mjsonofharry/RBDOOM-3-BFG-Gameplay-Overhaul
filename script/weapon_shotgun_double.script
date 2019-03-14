@@ -78,15 +78,8 @@ void weapon_shotgun_double::Lower() {
 
 void weapon_shotgun_double::Idle() {
 	float currentTime;
-	float ammoClip;
-	float ammoAvail;
-	float avail;
-	float clip_size;
 
-	clip_size = clipSize();
-
-
-	if ( !ammoInClip() ) {
+	if ( ammoAvailable() < SHOTGUN_DOUBLE_REQUIRED ) {
 		weaponOutOfAmmo();
 	} else {
 		weaponReady();
@@ -96,12 +89,7 @@ void weapon_shotgun_double::Idle() {
 		if ( WEAPON_LOWERWEAPON ) {
 			weaponState( "Lower", SHOTGUN_DOUBLE_IDLE_TO_LOWER );
 		}
-		currentTime = sys.getTime();
-
-		ammoAvail = ammoAvailable();
-
-
-		if ( ( currentTime >= next_attack ) && ( WEAPON_ATTACK || WEAPON_NETFIRING ) ) {
+		if ( ( sys.getTime() >= next_attack ) && ( WEAPON_ATTACK || WEAPON_NETFIRING ) ) {
 			if ( WEAPON_NETFIRING || ammoAvailable() >= SHOTGUN_DOUBLE_REQUIRED ) {
 				weaponState( "Fire", SHOTGUN_DOUBLE_IDLE_TO_FIRE );
 			}  else {
@@ -114,12 +102,6 @@ void weapon_shotgun_double::Idle() {
 }
 
 void weapon_shotgun_double::NoAmmo() {
-
-	if ( WEAPON_NETRELOAD ) {
-		WEAPON_NETRELOAD = false;
-
-		weaponState( "Reload", SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
-	}
 
 	playAnim( ANIMCHANNEL_ALL, "noammo" );
 	waitUntil( animDone( ANIMCHANNEL_ALL, SHOTGUN_DOUBLE_NOAMMO_TO_IDLE ) );
