@@ -47307,7 +47307,7 @@ Version 2
 "origin" "1176 920 -626"
 "model" "models/mapobjects/healthgui/healthgui.lwo"
 "rotation" "-1.34359e-007 -1 0 1 -1.34359e-007 0 0 0 1"
-"gui_parm1" "100"
+"gui_parm1" "94"
 "gui" "guis/controlpanels/healthstation.gui"
 }
 // entity 399

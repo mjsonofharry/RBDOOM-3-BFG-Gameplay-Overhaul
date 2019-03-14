@@ -77908,7 +77908,7 @@ Version 2
 "rotation" "3.87927e-007 1 0 -1 3.87927e-007 0 0 0 1"
 "gui" "guis/controlpanels/healthstation.gui"
 "skin" "skins/healthguidirty"
-"gui_parm1" "100"
+"gui_parm1" "72"
 }
 // entity 1065
 {
