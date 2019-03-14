@@ -52,7 +52,7 @@ entityDef item_armor_security {
 	"snd_acquire"			"sound_vest_acquire"
 	"size"					"32 32 32"
 	"inv_name"				"#str_02918"
-	"inv_armor" 			"20"
+	"inv_armor" 			"15"
 }
 
 entityDef item_armor_shard {
@@ -68,7 +68,7 @@ entityDef item_armor_shard {
 	"snd_acquire"			"sound_shard_acquire"
 	"size"					"32 32 32"
 	"inv_name"				"#str_02919"
-	"inv_armor" 			"2"
+	"inv_armor" 			"1"
 }
 
 
@@ -217,7 +217,7 @@ entityDef item_medkit {
 	"model" 				"models/items/medkit/medkit_large.lwo"
 	"size"					"32 32 32"
 	"inv_name"				"#str_02917"
-	"inv_health"			"20"
+	"inv_health"			"15"
 	"inv_item"				"2"
 	"snd_acquire"			"guisounds_health"
 }
@@ -234,7 +234,7 @@ entityDef item_medkit_small {
 	"model" 				"models/items/medkit/medkit_small.lwo"
 	"size"					"32 32 32"
 	"inv_name"				"#str_02917"
-	"inv_health"			"10"
+	"inv_health"			"1"
 	"inv_item"				"2"
 	"snd_acquire"			"guisounds_health"
 }
