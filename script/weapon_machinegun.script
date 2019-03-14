@@ -4,7 +4,7 @@ weapon_machinegun.script
 
 ***********************************************************************/
 
-#define MACHINEGUN_FIRERATE			0.6
+#define MACHINEGUN_FIRERATE			0.5
 #define MACHINEGUN_LOWAMMO			10
 #define MACHINEGUN_NUMPROJECTILES	1
 
@@ -17,7 +17,7 @@ weapon_machinegun.script
 #define MACHINEGUN_RELOAD_TO_IDLE	4
 
 #define MACHINEGUN_BURST_SHOTS		3
-#define MACHINEGUN_BURST_FIRERATE	0.06
+#define MACHINEGUN_BURST_FIRERATE	0.05
 
 object weapon_machinegun : weapon_base {
 	float		next_attack;
