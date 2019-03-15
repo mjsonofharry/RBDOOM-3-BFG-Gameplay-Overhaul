@@ -6,7 +6,7 @@ monster_demon_archvile
 
 ***********************************************************************/
 
-#define ARCH_ATTACK_RATE				2
+#define ARCH_ATTACK_RATE				1
 #define ARCH_DODGE_RATE					4
 #define	ARCH_PAIN_DELAY					0.25
 #define	ARCH_TURRET_TO_IDLE				4
@@ -14,6 +14,9 @@ monster_demon_archvile
 #define	ARCH_FLAME_WALL_SEPERATION		48
 #define	ARCH_FLAME_WALL_RANGE			( ARCH_FLAME_WALL_NUM * ARCH_FLAME_WALL_SEPERATION )
 #define ARCH_NOFOVTIME					4
+
+#define ARCH_FLAME_WALL_MIN_RANGE		( ARCH_FLAME_WALL_MAX_RANGE * 0.5 )
+#define ARCH_FLAME_WALL_MAX_RANGE		( ARCH_FLAME_WALL_RANGE * 0.8 )
 
 // anim blend times
 #define	ARCH_PAIN_TO_IDLE				2
@@ -47,6 +50,7 @@ monster_demon_archvile
 
 #define ATTACK_FLAMEWALL				ATTACK_SPECIAL1
 #define ATTACK_RESURRECT				ATTACK_SPECIAL2
+#define ATTACK_INCINERATE				ATTACK_SPECIAL3
 
 object monster_demon_archvile : monster_base {
 	float			nextDodge;
@@ -380,6 +384,8 @@ void monster_demon_archvile::do_attack( float attack_flags ) {
 		combat_melee();
 	} else if ( attack_flags & ATTACK_FLAMEWALL ) {
 		combat_flamewall();
+	} else if ( attack_flags & ATTACK_INCINERATE ) {
+		combat_incinerate();
 	}
 }
 
@@ -425,12 +431,13 @@ float monster_demon_archvile::check_attacks() {
 		attack_flags |= ATTACK_MELEE;
 	}
 	
-	if ( ( ( sys.getTime() > nextNoFOVAttack ) && AI_ENEMY_VISIBLE ) || AI_ENEMY_IN_FOV ) {
-		if ( !canReachEnemy() || ( currentTime >= nextAttack ) ) {
-			if ( enemyRange() < ARCH_FLAME_WALL_RANGE ) {
-				if ( testChargeAttack() ) {
-					attack_flags |= ATTACK_FLAMEWALL;
-				}
+	if ( AI_ENEMY_IN_FOV ) {
+		if ( !canReachEnemy() && ( currentTime >= nextAttack ) ) {
+			float range = enemyRange();
+			if ( ( range < ARCH_FLAME_WALL_MAX_RANGE) && ( range > ARCH_FLAME_WALL_MIN_RANGE ) && testChargeAttack() ) {
+				attack_flags |= ATTACK_FLAMEWALL;
+			} else {
+				attack_flags |= ATTACK_INCINERATE;
 			}
 		}
 	}
@@ -617,7 +624,7 @@ void monster_demon_archvile::flame_wall_loop() {
 		}
 		pos_z -= 96 * frac;
 		thread spawn_flame_wall( pos );
-		sys.wait( 0.075 );
+		sys.wait( 0.02 );
 	}
 }
 
