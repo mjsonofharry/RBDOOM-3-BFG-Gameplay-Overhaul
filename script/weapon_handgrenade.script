@@ -13,6 +13,8 @@ weapon_handgrenade.script
 #define HANDGRENADE_NORMALTHROWLAUNCH	0.3
 #define HANDGRENADE_NUMPROJECTILES		1
 
+#define HANDGRENADE_POWER				4
+
 // blend times
 #define HANDGRENADE_IDLE_TO_LOWER		4
 #define HANDGRENADE_IDLE_TO_FIRE		4
@@ -95,24 +97,17 @@ void weapon_handgrenade::Lower() {
 void weapon_handgrenade::Idle() {
 	weaponReady();
 	playCycle( ANIMCHANNEL_ALL, "idle" );
-	while( 1 ) {
-		if ( WEAPON_LOWERWEAPON ) {
-			weaponState( "Lower", HANDGRENADE_IDLE_TO_LOWER );
-		}
-		if ( WEAPON_ATTACK ) {
-			weaponState( "Fire", HANDGRENADE_IDLE_TO_FIRE );
-		}
-		waitFrame();
+	if ( ammoAvailable() > 0 ) {
+		weaponState( "Fire", HANDGRENADE_IDLE_TO_FIRE );
+	} else {
+		weaponHolstered();
+		entity player = getOwner();
+		player.selectWeapon( player.getPreviousWeapon() );
+		player = $null_entity;
 	}
 }
 
-void weapon_handgrenade::Fire() {
-	float fuse_end;
-	float current_time;
-	float time_held;
-	float power;
-	boolean exploded;
-	
+void weapon_handgrenade::Fire() {	
 	projectile = createProjectile();
 
 	if ( projectile ) {
@@ -120,58 +115,26 @@ void weapon_handgrenade::Fire() {
 	}
 	
 	playAnim( ANIMCHANNEL_ALL, "throw_start" );
+	fuse_start = sys.getTime();
+	sys.wait( HANDGRENADE_MINRELEASETIME );
 	
-	current_time = sys.getTime();
-	fuse_start = current_time;
-	fuse_end = current_time + HANDGRENADE_FUSE;
-	while( current_time < fuse_end ) {
-		if ( ( current_time > fuse_start + HANDGRENADE_MINRELEASETIME ) && !WEAPON_ATTACK ) {
-			break;
-		}
-		waitFrame();
-		current_time = sys.getTime();
-	}
+	playAnim( ANIMCHANNEL_ALL, "throw_quick" );
+	sys.wait( HANDGRENADE_QUICKTHROWLAUNCH );
 	
-	time_held = current_time - fuse_start;
-	power = time_held + HANDGRENADE_MINPOWER;
-	if ( power > HANDGRENADE_MAXPOWER ) {
-		power = HANDGRENADE_MAXPOWER;
+	GrenadeNoNade();
+	if ( projectile ) {
+		projectile.show();
+		projectile.unbind();
+		launchProjectiles( HANDGRENADE_NUMPROJECTILES, spread, sys.getTime() - fuse_start, HANDGRENADE_POWER, 1.0 );
+		projectile = $null_entity;
 	}
 
-	if ( time_held < HANDGRENADE_QUICKTHROWTIME ) {
-		playAnim( ANIMCHANNEL_ALL, "throw_quick" );
-		sys.wait( HANDGRENADE_QUICKTHROWLAUNCH );
-		exploded = false;
-	} else if ( time_held < HANDGRENADE_FUSE ) {
-		playAnim( ANIMCHANNEL_ALL, "throw" );
-		sys.wait( HANDGRENADE_NORMALTHROWLAUNCH	);
-		exploded = false;
-	} else {
-		// no anim.  grenade just blows up
-		ExplodeInHand();
-		exploded = true;
-	}
-	
-	if ( !exploded ) {
-		GrenadeNoNade();
-		current_time = sys.getTime();
-		if ( projectile ) {
-			projectile.show();
-			projectile.unbind();
-			launchProjectiles( HANDGRENADE_NUMPROJECTILES, spread, current_time - fuse_start, power, 1.0 );
-			projectile = $null_entity;
-		}
+	waitUntil( animDone( ANIMCHANNEL_ALL, HANDGRENADE_FIRE_TO_IDLE ) );
 
-		waitUntil( animDone( ANIMCHANNEL_ALL, HANDGRENADE_FIRE_TO_IDLE ) );
-	}
-	
-	if ( !ammoAvailable() ) {
-		weaponHolstered();
-		nextWeapon();
-	} else {
-		GrenadeNade();
-		weaponState( "Idle", HANDGRENADE_FIRE_TO_IDLE );
-	}
+	weaponHolstered();
+	entity player = getOwner();
+	player.selectWeapon( player.getPreviousWeapon() );
+	player = $null_entity;
 }
 
 void weapon_handgrenade::EnterCinematic() {
