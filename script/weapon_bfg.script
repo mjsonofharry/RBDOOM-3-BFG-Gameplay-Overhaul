@@ -118,34 +118,30 @@ void weapon_bfg::Fire() {
 		powerLevel = ( current_time - fuse_start ) / BFG_FUSE;
 		setGuiParm( "powerlevel", powerLevel );
 	}
-	
-	if ( current_time >= fuse_end ) {
-		OverCharge();
-	} else {
-		time_held = current_time - fuse_start;
-		power = ( BFG_MAXPOWER * ( time_held / BFG_FUSE ) );
-		if ( power > BFG_MAXPOWER ) {
-			power = BFG_MAXPOWER;
-		}
-		playAnim( ANIMCHANNEL_ALL, "fire" );
-		fire_time = sys.getTime();
-		launchProjectiles( BFG_NUMPROJECTILES, spread, time_held, 1.0, power );
-		useAmmo ( 1 );
-		while( !animDone( ANIMCHANNEL_ALL, BFG_FIRE_TO_IDLE ) ) {
-			current_time = sys.getTime();
-			intensity = 1 - ( ( current_time - fire_time ) / 0.5 );
-			if ( intensity < 0 ) {
-				intensity = 0;
-			}
-			setColor( intensity, intensity, intensity );
-			waitFrame();
-		}
 
-		while ( powerLevel > 0 ) {
-			powerLevel -= 0.05;
-			setGuiParm( "powerlevel", powerLevel );
-			waitFrame();
+	time_held = current_time - fuse_start;
+	power = ( BFG_MAXPOWER * ( time_held / BFG_FUSE ) );
+	if ( power > BFG_MAXPOWER ) {
+		power = BFG_MAXPOWER;
+	}
+	playAnim( ANIMCHANNEL_ALL, "fire" );
+	fire_time = sys.getTime();
+	launchProjectiles( BFG_NUMPROJECTILES, spread, time_held, 1.0, power );
+	useAmmo ( 1 );
+	while( !animDone( ANIMCHANNEL_ALL, BFG_FIRE_TO_IDLE ) ) {
+		current_time = sys.getTime();
+		intensity = 1 - ( ( current_time - fire_time ) / 0.5 );
+		if ( intensity < 0 ) {
+			intensity = 0;
 		}
+		setColor( intensity, intensity, intensity );
+		waitFrame();
+	}
+
+	while ( powerLevel > 0 ) {
+		powerLevel -= 0.05;
+		setGuiParm( "powerlevel", powerLevel );
+		waitFrame();
 	}
 
 	setGuiParm( "powerlevel", 0 );
