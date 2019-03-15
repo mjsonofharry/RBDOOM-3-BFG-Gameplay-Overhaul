@@ -211,7 +211,7 @@ entityDef monster_demon_revenant {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"2"
-	"health"						"272"
+	"health"						"300"
 	"melee_range"					"52"
 	"def_projectile"				"projectile_rev_rocket"
 	"attack_cone"					"70"
@@ -237,7 +237,12 @@ entityDef monster_demon_revenant {
 	"damage_zone left_arm"			"*Lshldr"
 	"damage_zone right_arm"			"*Rshldr"
 	"damage_zone legs"				"*Hips origin Body"
-	"damage_scale head"				"2"
+
+	"damage_scale head"				"1.5"
+	"damage_scale chest"			"1"
+	"damage_scale left_arm"			"0.5"
+	"damage_scale right_arm"		"0.5"
+	"damage_scale legs"				"0.5"
 
 	"ik_numLegs"					"2"
 	"ik_footSize"					"4"

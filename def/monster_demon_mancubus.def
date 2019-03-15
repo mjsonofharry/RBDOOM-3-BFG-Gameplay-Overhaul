@@ -160,7 +160,13 @@ entityDef monster_demon_mancubus {
 	"damage_zone left_arm"			"*Luparm"
 	"damage_zone right_arm"			"*Ruparm"
 	"damage_zone legs"				"*Lupleg *Rupleg origin"
-	"damage_scale head"				"1.5"
+
+	"damage_scale head"				"1.25"
+	"damage_scale chest"			"1"
+	"damage_scale left_arm"			"0.5"
+	"damage_scale right_arm"		"0.5"
+	"damage_scale legs"				"0.5"
+
 	"mass"   						"800"
 	
 	"smoke_wound_metal"				"bulletricochet.prt"

@@ -165,7 +165,13 @@ entityDef monster_demon_wraith {
 	"damage_zone chest"				"*spine_1 -*Rshldr -*Lshldr -*spine_7"
 	"damage_zone left_arm"			"*Lshldr"
 	"damage_zone right_arm"			"*Rshldr"
-	"damage_scale head"				"2"
+
+	"damage_scale head"				"1.5"
+	"damage_scale chest"			"1"
+	"damage_scale left_arm"			"0.5"
+	"damage_scale right_arm"		"0.5"
+	"damage_scale legs"				"0.5"
+
 	"mass"   						"250"
 	
 	"burnaway"						"0.50"
