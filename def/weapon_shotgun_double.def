@@ -114,7 +114,7 @@ entityDef weapon_shotgun_double {
 
 	"inv_name"					"#str_00100191"
 	"inv_weapon"				"weapon_shotgun_double"
-	"inv_ammo_shells"			"8"
+	"inv_ammo_shells"			"2"
 	"inv_item"					"5"
 	"inv_icon"					"guis/assets/hud/items/shotgun_ammo.tga"
 	"icon"						"guis/assets/hud/wpn_2"

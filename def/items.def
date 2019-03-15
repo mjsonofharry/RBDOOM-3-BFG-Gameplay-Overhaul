@@ -234,7 +234,7 @@ entityDef item_medkit_small {
 	"model" 				"models/items/medkit/medkit_small.lwo"
 	"size"					"32 32 32"
 	"inv_name"				"#str_02917"
-	"inv_health"			"1"
+	"inv_health"			"5"
 	"inv_item"				"2"
 	"snd_acquire"			"guisounds_health"
 }

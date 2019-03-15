@@ -50,7 +50,7 @@ entityDef weapon_rocketlauncher {
 
 	"inv_name"					"#str_01424"
 	"inv_weapon"				"weapon_rocketlauncher"
-	"inv_ammo_rockets"			"5"
+	"inv_ammo_rockets"			"4"
 	"inv_item"					"5"
 	"inv_desc"					"#str_02539"
 	"display_name"				"#str_02480"
