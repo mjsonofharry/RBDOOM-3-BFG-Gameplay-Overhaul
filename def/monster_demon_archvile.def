@@ -49,10 +49,8 @@ model monster_demon_archvile {
 	anim teleport					models/md5/monsters/archvile/teleport.md5anim {
 		frame 4							sound_body snd_footstep
 		frame 5							sound_body snd_footstep
-		frame 15						sound_voice snd_sight
 	}
 	anim turret_attack				models/md5/monsters/archvile/range_attack2.md5anim {
-		frame 6							sound_voice snd_sight2
 		frame 10						object_call incinerate
 	}
 	anim melee_attack1				models/md5/monsters/archvile/attack1.md5anim {
@@ -97,7 +95,6 @@ model monster_demon_archvile {
 		frame 8							object_call flame_wall
 	}
 	anim incinerate_attack			models/md5/monsters/archvile/range_attack2.md5anim {
-		frame 5							sound_voice snd_sight2
 		frame 7							sound_body snd_attack
 		frame 10						object_call incinerate
 	}
@@ -136,7 +133,6 @@ model monster_demon_archvile {
 	anim ik_pose					models/md5/monsters/archvile/af_pose.md5anim
 	anim resurrection				models/md5/monsters/archvile/resurrection.md5anim {
 		frame 1							sound_body snd_resurrection
-		frame 9							sound_voice snd_sight
 		frame 10						object_call resurrection
 	}
 }
