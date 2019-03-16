@@ -160,7 +160,7 @@ model viewmodel_pistol {
 }
 
 entityDef	damage_bullet_pistol {
-	"damage"			"14"
+	"damage"			"13"
 	"kickDir"			"1 0 0"
 
 	"mtr_blob"			"genericDamage"
