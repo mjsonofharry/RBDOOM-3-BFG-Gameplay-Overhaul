@@ -328,6 +328,12 @@ entityDef monster_zsec_shotgun {
 	"def_head"						"head_zombie5"
 	"head_joint"					"Shoulders"
 
+	"damage_scale head"				"1.7"
+	"damage_scale chest"			"1"
+	"damage_scale left_arm"			"0.8"
+	"damage_scale right_arm"		"0.8"
+	"damage_scale legs"				"0.6"
+
 	"mtr_flashShader"				"muzzleflash"
 	"flashTime"						"0.15"
 	"flashColor"					"1 0.8 0.4"

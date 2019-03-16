@@ -560,6 +560,11 @@ entityDef monster_zsec_machinegun {
 	"def_head"						"head_security_dhelmet"
 	"head_joint"					"Shoulders"
 
+	"damage_scale head"				"1.4"
+	"damage_scale chest"			"1"
+	"damage_scale left_arm"			"0.6"
+	"damage_scale right_arm"		"0.6"
+	"damage_scale legs"				"0.6"
 
 	"def_dropGibItem1"			"moveable_item_head_pork"
 	"dropGibItem1Joint"			"headcontrol"

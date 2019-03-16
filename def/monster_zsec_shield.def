@@ -278,8 +278,13 @@ entityDef monster_zsec_shield {
 	"damage_zone right_arm"			"*Rshldr"
 	"damage_zone legs"				"*Hips"
 	"damage_zone shield"			"*shield"
+
+	"damage_scale head"				"1.4"
+	"damage_scale chest"			"1"
+	"damage_scale left_arm"			"0.8"
+	"damage_scale right_arm"		"0.8"
+	"damage_scale legs"				"0.6"
 	"damage_scale shield"			"0.05"
-	"damage_scale head"				"1.25"
 	
 	"ragdoll"						"monster_zombie_security_pistol"
 	"def_head"						"head_security_dhelmet"
