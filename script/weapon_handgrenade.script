@@ -13,7 +13,7 @@ weapon_handgrenade.script
 #define HANDGRENADE_NORMALTHROWLAUNCH	0.3
 #define HANDGRENADE_NUMPROJECTILES		1
 
-#define HANDGRENADE_POWER				4
+#define HANDGRENADE_POWER				5
 
 // blend times
 #define HANDGRENADE_IDLE_TO_LOWER		4
@@ -73,22 +73,13 @@ void weapon_handgrenade::Raise() {
 	
 	weaponRising();
 	playAnim( ANIMCHANNEL_ALL, "raise" );
-	while ( !animDone( ANIMCHANNEL_ALL, HANDGRENADE_RAISE_TO_IDLE ) ) {
-		if ( WEAPON_ATTACK && ( ammoAvailable() > 0 ) ) {
-			break;
-		}
-		if ( WEAPON_LOWERWEAPON ) {
-			break;
-		}
-		waitFrame();
-	}
+	sys.wait( 0.15 );
 	weaponState( "Idle", HANDGRENADE_RAISE_TO_IDLE );
 }
 
 void weapon_handgrenade::Lower() {
 	weaponLowering();
 	playAnim( ANIMCHANNEL_ALL, "putaway" );
-	waitUntil( animDone( ANIMCHANNEL_ALL, 0 ) );
 	weaponHolstered();
 	waitUntil( WEAPON_RAISEWEAPON );
 	weaponState( "Raise", 0 );
@@ -114,9 +105,7 @@ void weapon_handgrenade::Fire() {
 		projectile.startSound( "snd_throw", SND_CHANNEL_BODY, true );
 	}
 	
-	playAnim( ANIMCHANNEL_ALL, "throw_start" );
 	fuse_start = sys.getTime();
-	sys.wait( HANDGRENADE_MINRELEASETIME );
 	
 	playAnim( ANIMCHANNEL_ALL, "throw_quick" );
 	sys.wait( HANDGRENADE_QUICKTHROWLAUNCH );
@@ -131,6 +120,9 @@ void weapon_handgrenade::Fire() {
 
 	waitUntil( animDone( ANIMCHANNEL_ALL, HANDGRENADE_FIRE_TO_IDLE ) );
 
+	if ( WEAPON_ATTACK ) {
+		weaponState ( "Idle", 0 );
+	}
 	weaponHolstered();
 	entity player = getOwner();
 	player.selectWeapon( player.getPreviousWeapon() );
