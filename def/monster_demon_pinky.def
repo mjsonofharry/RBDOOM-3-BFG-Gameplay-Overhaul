@@ -213,9 +213,9 @@ entityDef monster_demon_pinky {
 
 	"damage_scale head"				"1.25"
 	"damage_scale chest"			"1"
-	"damage_scale left_arm"			"0.75"
-	"damage_scale right_arm"		"0.75"
-	"damage_scale legs"				"0.75"
+	"damage_scale left_arm"			"0.5"
+	"damage_scale right_arm"		"0.5"
+	"damage_scale legs"				"0.5"
 
 	"snd_footstep"					"monster_demon_pinky_foot"
 	"snd_handstep"					"pinky_hand"
