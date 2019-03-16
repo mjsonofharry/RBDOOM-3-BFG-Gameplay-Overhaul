@@ -29,9 +29,9 @@ weapon_shotgun_double.script
 #define SHOTGUN_BIG_PROJECTILES			12
 //#define SHOTGUN_BIG_PROJECTILES 13
 
-#define SHOTGUN_CENTER_WIDTH			5
+#define SHOTGUN_CENTER_WIDTH			7
 #define SHOTGUN_CENTER_HEIGHT			4
-#define SHOTGUN_BIG_WIDTH				8
+#define SHOTGUN_BIG_WIDTH				10
 #define SHOTGUN_BIG_HEIGHT				6
 
 
