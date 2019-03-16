@@ -28,9 +28,6 @@ monster_zsec_pistol_shield
 
 #define ATTACK_ZSECP_CROUCHFIRE			ATTACK_SPECIAL1
 
-// start out with a 50/50 chance of stand vs. crouch attacks.
-float zsecp_num_stand_attacks = 1;
-float zsecp_num_crouch_attacks = 1;
 
 object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		fire;
@@ -40,6 +37,7 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	float		nextAttack;
 	float		nextNoFOVAttack;
 	entity		combat_node;
+	boolean 	previous_attack_was_crouch;
 
 	void		state_Begin();
 	void		state_Idle();
@@ -426,6 +424,7 @@ void monster_zombie_security_pistol::init() {
 	run_distance	= ZSECP_RUNDISTANCE;
 	walk_turn		= ZSECP_WALKTURN;
 	run_attack		= getIntKey( "run_attack" );
+	previous_attack_was_crouch = false;
 
 	setState( "state_Begin" );
 }
@@ -543,7 +542,7 @@ float monster_zombie_security_pistol::check_attacks() {
 
 	if ( try_attack ) {
 		// adjust the likelyhood of a crouch vs. stand attack based on the # of each.
-		if ( sys.random( zsecp_num_stand_attacks + zsecp_num_crouch_attacks ) < zsecp_num_stand_attacks ) {
+		if ( ( sys.random( 1 ) < 0.2 ) && !previous_attack_was_crouch ) {
 			if ( canHitEnemyFromAnim( "crouch_range_attack_loop" ) ) {
 				attack_flags |= ATTACK_ZSECP_CROUCHFIRE;
 			} else if ( canHitEnemyFromAnim( "range_attack_loop" ) ) {
@@ -570,7 +569,7 @@ void monster_zombie_security_pistol::stand_attack() {
 	float attack_flags;
 	boolean do_run_attack;
 
-	zsecp_num_stand_attacks++;
+	previous_attack_was_crouch = false;
 
 	if ( sys.random( 10 ) < 6 ) {
 		do_run_attack = run_attack;
@@ -667,11 +666,11 @@ void monster_zombie_security_pistol::crouch_attack() {
 	float attackTime;
 	float attack_flags;
 
-	zsecp_num_crouch_attacks++;
+	previous_attack_was_crouch = true;
 
 	faceEnemy();
 	crouch_fire = true;
-	
+
 	attackTime = RandomDelay( ZSECP_CROUCH_ATTACK_MIN_LENGTH, ZSECP_CROUCH_ATTACK_MAX_LENGTH );
 	while( AI_ENEMY_VISIBLE ) {
 		if ( sys.influenceActive() ) {
