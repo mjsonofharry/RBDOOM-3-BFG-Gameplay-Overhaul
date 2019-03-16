@@ -11,7 +11,7 @@ monster_demon_wraith
 #define	WRAITH_PAIN_DELAY			0.25
 #define WRAITH_RUNDISTANCE			192
 #define WRAITH_WALKTURN				65
-#define WRAITH_INVISIBLE_DIST_MIN	140
+#define WRAITH_INVISIBLE_DIST_MIN	64
 #define WRAITH_INVISIBLE_DIST_MAX	256
 #define WRAITH_INVISIBLE_DELAY_MIN	0.6
 #define WRAITH_INVISIBLE_DELAY_MAX	1.5
@@ -288,7 +288,7 @@ float monster_demon_wraith::check_attacks() {
 	currentTime = sys.getTime();
 
 	if ( invisible ) {
-		if ( ( range < WRAITH_INVISIBLE_DIST_MIN ) || ( currentTime >= nextInvisible ) ) {
+		if ( range < WRAITH_INVISIBLE_DIST_MIN ) {
 			if ( canBecomeSolid() ) {
 				attack_flags |= ATTACK_BECOME_VISIBLE;
 			}
@@ -422,7 +422,6 @@ void monster_demon_wraith::combat_become_visible() {
 
 		startSound( "snd_fade_in", SND_CHANNEL_VOICE2, false );
 		spawn_fx();
-		sys.wait( 0.65 );
 
 		show();
 		endTime = sys.getTime() + 0.5;
@@ -460,7 +459,6 @@ void monster_demon_wraith::combat_become_invisible() {
 
 		startSound( "snd_fade_out", SND_CHANNEL_VOICE2, false );
 		spawn_fx();
-		sys.wait( 0.65 );
 
 		preBurn();
 		startTime = sys.getTime();
