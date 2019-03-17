@@ -403,8 +403,6 @@ monster_demon_wraith::combat_become_visible
 void monster_demon_wraith::combat_become_visible() {
 	float endTime;
 
-	stopMove();
-
 	if ( invisible ) {
 		// don't allow movement so that he stays in the same place where we checked if he could become solid
 		allowMovement( false );
@@ -421,7 +419,6 @@ void monster_demon_wraith::combat_become_visible() {
 		animState( ANIMCHANNEL_LEGS, "Legs_Idle", 0 );
 
 		startSound( "snd_fade_in", SND_CHANNEL_VOICE2, false );
-		spawn_fx();
 
 		show();
 		endTime = sys.getTime() + 0.5;
@@ -449,8 +446,6 @@ void monster_demon_wraith::combat_become_invisible() {
 	float endTime;
 	float startTime;
 
-	stopMove();
-
 	if ( !invisible ) {
 		// wait a bit incase we're blending from a run/walk
 		sys.wait( 0.167 );
@@ -458,7 +453,6 @@ void monster_demon_wraith::combat_become_invisible() {
 		invisible = true;
 
 		startSound( "snd_fade_out", SND_CHANNEL_VOICE2, false );
-		spawn_fx();
 
 		preBurn();
 		startTime = sys.getTime();
