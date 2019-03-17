@@ -147,13 +147,13 @@ Shields no longer completely block all damage.
 
 Some of the more repetitive sounds (such as when spotting a player) see less frequently usage.
 
-## 3.5 Levels
+### 3.5 Levels
 
 Health station reserves have been drastically decreased in the base campaign.
 
 Super shotguns can be found in various mid to late-game levels.
 
-### 4 Configuration
+## 4 Configuration
 
 The **default.cfg** file included with this mod will select Doom 3 and skip intro videos at launch. During gameplay, many of the fancy _new_ rendering effects have been disabled in order to make the BFG Edition darker and more faithful to the visual style of the original. Lastly, autoswitching is disabled; do not override this or else you wil throw your first grenade at the wall. Then it will bounce off the wall and land at your feet, and you will probably feel sorry about the whole situation.
 
