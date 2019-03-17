@@ -654,7 +654,7 @@ entityDef projectile_bullet_zsec_machinegun {
 	"angular_friction"				"0"
 	"contact_friction"				"0"
 	"bounce"						"0.6"
-	"mass"							"2"
+	"mass"							"0.1"
 	"gravity"						"0"
 	"fuse"							"4"
 

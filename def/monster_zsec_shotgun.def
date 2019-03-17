@@ -349,7 +349,7 @@ entityDef damage_bullet_zsec_shotgun {
 	"blob_size"						"400"
 	"blob_offset_x"					"400"
 
-	"knockback"						"0.3"
+	"knockback"						"1"
 
 	"smoke_wound_flesh"				"bloodwound.smoke"
 	"mtr_wound_flesh"				"textures/decals/hurt02"
@@ -389,7 +389,7 @@ entityDef projectile_bullet_zsec_shotgun {
 	"angular_friction"				"0"
 	"contact_friction"				"0"
 	"bounce"						"0.6"
-	"mass"							"1.0"
+	"mass"							"0.3"
 	"gravity"						"0"
 	"fuse"							"4"
 
