@@ -544,7 +544,7 @@ entityDef monster_zsec_machinegun {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"1"
-	"health"						"90"
+	"health"						"60"
 	"def_projectile"				"projectile_bullet_zsec_machinegun"
 	"projectile_spread"				"2"
 	"num_projectiles"				"1"
@@ -560,11 +560,11 @@ entityDef monster_zsec_machinegun {
 	"def_head"						"head_security_dhelmet"
 	"head_joint"					"Shoulders"
 
-	"damage_scale head"				"1.5"
+	"damage_scale head"				"1.3"
 	"damage_scale chest"			"1"
-	"damage_scale left_arm"			"0.75"
-	"damage_scale right_arm"		"0.75"
-	"damage_scale legs"				"0.75"
+	"damage_scale left_arm"			"0.8"
+	"damage_scale right_arm"		"0.8"
+	"damage_scale legs"				"0.8"
 
 	"def_dropGibItem1"			"moveable_item_head_pork"
 	"dropGibItem1Joint"			"headcontrol"
@@ -621,7 +621,7 @@ entityDef damage_bullet_zsec_machinegun {
 	"mtr_splat_flesh4"				"textures/decals/dsplat11"
 	"snd_flesh"						"bullet_impact_flesh"
 
-	"kick_time"						"400"
+	"kick_time"						"100"
 	"kick_amplitude"				"0.3"
 
 	"dv_time"						"100"

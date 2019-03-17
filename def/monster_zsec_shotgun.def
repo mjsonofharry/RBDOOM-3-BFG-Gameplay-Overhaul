@@ -284,7 +284,7 @@ entityDef monster_zsec_shotgun {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"1"
-	"health"						"90"
+	"health"						"60"
 	"def_projectile"				"projectile_bullet_zsec_shotgun"
 	"projectile_spread"				"5"
 	"num_projectiles"				"7"
@@ -328,11 +328,11 @@ entityDef monster_zsec_shotgun {
 	"def_head"						"head_zombie5"
 	"head_joint"					"Shoulders"
 
-	"damage_scale head"				"1.75"
+	"damage_scale head"				"1.8"
 	"damage_scale chest"			"1"
-	"damage_scale left_arm"			"0.75"
-	"damage_scale right_arm"		"0.75"
-	"damage_scale legs"				"0.75"
+	"damage_scale left_arm"			"0.8"
+	"damage_scale right_arm"		"0.8"
+	"damage_scale legs"				"0.8"
 
 	"mtr_flashShader"				"muzzleflash"
 	"flashTime"						"0.15"
@@ -359,7 +359,7 @@ entityDef damage_bullet_zsec_shotgun {
 	"mtr_splat_flesh4"				"textures/decals/dsplat11"
 	"snd_flesh"						"shotgun_impact_flesh"
 
-	"kick_time"						"400"
+	"kick_time"						"100"
 	"kick_amplitude"				"0.5"
 
 	"dv_time"						"100"
