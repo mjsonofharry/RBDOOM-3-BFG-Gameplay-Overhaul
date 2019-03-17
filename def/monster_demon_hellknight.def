@@ -199,7 +199,12 @@ entityDef monster_demon_hellknight {
 	"damage_zone left_arm"			"*luparm"
 	"damage_zone right_arm"			"*ruparm"
 	"damage_zone legs"				"*hips"
-	"damage_scale head"				"2"
+
+	"damage_scale head"				"1.5"
+	"damage_scale chest"			"1"
+	"damage_scale left_arm"			"0.75"
+	"damage_scale right_arm"		"0.75"
+	"damage_scale legs"				"0.75"
 	
 	"anim"							"idle"
 

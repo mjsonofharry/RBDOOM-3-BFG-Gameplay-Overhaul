@@ -54,7 +54,7 @@ entityDef weapon_shotgun {
 
 	"inv_name"					"#str_00243"
 	"inv_weapon"				"weapon_shotgun"
-	"inv_ammo_shells"			"4"
+	"inv_ammo_shells"			"8"
 	"inv_item"					"5"
 
 	"inv_desc"					"#str_02534"
@@ -93,7 +93,7 @@ entityDef weapon_shotgun {
 	"snd_respawn"				"sound_weapon_respawn"
 	"skin_invisible"			"skins/shotgun_invis"
 	
-	"spread"					"4"
+	"spread"					"3"
 
 	"controllerShakeHighMag"	"1.0"
 	"controllerShakeHighTime"	"120"
@@ -169,7 +169,7 @@ model viewmodel_shotgun {
 }
 
 entityDef	damage_shotgun {
-	"damage"			"14"
+	"damage"			"15"
 	"kickDir"			"1 0 0"
 
 	"mtr_blob"			"genericDamage"

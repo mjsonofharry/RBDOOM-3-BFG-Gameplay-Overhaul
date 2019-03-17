@@ -41,7 +41,7 @@ entityDef weapon_bfg {
 
 	"inv_name"					"#str_00100197"
 	"inv_weapon"				"weapon_bfg"
-	"inv_ammo_bfg"				"4"
+	"inv_ammo_bfg"				"1"
 	"inv_item"					"5"
 
 	"inv_desc"					"#str_02540"

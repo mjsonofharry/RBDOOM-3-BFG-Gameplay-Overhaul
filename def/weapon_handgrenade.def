@@ -44,7 +44,7 @@ entityDef weapon_handgrenade {
 
 	"inv_name"					"#str_07013"
 	"inv_weapon"				"weapon_handgrenade"
-	"inv_ammo_grenades" 		"5"
+	"inv_ammo_grenades" 		"4"
 	"inv_item"					"5"
 	"inv_desc"					"#str_02537"
 	"display_name"				"#str_02478"
