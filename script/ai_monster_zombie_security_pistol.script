@@ -507,10 +507,10 @@ float monster_zombie_security_pistol::check_attacks() {
 	
 	currentTime = sys.getTime();
 	if ( AI_PAIN && ( currentTime >= nextDodge ) ) {
-		if ( testAnimMove( "evade_left" ) ) {
+		if ( testAnimMove( "evade_left" ) && ( sys.random( 1 ) > 0.5 ) ) {
 			attack_flags |= ATTACK_DODGE_LEFT;
 		}
-		if ( testAnimMove( "evade_right" ) ) {
+		if ( testAnimMove( "evade_right" ) && ( sys.random( 1 ) > 0.5 ) ) {
 			attack_flags |= ATTACK_DODGE_RIGHT;
 			
 			// if we can dodge either direction, pick one
