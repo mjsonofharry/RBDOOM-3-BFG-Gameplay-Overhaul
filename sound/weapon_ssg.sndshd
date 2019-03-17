@@ -9,7 +9,7 @@ ssg_fire {
 	//sound/weapons/ssg/fire_01.wav
 	//sound/weapons/ssg/fire_02.wav
 	//sound/weapons/ssg/fire_03.wav
-	sound/weapons/ssg/fire_04.wav
+	sound/custom/weapons/ssg/blast.wav
 }
 
 ssg_click {

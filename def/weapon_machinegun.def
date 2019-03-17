@@ -134,7 +134,7 @@ model viewmodel_machinegun {
 	}
 	anim idle 				models/md5/weapons/machinegun_view/idle.md5anim
 	anim fire1				models/md5/weapons/machinegun_view/fire4.md5anim {
-		frame 1				sound_voice player_pistol_fire
+		frame 1				sound_voice player_machinegun_fire
 		frame 1				sound_voice2  player_machinegun_mech
 	}
 	anim reload				models/md5/weapons/machinegun_view/reload.md5anim {
