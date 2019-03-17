@@ -54,7 +54,7 @@ entityDef weapon_shotgun {
 
 	"inv_name"					"#str_00243"
 	"inv_weapon"				"weapon_shotgun"
-	"inv_ammo_shells"			"4"
+	"inv_ammo_shells"			"8"
 	"inv_item"					"5"
 
 	"inv_desc"					"#str_02534"

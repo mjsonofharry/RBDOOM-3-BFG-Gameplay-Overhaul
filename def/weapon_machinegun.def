@@ -55,7 +55,7 @@ entityDef weapon_machinegun {
 
 	"inv_name"					"#str_00100180"
 	"inv_weapon"				"weapon_machinegun"
-	"inv_ammo_clip"				"10"
+	"inv_ammo_clip"				"20"
 	"inv_item"					"5"
 	"inv_desc"					"#str_02535"
 	"display_name"				"#str_02476"
