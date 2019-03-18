@@ -17,12 +17,11 @@ weapon_pistol.script
 #define PISTOL_RELOAD_TO_IDLE	4
 
 #define PISTOL_BEST_SHOTS		1
-#define PISTOL_BEST_SPREAD		0.25
-#define PISTOL_NORMAL_SRREAD	1
+#define PISTOL_BEST_SPREAD		0.1
+#define PISTOL_NORMAL_SRREAD	0.5
 
 object weapon_pistol : weapon_base {
 	float		next_attack;
-	float		spread;
 	float		accurate_shots;
 	
 	void		init();
@@ -38,7 +37,6 @@ object weapon_pistol : weapon_base {
 void weapon_pistol::init() {
 	next_attack = 0;
 	accurate_shots = PISTOL_BEST_SHOTS;
-	spread		= getFloatKey( "spread" );
 	weaponState( "Raise", 0 );
 }
 
@@ -72,8 +70,8 @@ void weapon_pistol::Idle() {
 			weaponState( "Lower", PISTOL_IDLE_TO_LOWER );
 		}
 		currentTime = sys.getTime();
-		if ( ( currentTime >= next_attack ) && WEAPON_ATTACK ) {
-			if ( ammoAvailable() > 0 ) {
+		if ( WEAPON_ATTACK ) {
+			if ( ( currentTime >= next_attack ) && ( ammoAvailable() > 0 ) ) {
 				weaponState( "Fire", PISTOL_IDLE_TO_FIRE );
 			}
 		} else {
@@ -84,7 +82,7 @@ void weapon_pistol::Idle() {
 }
 
 void weapon_pistol::Fire() {
-	float currentSpread;
+	float spread;
 
 	next_attack = sys.getTime() + PISTOL_FIRERATE;
 	
@@ -93,13 +91,13 @@ void weapon_pistol::Fire() {
 	}
 
 	if ( accurate_shots > 0 ) {
-		currentSpread = PISTOL_BEST_SPREAD;
+		spread = PISTOL_BEST_SPREAD;
 		accurate_shots = accurate_shots - 1;
 	} else {
-		currentSpread = PISTOL_NORMAL_SRREAD;
+		spread = PISTOL_NORMAL_SRREAD;
 	}
 	
-	launchProjectiles( PISTOL_NUMPROJECTILES, currentSpread, 0, 1.0, 1.0 );
+	launchProjectiles( PISTOL_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
 	playAnim( ANIMCHANNEL_ALL, "fire" );
 	waitUntil( animDone( ANIMCHANNEL_ALL, PISTOL_FIRE_TO_IDLE ) );
 	weaponState( "Idle", PISTOL_FIRE_TO_IDLE );

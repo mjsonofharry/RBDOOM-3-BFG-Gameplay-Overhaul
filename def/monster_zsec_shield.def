@@ -262,7 +262,7 @@ entityDef monster_zsec_shield {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"1"
-	"health"						"110"
+	"health"						"60"
 	"def_projectile"				"projectile_bullet_zsec_shield"
 	"num_projectiles"				"1"
 	"attack_cone"					"70"
@@ -279,11 +279,11 @@ entityDef monster_zsec_shield {
 	"damage_zone legs"				"*Hips"
 	"damage_zone shield"			"*shield"
 
-	"damage_scale head"				"1.5"
+	"damage_scale head"				"1.4"
 	"damage_scale chest"			"1"
-	"damage_scale left_arm"			"0.75"
-	"damage_scale right_arm"		"0.75"
-	"damage_scale legs"				"0.75"
+	"damage_scale left_arm"			"0.8"
+	"damage_scale right_arm"		"0.8"
+	"damage_scale legs"				"0.8"
 	"damage_scale shield"			"0.1"
 	
 	"ragdoll"						"monster_zombie_security_pistol"
@@ -330,7 +330,7 @@ entityDef monster_zsec_shield {
 }
 
 entityDef	damage_bullet_zsec_shield {
-	"damage"						"6"
+	"damage"						"4"
 	"kickDir"						"1 0 0"
 
 	"mtr_blob"						"genericDamage"
@@ -348,8 +348,8 @@ entityDef	damage_bullet_zsec_shield {
 	"mtr_splat_flesh4"				"textures/decals/dsplat11"
 	"snd_flesh"						"bullet_impact_flesh"
 
-	"kick_time"						"400"
-	"kick_amplitude"				"0.3"
+	"kick_time"						"110"
+	"kick_amplitude"				"0.2"
 
 	"dv_time"						"100"
 }
@@ -378,7 +378,7 @@ entityDef projectile_bullet_zsec_shield {
 	"angular_friction"				"0"
 	"contact_friction"				"0"
 	"bounce"						"0.6"
-	"mass"							"2"
+	"mass"							"0.3"
 	"gravity"						"0"
 	"fuse"							"4"
 

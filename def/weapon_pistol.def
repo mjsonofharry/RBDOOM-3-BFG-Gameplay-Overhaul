@@ -137,7 +137,7 @@ model viewmodel_pistol {
 	mesh						models/md5/weapons/pistol_view/viewpistol.md5mesh
 
 	anim raise 					models/md5/weapons/pistol_view/raise.md5anim {
-		frame 7					sound_body player_pistol_raise_01
+		frame 3					sound_body player_pistol_raise_01
 	}
 	anim idle					models/md5/weapons/pistol_view/idle.md5anim
 	anim idle_empty				models/md5/weapons/pistol_view/idle_empty.md5anim

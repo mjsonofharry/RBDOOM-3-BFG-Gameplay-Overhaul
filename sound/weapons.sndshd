@@ -779,7 +779,7 @@ player_pistol_raise_01 {
 	volume		0
 	
 	//sound/xian/weapons/pistol/up_01.wav
-	sound/_reissue/weapons/pistol/up_01.wav
+	sound/custom/weapons/pistol/cocking.wav
 }
 
 player_pistol_fire {
@@ -787,11 +787,14 @@ player_pistol_fire {
 	maxDistance	30
 	volume		0
 
-	sound/_reissue/weapons/pistol/pistol_shot_01.wav
-	sound/_reissue/weapons/pistol/pistol_shot_01_a.wav
-	sound/_reissue/weapons/pistol/pistol_shot_01_b.wav
-	sound/_reissue/weapons/pistol/pistol_shot_01_c.wav
-	sound/_reissue/weapons/pistol/pistol_shot_01_d.wav
+	sound/custom/weapons/pistol/glock_01.wav
+	sound/custom/weapons/pistol/glock_02.wav
+	sound/custom/weapons/pistol/glock_03.wav
+	sound/custom/weapons/pistol/glock_04.wav
+	sound/custom/weapons/pistol/glock_05.wav
+	sound/custom/weapons/pistol/glock_06.wav
+	sound/custom/weapons/pistol/glock_07.wav
+	sound/custom/weapons/pistol/glock_08.wav
 
 /*
 	sound/weapons/pistol/pistol_shot_02a.wav
@@ -973,10 +976,11 @@ player_machinegun_fire {
 	
 	volume	-1
 
-	sound/_reissue/weapons/machinegun/mg_fire_01.wav
-	sound/_reissue/weapons/machinegun/mg_fire_01_a.wav
-	sound/_reissue/weapons/machinegun/mg_fire_01_b.wav
-	sound/_reissue/weapons/machinegun/mg_fire_01_c.wav
+	sound/_reissue/weapons/pistol/pistol_shot_01.wav
+	sound/_reissue/weapons/pistol/pistol_shot_01_a.wav
+	sound/_reissue/weapons/pistol/pistol_shot_01_b.wav
+	sound/_reissue/weapons/pistol/pistol_shot_01_c.wav
+	sound/_reissue/weapons/pistol/pistol_shot_01_d.wav
 
 	//sound/dane/Machine_Gun_Shot_V2/MACHGUN_SHOT_1v2.wav
 	//sound/dane/Machine_Gun_Shot_V2/MACHGUN_SHOT_2v2.wav
@@ -1263,16 +1267,16 @@ player_chaingun_lowammo {
 player_chaingun_fire {
 	minDistance	5
 	maxDistance	30
-	volume	3
+	volume	0
 	unclamped
 
-	sound/dane/Chain_Gun_Shot_V3/CHAINGUN_SHOT_1v3.wav
-	sound/dane/Chain_Gun_Shot_V3/CHAINGUN_SHOT_2v3.wav
-	sound/dane/Chain_Gun_Shot_V3/CHAINGUN_SHOT_3v3.wav
-	sound/dane/Chain_Gun_Shot_V3/CHAINGUN_SHOT_4v3.wav
-//	sound/dane/Chain_Gun_Shot_V3/CHAINGUN_SHOT_5v3.wav
-//	sound/dane/Chain_Gun_Shot_V3/CHAINGUN_SHOT_6v3.wav
-//	sound/dane/Chain_Gun_Shot_V3/CHAINGUN_SHOT_7v3.wav
+	sound/custom/weapons/chaingun/atchisson_01.wav
+	sound/custom/weapons/chaingun/atchisson_02.wav
+	sound/custom/weapons/chaingun/atchisson_03.wav
+	sound/custom/weapons/chaingun/atchisson_04.wav
+	sound/custom/weapons/chaingun/atchisson_05.wav
+	sound/custom/weapons/chaingun/atchisson_06.wav
+	sound/custom/weapons/chaingun/atchisson_07.wav
 
 }
 
