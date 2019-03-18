@@ -19,10 +19,13 @@ weapon_machinegun.script
 #define MACHINEGUN_BURST_SHOTS		3
 #define MACHINEGUN_BURST_FIRERATE	0.07
 
+#define MACHINEGUN_BEST_BURSTS		1
+#define MACHINEGUN_BEST_SPREAD		0.2
+#define MACHINEGUN_NORMAL_SRREAD	0.6
+
 object weapon_machinegun : weapon_base {
 	float		next_attack;
-	float		spread;
-	float		accurate_shots;
+	float		accurate_bursts;
 	
 	void		init();
 	
@@ -36,7 +39,7 @@ object weapon_machinegun : weapon_base {
 
 void weapon_machinegun::init() {
 	next_attack = 0;
-	spread		= getFloatKey( "spread" );
+	accurate_bursts = MACHINEGUN_BEST_BURSTS;
 	weaponState( "Raise", 0 );
 }
 
@@ -68,10 +71,12 @@ void weapon_machinegun::Idle() {
 		if ( WEAPON_LOWERWEAPON ) {
 			weaponState( "Lower", MACHINEGUN_IDLE_TO_LOWER );
 		}
-		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
-			if ( ammoAvailable() > 0 ) {
+		if ( WEAPON_ATTACK ) {
+			if ( ( sys.getTime() >= next_attack ) && ( ammoAvailable() > 0 ) ) {
 				weaponState( "Fire", MACHINEGUN_IDLE_TO_FIRE );
 			}
+		} else {
+			accurate_bursts = MACHINEGUN_BEST_BURSTS;
 		}
 		waitFrame();
 	}
@@ -80,9 +85,17 @@ void weapon_machinegun::Idle() {
 void weapon_machinegun::Fire() {
 	float burst_shots;
 	float next_burst_shot;
+	float spread;
 
 	next_attack = sys.getTime() + MACHINEGUN_FIRERATE;
 	
+	if ( accurate_bursts > 0 ) {
+		spread = MACHINEGUN_BEST_SPREAD;
+		accurate_bursts = accurate_bursts - 1;
+	} else {
+		spread = MACHINEGUN_NORMAL_SRREAD;
+	}
+
 	for ( burst_shots = 0; burst_shots < MACHINEGUN_BURST_SHOTS; burst_shots++ ) {
 		if ( ammoAvailable() == MACHINEGUN_LOWAMMO ) {
 			startSound( "snd_lowammo", SND_CHANNEL_ITEM, true );

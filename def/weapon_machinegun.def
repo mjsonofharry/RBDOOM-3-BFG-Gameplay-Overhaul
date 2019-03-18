@@ -97,7 +97,7 @@ entityDef weapon_machinegun {
 	"snd_glass"					"bullet_impact_glass"
 	"skin_invisible"			"skins/machinegun_invis"
 	
-	"spread"					"0.5"
+	"spread"					"0.25"
 
 	"controllerShakeHighMag"	"0.5"
 	"controllerShakeHighTime"	"100"
