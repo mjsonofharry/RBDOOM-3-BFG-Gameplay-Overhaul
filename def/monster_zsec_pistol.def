@@ -489,7 +489,7 @@ entityDef	damage_bullet_zsec_pistol {
 	"mtr_splat_flesh4"				"textures/decals/dsplat11"
 	"snd_flesh"						"bullet_impact_flesh"
 
-	"kick_time"						"100"
+	"kick_time"						"110"
 	"kick_amplitude"				"0.2"
 
 	"dv_time"						"100"
