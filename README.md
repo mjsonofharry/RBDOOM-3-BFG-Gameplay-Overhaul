@@ -18,6 +18,7 @@
     - [Plasmagun](#plasmagun)
     - [Rocket launcher](#rocket-launcher)
     - [BFG](#bfg)
+    - [PDA](#pda)
   - [Pickups](#pickups)
   - [Player](#player)
   - [Enemies](#enemies)
@@ -130,6 +131,10 @@ The rocket launcher's projectiles travel faster now as well. They also have more
 #### BFG
 
 No changes needed apart from the on-weapon GUI being updated. You also can't overcharge it anymore, i.e. you cannot blow yourself up with it.
+
+#### PDA
+
+Opening and closing the PDA is now instant.
 
 ### Pickups
 
