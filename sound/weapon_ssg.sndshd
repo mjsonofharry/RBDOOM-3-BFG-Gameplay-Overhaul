@@ -1,0 +1,43 @@
+ssg_fire {
+	minDistance	5
+	maxDistance	40
+	unclamped
+	volume 5
+	
+	no_dups
+	
+	//sound/weapons/ssg/fire_01.wav
+	//sound/weapons/ssg/fire_02.wav
+	//sound/weapons/ssg/fire_03.wav
+	sound/weapons/ssg/fire_04.wav
+}
+
+ssg_click {
+	minDistance	2
+	maxDistance	20
+	unclamped
+	volume	4
+	
+	sound/weapons/ssg/click_01.wav
+}
+
+ssg_clack {
+	minDistance	2
+	maxDistance	20
+	unclamped
+	volume	4
+	
+	sound/weapons/ssg/clack_01.wav
+}
+
+ssg_shell_insert {
+	minDistance	2
+	maxDistance	20
+	volume		-3
+	no_dups
+	
+	sound/weapons/ssg/insert_01.wav
+	sound/weapons/ssg/insert_02.wav
+	sound/weapons/ssg/insert_03.wav
+
+}
