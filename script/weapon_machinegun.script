@@ -4,7 +4,7 @@ weapon_machinegun.script
 
 ***********************************************************************/
 
-#define MACHINEGUN_FIRERATE			0.6
+#define MACHINEGUN_FIRERATE			0.4
 #define MACHINEGUN_LOWAMMO			10
 #define MACHINEGUN_NUMPROJECTILES	1
 
