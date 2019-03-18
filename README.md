@@ -99,7 +99,7 @@ When you do grab it, you will find that its spread has been greatly improved. It
 
 #### Machinegun
 
-The machinegun now fires in accurate, three-round bursts. Its damage has received a buff. Also, it has a different, less plastic-y firing sound.
+The machinegun now fires in accurate, three-round bursts. The first burst is very accurate, but sustained fire will result in worse accuracy. Also, each bullet deals more damage and comes with a different, less plastic-y sound effect.
 
 Overall, its performance is suspiciously similar to that of another rifle. Both rifles happen to be manufactured on Mars. Perhaps one is a cheap knockoff of the other?
 
