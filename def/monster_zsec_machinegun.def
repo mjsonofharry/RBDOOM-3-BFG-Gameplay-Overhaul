@@ -560,7 +560,7 @@ entityDef monster_zsec_machinegun {
 	"def_head"						"head_security_dhelmet"
 	"head_joint"					"Shoulders"
 
-	"damage_scale head"				"1.3"
+	"damage_scale head"				"1.4"
 	"damage_scale chest"			"1"
 	"damage_scale left_arm"			"0.8"
 	"damage_scale right_arm"		"0.8"
@@ -622,7 +622,7 @@ entityDef damage_bullet_zsec_machinegun {
 	"snd_flesh"						"bullet_impact_flesh"
 
 	"kick_time"						"100"
-	"kick_amplitude"				"0.3"
+	"kick_amplitude"				"0.1"
 
 	"dv_time"						"100"
 }
@@ -654,7 +654,7 @@ entityDef projectile_bullet_zsec_machinegun {
 	"angular_friction"				"0"
 	"contact_friction"				"0"
 	"bounce"						"0.6"
-	"mass"							"0.1"
+	"mass"							"0.2"
 	"gravity"						"0"
 	"fuse"							"4"
 

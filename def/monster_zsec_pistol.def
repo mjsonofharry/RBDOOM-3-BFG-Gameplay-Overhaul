@@ -350,7 +350,7 @@ entityDef monster_zsec_pistol {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"1"
-	"health"						"100"
+	"health"						"60"
 	"def_projectile"				"projectile_bullet_zsec_pistol"
 	"attack_cone"					"70"
 	"attack_accuracy"				"3"
@@ -490,7 +490,7 @@ entityDef	damage_bullet_zsec_pistol {
 	"snd_flesh"						"bullet_impact_flesh"
 
 	"kick_time"						"100"
-	"kick_amplitude"				"0.3"
+	"kick_amplitude"				"0.2"
 
 	"dv_time"						"100"
 }
@@ -519,7 +519,7 @@ entityDef projectile_bullet_zsec_pistol {
 	"angular_friction"				"0"
 	"contact_friction"				"0"
 	"bounce"						"0.6"
-	"mass"							"0.2"
+	"mass"							"0.3"
 	"gravity"						"0"
 	"fuse"							"4"
 
