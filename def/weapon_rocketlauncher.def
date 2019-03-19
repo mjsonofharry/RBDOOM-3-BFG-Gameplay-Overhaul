@@ -204,7 +204,7 @@ entityDef projectile_rocket {
 }
 
 entityDef damage_rocketDirect {
-	"damage"					"170"
+	"damage"					"160"
 	"push"						"1000"
 	"mtr_wound_flesh"			"textures/decals/hurt02"
 	"mtr_splat_flesh"			""
@@ -213,7 +213,7 @@ entityDef damage_rocketDirect {
 }
 
 entityDef damage_rocketSplash {
-	"damage"					"150"
+	"damage"					"130"
 	"radius"					"175" //changed by Tim 6-22-04 from 132
 	"knockback"					"80"
 	"push"						"10000"
