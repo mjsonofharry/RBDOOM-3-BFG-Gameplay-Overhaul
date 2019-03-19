@@ -2,7 +2,10 @@ import os
 import sys
 import zipfile
 
+MOD_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul'
+OUTPUT_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul.zip'
 EXCLUSIONS = [
+    OUTPUT_NAME,
     '.git',
     '.vscode',
     '.gitignore',
@@ -10,11 +13,8 @@ EXCLUSIONS = [
     'screenshots',
     'deploy.py',
     'README.md',
-    'release.zip'
     '.cm'
 ]
-OUTPUT_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul.zip'
-MOD_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul'
 
 def traverse(root):
     successors = [
@@ -32,9 +32,9 @@ def main():
     project_path = sys.path[0]
     print('Project root:', project_path)
 
-    print('Finding project files...', end='')
+    print('Finding project files...')
     files = traverse(project_path)
-    print('found:')
+    print('Found the following project files')
     [print(' -', x) for x in files]
     
     target = os.path.join(project_path, OUTPUT_NAME)
