@@ -39,7 +39,6 @@ object weapon_chaingun : weapon_base {
 	float		end_rate;
 	float		spin_start;
 	float		spin_end;
-	float		spread;
 	
 	void		init();
 	
@@ -65,7 +64,6 @@ void weapon_chaingun::init() {
 	end_rate		= 0;
 	spin_start		= 0;
 	spin_end		= 0;
-	spread			= getFloatKey( "spread" );
 
 	weaponState( "Raise", 0 );
 }
@@ -165,14 +163,12 @@ void weapon_chaingun::Idle() {
 void weapon_chaingun::Fire() {
 	float skip;
 	float endAccurateTime;
-	float currentSpread;
+	float spread;
 	float bestShots;
-	float normalSpread;
-
-	normalSpread = spread;
+	float ammo;
 
 	bestShots = 0;
-	currentSpread = CHAINGUN_BEST_SPREAD;
+	spread = CHAINGUN_BEST_SPREAD;
 
 	SpinUp();
 
@@ -185,22 +181,25 @@ void weapon_chaingun::Fire() {
 
 	endAccurateTime = sys.getTime() + CHAINGUN_GOOD_TIME;
 	while( WEAPON_ATTACK && !WEAPON_RELOAD && ammoAvailable() > 0 ) {
-		launchProjectiles( CHAINGUN_NUMPROJECTILES, currentSpread, 0, 1.0, 1.0 );
+		launchProjectiles( CHAINGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
+		if ( ammoAvailable() > 0 ) {
+			launchProjectiles( CHAINGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
+		}
 		startSound( "snd_fire", SND_CHANNEL_WEAPON, false );
 
 		if ( ammoAvailable() == CHAINGUN_LOWAMMO ) {
 			startSound( "snd_lowammo", SND_CHANNEL_ITEM, false );
 		}
 		
-		if ( currentSpread < CHAINGUN_GOOD_SPREAD ) {
+		if ( spread < CHAINGUN_GOOD_SPREAD ) {
 			if ( bestShots > 3 ) {
-				currentSpread = CHAINGUN_GOOD_SPREAD;
+				spread = CHAINGUN_GOOD_SPREAD;
 			}
 			bestShots++;
 		}
-		else if ( currentSpread < spread ) {
+		else if ( spread < CHAINGUN_NORMAL_SPREAD ) {
 			if ( sys.getTime() > endAccurateTime ) {
-				currentSpread = CHAINGUN_NORMAL_SPREAD;
+				spread = CHAINGUN_NORMAL_SPREAD;
 			}
 		}
 
