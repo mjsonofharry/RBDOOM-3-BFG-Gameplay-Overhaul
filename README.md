@@ -58,7 +58,7 @@ Some changes will not work correctly when applied to pre-existing saves. Also, i
 
 ### Configuration
 
-The **default.cfg** file included with this mod will select Doom 3 and skip intro videos at launch. During gameplay, many of the fancy _new_ rendering effects have been disabled in order to make the BFG Edition darker and more faithful to the visual style of the original. Lastly, autoswitching is disabled; do not override this or else you wil throw your first grenade at the wall. Then it will bounce off the wall and land at your feet, and you will probably feel sorry about the whole situation.
+The **autoexec.cfg** file included with this mod will select Doom 3 and skip intro videos at launch. During gameplay, many of the fancy _new_ rendering effects have been disabled in order to make the BFG Edition darker and more faithful to the visual style of the original. Lastly, autoswitching is disabled; do not override this or else you wil throw your first grenade at the wall. Then it will bounce off the wall and land at your feet, and you will probably feel sorry about the whole situation.
 
 ## Summary
 
@@ -100,7 +100,9 @@ When you do grab it, you will find that its spread has been greatly improved. It
 
 #### Machinegun
 
-The machinegun now fires in accurate, three-round bursts. The first burst is very accurate, but sustained fire will result in worse accuracy. Also, each bullet deals more damage and comes with a different, less plastic-y sound effect.
+The machinegun now fires in rapid three-round bursts. The first burst is very accurate, but sustained fire will result in worse accuracy. Also, each bullet deals more damage than before and comes with a different, less plastic-y sound effect.
+
+These changes are intended to make the machinegun feel like more of a companion to the shotgun. For comparison, the shotgun can deal a huge amount of burst damage in a short amount of time, but over longer periods of time the machinegun's DPS should be on top.
 
 Overall, its performance is suspiciously similar to that of another rifle. Both rifles happen to be manufactured on Mars. Perhaps one is a cheap knockoff of the other?
 
@@ -116,7 +118,7 @@ You'll find that grenades are no longer part of the weapon-scrolling processessi
 
 The chaingun spins up faster and has improved accuracy for the first few seconds of sustained fire. This allows for some mid to long-range sniping, although it's not quite as effective in this capacity as either the pistol or machinegun since, well, both of those exist too.
 
-Damage has been decreased slightly to make way for the plasmagun.
+Damage has been decreased slightly to make way for the plasmagun. However, it now fires two shots at a time (when more than two rounds are available), just like the original.
 
 Also, it's been given a more fitting set of firing sound effects.
 
@@ -126,7 +128,7 @@ The plasmagun's projectiles now travel much faster and deal much more damage. No
 
 #### Rocket launcher
 
-The rocket launcher's projectiles travel faster now as well. They also have more recoil. All of this makes the weapon feel punchier.
+The rocket launcher's projectiles travel faster now as well. They also have more recoil. All of this makes the weapon feel punchier. Despite this, rocket damage has been decreased a little.
 
 #### BFG
 
@@ -190,7 +192,7 @@ Generally, you can expect to see incinerate when you are either very far away fr
 
 Zombie security ranged attacks have significantly reduced aim kick, because aim kick is annoying in hitscan battles.
 
-Shields no longer completely block all damage.
+All zombie security enemy types have the same total health. Different damage zones (e.g. legs, head, chest, arms) have different levels of damage resistence, based on how armored they look. Shields no longer completely block all damage.
 
 Some of the more repetitive sounds (such as when spotting a player) see less frequently usage.
 
