@@ -13,7 +13,7 @@ EXCLUSIONS = [
     'release.zip'
     '.cm'
 ]
-OUTPUT_NAME = 'release.zip'
+OUTPUT_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul.zip'
 MOD_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul'
 
 def traverse(root):
