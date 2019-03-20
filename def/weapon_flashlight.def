@@ -268,6 +268,11 @@ skin skins/models/weapons/flashlight_off_invis {
 }
 
 skin skins/models/weapons/flashlight_on {
+	models/items/flashlight/flare textures/common/nodraw
+	models/items/flashlight/beam1 textures/common/nodraw
+	models/items/flashlight/flare2 textures/common/nodraw
+	models/items/flashlight/beam2 textures/common/nodraw
+	models/items/flashlight/bulb textures/common/nodraw
 }
 
 skin skins/models/weapons/flashlight_on_invis {
