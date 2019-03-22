@@ -93,8 +93,14 @@ void weapon_handgrenade::Idle() {
 	} else {
 		weaponHolstered();
 		entity player = getOwner();
-		player.selectWeapon( player.getPreviousWeapon() );
+		string previousWeapon = player.getPreviousWeapon();
+		if ( previousWeapon == "weapon_handgrenade" ) {
+			player.nextWeapon();
+		} else {
+			player.selectWeapon( previousWeapon );
+		}
 		player = $null_entity;
+		weaponState( "Lower", 0);
 	}
 }
 
@@ -120,13 +126,16 @@ void weapon_handgrenade::Fire() {
 
 	waitUntil( animDone( ANIMCHANNEL_ALL, HANDGRENADE_FIRE_TO_IDLE ) );
 
-	if ( WEAPON_ATTACK ) {
-		weaponState ( "Idle", 0 );
-	}
 	weaponHolstered();
 	entity player = getOwner();
-	player.selectWeapon( player.getPreviousWeapon() );
+	string previousWeapon = player.getPreviousWeapon();
+	if ( previousWeapon == "weapon_handgrenade" ) {
+		player.nextWeapon();
+	} else {
+		player.selectWeapon( previousWeapon );
+	}
 	player = $null_entity;
+	weaponState( "Lower", 0);
 }
 
 void weapon_handgrenade::EnterCinematic() {
