@@ -87,7 +87,6 @@ entityDef weapon_machinegun {
 	"hide_time"					"0.3"								// time to hide weapon when talking to npcs or looking at guis
 	"hide_distance"				"-15"								// distance to offset weapon when talking to npcs or looking at guis
 
-	"smoke_muzzle"				"mgmuzzlesmoke.prt"
 	"def_ejectBrass"			"debris_brass"
 	"ejectBrassDelay"			"10"
 
