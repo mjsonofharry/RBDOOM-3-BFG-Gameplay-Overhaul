@@ -20,7 +20,8 @@ def main():
             for data_source in mod.data_sources
         ]
         mod_name = mod.game_name + '-Gameplay-Overhaul'
-        target = os.path.join(project_path, 'packages', mod_name + ('.pk4' if mod.is_pk4 else '.zip'))
+        target = os.path.join(project_path, 'packages',
+            mod_name + ('.pk4' if mod.is_pk4 else '.zip'))
         if os.path.isfile(target):
             os.remove(target)
         print('Generating archive at', target)
