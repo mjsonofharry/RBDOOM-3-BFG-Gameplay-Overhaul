@@ -1,62 +1,26 @@
-import collections
 import hashlib
+import json
 import os
 import shutil
 import sys
 
-Mod = collections.namedtuple('Mod', ['game_name', 'is_pk4', 'data_sources', 'game_path'])
-
-EXCLUSIONS = [
-    '.zip',
-    '.git',
-    '.vscode',
-    '.gitignore',
-    'generated',
-    'screenshots',
-    'deploy.py',
-    'README.md',
-    '.cm'
-]
-
-MOD_DEFINITIONS = [
-    Mod(
-        game_name='RBDOOM-3-BFG',
-        is_pk4=False,
-        data_sources=['shared', 'bfg_common', 'bfg_rbdoom'],
-        game_path='D:\\RBDOOM-3-BFG'
-    ),
-    Mod(
-        game_name='Classic-RBDOOM-3-BFG',
-        is_pk4=False,
-        data_sources=['shared', 'bfg_common', 'bfg_classic-rbdoom'],
-        game_path='D:\\Classic-RBDOOM-3-BFG'
-    ),
-    Mod(
-        game_name='Doom-3',
-        is_pk4=True,
-        data_sources=['shared', 'd3_common'],
-        game_path=None
-    )
-]
-
-def get_source_paths(source_root, source_walk):
-    return [
-        os.path.join(r, f)
-        for r,d,fs in source_walk for f in fs
-        if fs and not d and not any([f.endswith(e) for e in EXCLUSIONS])
-    ]
+import utils
 
 def main():
     project_path = sys.path[0]
     print('Project root:', project_path)
-    for mod in MOD_DEFINITIONS:
+    print('Reading configuration for mod definitions')
+    mod_definitions = json.loads(open(utils.MOD_DEFINITION_PATH, 'r').read(),
+        object_hook=utils.mod_definition_decoder)
+    for mod in mod_definitions:
         if not mod.game_path:
             print('No install path found for', mod.game_name, '- Skipping')
             continue
         print('Installing mod for', mod.game_name)
         print('Using sources:', ', '.join(mod.data_sources))
         source_data = [
-            (data_source, get_source_paths(data_source, os.walk(data_source)))
+            (data_source, utils.get_source_paths(data_source,
+                os.walk(data_source)))
             for data_source in mod.data_sources
         ]
         mod_name = mod.game_name + '-Gameplay-Overhaul'

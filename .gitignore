@@ -3,3 +3,4 @@ generated/
 screenshots/
 *.zip
 *.pk4
+__pycache__/
