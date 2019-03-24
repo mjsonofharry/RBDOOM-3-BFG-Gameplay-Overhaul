@@ -57,8 +57,11 @@ def main():
                     zip.write(path, arcname=relative_path)
                     if install_path and not is_pk4:
                         copy_path = os.path.join(install_path, relative_path)
-                        if not os.path.exists(os.path.dirname(copy_path)):
-                            os.makedirs(copy_path)
+                        copy_dir_path = os.path.dirname(copy_path)
+                        if not os.path.exists(copy_dir_path):
+                            os.makedirs(copy_dir_path)
+                        if os.path.isfile(copy_path):
+                            os.remove(copy_path)
                         shutil.copy(path, copy_path)
             print('Wrote:', target)
         print('')
