@@ -9,7 +9,6 @@ def get_source_paths(source_root, source_walk):
     return [
         os.path.join(r, f)
         for r,d,fs in source_walk for f in fs
-        if fs and not d
     ]
 
 def mod_definition_decoder(obj):
