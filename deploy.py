@@ -1,11 +1,12 @@
+import collections
 import os
 import sys
 import zipfile
 
-MOD_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul'
-OUTPUT_NAME = 'RBDOOM-3-BFG-Gameplay-Overhaul.zip'
+Mod = collections.namedtuple('Mod', ['name', 'is_pk4', 'data_sources'])
+
 EXCLUSIONS = [
-    OUTPUT_NAME,
+    '.zip',
     '.git',
     '.vscode',
     '.gitignore',
@@ -16,31 +17,44 @@ EXCLUSIONS = [
     '.cm'
 ]
 
+MOD_DEFINITIONS = [
+    Mod('RBDOOM-3-BFG', is_pk4=False, data_sources=['shared', 'bfg_common', 'bfg_rbdoom']),
+    Mod('Classic-RBDOOM-3-BFG', is_pk4=False, data_sources=['shared', 'bfg_common', 'bfg_classic-rbdoom']),
+    Mod('Doom-3', is_pk4=True, data_sources=['shared'])
+]
+
 def traverse(root):
-    successors = [os.path.join(root, x) for x in os.listdir(root)
-        if not any([x.endswith(e) for e in EXCLUSIONS])]
+    successors = [
+        os.path.join(root, x) for x in os.listdir(root)
+        if not any([x.endswith(e) for e in EXCLUSIONS])
+    ]
     files = [x for x in successors if os.path.isfile(x)]
     directories = [x for x in successors if os.path.isdir(x)]
-    traversals = [traverse(os.path.join(root, x)) for x in directories]
-    for x in traversals:
+    for x in [traverse(os.path.join(root, x)) for x in directories]:
         files = files + x
     return files
 
 def main():
     project_path = sys.path[0]
     print('Project root:', project_path)
-
-    print('Finding project files...')
-    files = traverse(project_path)
-    print('Found the following project files')
-    [print(' -', x) for x in files]
-    
-    target = os.path.join(project_path, OUTPUT_NAME)
-    with zipfile.ZipFile(target, 'w') as zip:
-        print('Generating archive...')
-        [zip.write(x, arcname=os.path.join(MOD_NAME,
-            os.path.relpath(x, project_path))) for x in files]
-        print('Wrote:', target)
+    for game_name, is_pk4, mod_data_sources in MOD_DEFINITIONS:
+        print('Working on:', game_name)
+        print('Using sources:', mod_data_sources)
+        mod_name = game_name + '-Gameplay-Overhaul'
+        target = os.path.join(project_path, mod_name + '.zip')
+        with zipfile.ZipFile(target, 'w') as zip:
+            print('Generating archive...')
+            for data_source, data_paths in [
+                (data_source, traverse(os.path.join(project_path, data_source)))
+                for data_source in mod_data_sources
+            ]:
+                data_source_path = os.path.join(project_path, data_source)
+                for path in data_paths:
+                    print('Zipping:', path)
+                    zip.write(path, arcname=os.path.join(mod_name,
+                        os.path.relpath(path, data_source)))
+            print('Wrote:', target)
+        print('')
 
 if __name__ == '__main__':
     main()
