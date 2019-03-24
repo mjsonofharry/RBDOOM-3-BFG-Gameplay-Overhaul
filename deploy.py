@@ -41,7 +41,7 @@ def main():
         print('Working on:', game_name)
         print('Using sources:', mod_data_sources)
         mod_name = game_name + '-Gameplay-Overhaul'
-        target = os.path.join(project_path, mod_name + '.zip')
+        target = os.path.join(project_path, mod_name + '.pk4') if is_pk4 else os.path.join(project_path, mod_name + '.zip')
         with zipfile.ZipFile(target, 'w') as zip:
             print('Generating archive...')
             for data_source, data_paths in [
@@ -51,8 +51,8 @@ def main():
                 data_source_path = os.path.join(project_path, data_source)
                 for path in data_paths:
                     print('Zipping:', path)
-                    zip.write(path, arcname=os.path.join(mod_name,
-                        os.path.relpath(path, data_source)))
+                    arcname = os.path.relpath(path, data_source) if is_pk4 else os.path.join(mod_name, os.path.relpath(path, data_source))
+                    zip.write(path, arcname=arcname)
             print('Wrote:', target)
         print('')
 
