@@ -20,7 +20,7 @@ EXCLUSIONS = [
 MOD_DEFINITIONS = [
     Mod('RBDOOM-3-BFG', is_pk4=False, data_sources=['shared', 'bfg_common', 'bfg_rbdoom']),
     Mod('Classic-RBDOOM-3-BFG', is_pk4=False, data_sources=['shared', 'bfg_common', 'bfg_classic-rbdoom']),
-    Mod('Doom-3', is_pk4=True, data_sources=['shared'])
+    Mod('Doom-3', is_pk4=True, data_sources=['shared', 'd3_common'])
 ]
 
 def traverse(root):
