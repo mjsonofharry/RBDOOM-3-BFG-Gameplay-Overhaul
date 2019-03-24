@@ -17,10 +17,8 @@ EXCLUSIONS = [
 ]
 
 def traverse(root):
-    successors = [
-        os.path.join(root, x) for x in os.listdir(root)
-        if not any([x.endswith(e) for e in EXCLUSIONS])
-    ]
+    successors = [os.path.join(root, x) for x in os.listdir(root)
+        if not any([x.endswith(e) for e in EXCLUSIONS])]
     files = [x for x in successors if os.path.isfile(x)]
     directories = [x for x in successors if os.path.isdir(x)]
     traversals = [traverse(os.path.join(root, x)) for x in directories]
@@ -39,7 +37,7 @@ def main():
     
     target = os.path.join(project_path, OUTPUT_NAME)
     with zipfile.ZipFile(target, 'w') as zip:
-        print('Generating archive')
+        print('Generating archive...')
         [zip.write(x, arcname=os.path.join(MOD_NAME,
             os.path.relpath(x, project_path))) for x in files]
         print('Wrote:', target)
