@@ -8,6 +8,7 @@ import utils
 
 def main():
     project_path = sys.path[0]
+    args = sys.argv[1:] if len(sys.argv) > 1 else []
     print('Project root:', project_path)
     print('Reading configuration for mod definitions')
     mod_definitions = json.loads(open(utils.MOD_DEFINITION_PATH, 'r').read(),
@@ -24,6 +25,8 @@ def main():
             for data_source in mod.data_sources
         ]
         mod_name = mod.game_name + '-Gameplay-Overhaul'
+        if '--clean' in args:
+            shutil.rmtree(os.path.join(mod.game_path, mod_name))
         for source_root, source_paths in source_data:
             copy_paths = [
                 (x, os.path.join(
