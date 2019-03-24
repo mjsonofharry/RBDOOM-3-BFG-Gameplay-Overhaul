@@ -4,7 +4,7 @@ import shutil
 import sys
 import zipfile
 
-Mod = collections.namedtuple('Mod', ['name', 'is_pk4', 'data_sources', 'install_path'])
+Mod = collections.namedtuple('Mod', ['game_name', 'is_pk4', 'data_sources', 'game_path'])
 
 EXCLUSIONS = [
     '.zip',
@@ -19,9 +19,24 @@ EXCLUSIONS = [
 ]
 
 MOD_DEFINITIONS = [
-    Mod('RBDOOM-3-BFG', is_pk4=False, data_sources=['shared', 'bfg_common', 'bfg_rbdoom'], install_path='D:\\RBDOOM-3-BFG'),
-    Mod('Classic-RBDOOM-3-BFG', is_pk4=False, data_sources=['shared', 'bfg_common', 'bfg_classic-rbdoom'], install_path='D:\\Classic-RBDOOM-3-BFG'),
-    Mod('Doom-3', is_pk4=True, data_sources=['shared', 'd3_common'], install_path=None)
+    Mod(
+        game_name='RBDOOM-3-BFG',
+        is_pk4=False,
+        data_sources=['shared', 'bfg_common', 'bfg_rbdoom'],
+        game_path='D:\\RBDOOM-3-BFG'
+    ),
+    Mod(
+        game_name='Classic-RBDOOM-3-BFG',
+        is_pk4=False,
+        data_sources=['shared', 'bfg_common', 'bfg_classic-rbdoom'],
+        game_path='D:\\Classic-RBDOOM-3-BFG'
+    ),
+    Mod(
+        game_name='Doom-3',
+        is_pk4=True,
+        data_sources=['shared', 'd3_common'],
+        game_path=None
+    )
 ]
 
 def traverse(root):
@@ -35,35 +50,45 @@ def traverse(root):
         files = files + x
     return files
 
+def get_source_paths(source_root, source_walk):
+    return [
+        os.path.join(r, f)
+        for r,d,fs in source_walk for f in fs
+        if fs and not d and not any([f.endswith(e) for e in EXCLUSIONS])
+    ]
+
 def main():
     project_path = sys.path[0]
     print('Project root:', project_path)
-    for game_name, is_pk4, mod_data_sources, install_path in MOD_DEFINITIONS:
-        print('Working on:', game_name)
-        print('Using sources:', mod_data_sources)
-        mod_name = game_name + '-Gameplay-Overhaul'
-        target = os.path.join(project_path, mod_name + '.pk4') if is_pk4 else os.path.join(project_path, mod_name + '.zip')
-        os.remove(target)
+    for mod in MOD_DEFINITIONS:
+        if not mod.game_path:
+            print('No install path found for', mod.game_name, '- Skipping')
+            continue
+        print('Installing mod for', mod.game_name)
+        print('Using sources:', ', '.join(mod.data_sources))
+        source_data = [
+            (data_source, get_source_paths(data_source, os.walk(data_source)))
+            for data_source in mod.data_sources
+        ]
+        mod_name = mod.game_name + '-Gameplay-Overhaul'
+        target = os.path.join(project_path, mod_name + '.pk4') if mod.is_pk4 else os.path.join(project_path, mod_name + '.zip')
+        if os.path.isfile(target):
+            os.remove(target)
         with zipfile.ZipFile(target, 'w') as zip:
             print('Generating archive...')
-            for data_source, data_paths in [
-                (data_source, traverse(os.path.join(project_path, data_source)))
-                for data_source in mod_data_sources
-            ]:
-                data_source_path = os.path.join(project_path, data_source)
-                for path in data_paths:
-                    print('Zipping:', path)
-                    relative_path = os.path.relpath(path, data_source) if is_pk4 else os.path.join(mod_name, os.path.relpath(path, data_source))
-                    zip.write(path, arcname=relative_path)
-                    if install_path and not is_pk4:
-                        copy_path = os.path.join(install_path, relative_path)
-                        copy_dir_path = os.path.dirname(copy_path)
-                        if not os.path.exists(copy_dir_path):
-                            os.makedirs(copy_dir_path)
-                        if os.path.isfile(copy_path):
-                            os.remove(copy_path)
-                        shutil.copy(path, copy_path)
-            print('Wrote:', target)
+            for source_root, source_paths in source_data:
+                archive_paths = [
+                    (x, os.path.relpath(x, source_root))
+                    for x in source_paths
+                ] if mod.is_pk4 else [
+                    (x, os.path.join(mod_name, os.path.relpath(x, source_root)))
+                    for x in source_paths
+                ]
+                print('Found the following files in', source_root)
+                [print(' -', x) for x,y in archive_paths]
+                for src, arc in archive_paths:
+                    zip.write(src, arcname=arc)
+        print('Finished packaging for', mod.game_name)
         print('')
 
 if __name__ == '__main__':
