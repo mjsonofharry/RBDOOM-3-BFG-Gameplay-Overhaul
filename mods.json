@@ -8,7 +8,7 @@
     {
         "game_name": "Classic-RBDOOM-3-BFG",
         "is_pk4": false,
-        "data_sources": ["shared", "bfg_common", "bfg_classic-rbdoom"],
+        "data_sources": ["shared", "bfg_common", "bfg_rbdoom_classic"],
         "game_path": "D:\\Classic-RBDOOM-3-BFG"
     },
     {
