@@ -185,9 +185,6 @@ void weapon_chaingun::Fire() {
 		if ( ammoAvailable() > 0 ) {
 			launchProjectiles( CHAINGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
 		}
-		if ( ammoAvailable() == 0 ) {
-			nextWeapon();
-		}
 		startSound( "snd_fire", SND_CHANNEL_WEAPON, false );
 
 		if ( ammoAvailable() == CHAINGUN_LOWAMMO ) {

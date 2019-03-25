@@ -63,13 +63,9 @@ void weapon_plasmagun::Idle() {
 		if ( WEAPON_LOWERWEAPON ) {
 			weaponState( "Lower", PLASMAGUN_IDLE_TO_LOWER );
 		}
-		if ( WEAPON_ATTACK ) {
+		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
 			if ( ammoAvailable() > 0 ) {
-				if ( sys.getTime() >= next_attack ) {
-					weaponState( "Fire", PLASMAGUN_IDLE_TO_FIRE );
-				}
-			} else {
-				nextWeapon();
+				weaponState( "Fire", PLASMAGUN_IDLE_TO_FIRE );
 			}
 		}
 		waitFrame();

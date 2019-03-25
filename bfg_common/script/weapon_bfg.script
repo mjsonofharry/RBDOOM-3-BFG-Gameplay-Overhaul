@@ -76,8 +76,6 @@ void weapon_bfg::Idle() {
 		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
 			if ( ammoAvailable() > 0 ) {
 				weaponState( "Fire", BFG_IDLE_TO_FIRE );
-			} else {
-				nextWeapon();
 			}
 		}
 		waitFrame();

@@ -72,12 +72,8 @@ void weapon_machinegun::Idle() {
 			weaponState( "Lower", MACHINEGUN_IDLE_TO_LOWER );
 		}
 		if ( WEAPON_ATTACK ) {
-			if ( ammoAvailable() > 0 ) {
-				if ( sys.getTime() >= next_attack ) {
-					weaponState( "Fire", MACHINEGUN_IDLE_TO_FIRE );
-				}
-			} else {
-				nextWeapon();
+			if ( ( sys.getTime() >= next_attack ) && ( ammoAvailable() > 0 ) ) {
+				weaponState( "Fire", MACHINEGUN_IDLE_TO_FIRE );
 			}
 		} else {
 			accurate_bursts = MACHINEGUN_BEST_BURSTS;

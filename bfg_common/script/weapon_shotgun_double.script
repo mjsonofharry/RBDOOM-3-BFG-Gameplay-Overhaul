@@ -80,7 +80,7 @@ void weapon_shotgun_double::Idle() {
 	float currentTime;
 
 	if ( ammoAvailable() < SHOTGUN_DOUBLE_REQUIRED ) {
-		nextWeapon();
+		weaponOutOfAmmo();
 	} else {
 		weaponReady();
 	}
@@ -89,13 +89,11 @@ void weapon_shotgun_double::Idle() {
 		if ( WEAPON_LOWERWEAPON ) {
 			weaponState( "Lower", SHOTGUN_DOUBLE_IDLE_TO_LOWER );
 		}
-		if ( WEAPON_ATTACK || WEAPON_NETFIRING ) {
-			if ( ammoAvailable() >= SHOTGUN_DOUBLE_REQUIRED ) {
-				if ( sys.getTime() >= next_attack ) {
-					weaponState( "Fire", SHOTGUN_DOUBLE_IDLE_TO_FIRE );
-				}
-			} else {
-				nextWeapon();
+		if ( ( sys.getTime() >= next_attack ) && ( WEAPON_ATTACK || WEAPON_NETFIRING ) ) {
+			if ( WEAPON_NETFIRING || ammoAvailable() >= SHOTGUN_DOUBLE_REQUIRED ) {
+				weaponState( "Fire", SHOTGUN_DOUBLE_IDLE_TO_FIRE );
+			}  else {
+				weaponState( "NoAmmo", SHOTGUN_DOUBLE_IDLE_TO_NOAMMO );
 			}
 		}
 		waitFrame();

@@ -61,7 +61,7 @@ void weapon_shotgun::Lower() {
 
 void weapon_shotgun::Idle() {	
 	if ( !ammoAvailable() ) {
-		nextWeapon();
+		weaponOutOfAmmo();
 	} else {
 		weaponReady();
 	}
@@ -70,13 +70,11 @@ void weapon_shotgun::Idle() {
 		if ( WEAPON_LOWERWEAPON ) {
 			weaponState( "Lower", SHOTGUN_IDLE_TO_LOWER );
 		}
-		if ( WEAPON_ATTACK ) {
+		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
 			if ( ammoAvailable() > 0 ) {
-				if ( sys.getTime() >= next_attack ) {
-					weaponState( "Fire", SHOTGUN_IDLE_TO_FIRE );
-				}
+				weaponState( "Fire", SHOTGUN_IDLE_TO_FIRE );
 			} else {
-				nextWeapon();
+				weaponState( "NoAmmo", SHOTGUN_IDLE_TO_NOAMMO );
 			}
 		}
 		waitFrame();
