@@ -71,8 +71,12 @@ void weapon_pistol::Idle() {
 		}
 		currentTime = sys.getTime();
 		if ( WEAPON_ATTACK ) {
-			if ( ( currentTime >= next_attack ) && ( ammoAvailable() > 0 ) ) {
-				weaponState( "Fire", PISTOL_IDLE_TO_FIRE );
+			if ( ammoAvailable() > 0 ) {
+				if ( currentTime >= next_attack ) {
+					weaponState( "Fire", PISTOL_IDLE_TO_FIRE );
+				}
+			} else {
+				nextWeapon();
 			}
 		} else {
 			accurate_shots = PISTOL_BEST_SHOTS;

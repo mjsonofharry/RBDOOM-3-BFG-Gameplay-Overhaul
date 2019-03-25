@@ -19,8 +19,6 @@ void item_pda::init() {
 
 void item_pda::Raise() {
 	weaponRising();
-	playAnim( ANIMCHANNEL_ALL, "raise" );
-
 	weaponState( "Idle", 0 );
 }
 
@@ -32,7 +30,6 @@ void item_pda::Lower() {
 	previous = owner.getPreviousWeapon();
 
 	weaponLowering();
-	playAnim( ANIMCHANNEL_ALL, "putaway" );
 	owner.selectWeapon( previous );
 	weaponHolstered();
 	waitUntil( WEAPON_RAISEWEAPON );
