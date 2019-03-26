@@ -27,6 +27,7 @@ def main():
         mod_name = mod.game_name + '-Gameplay-Overhaul'
         if '--clean' in args:
             shutil.rmtree(os.path.join(mod.game_path, mod_name))
+        n = 0
         for source_root, source_paths in source_data:
             copy_paths = [
                 (x, os.path.join(
@@ -35,10 +36,7 @@ def main():
                     os.path.relpath(x, source_root)))
                 for x in source_paths
             ]
-            print('Found the following files in', source_root)
-            [print(' -', x) for x,y in copy_paths]
-            print('Copying...')
-            skipped = 0
+            print('Found', len(copy_paths),'files in', source_root)
             for src, dst in copy_paths:
                 dst_dir = os.path.dirname(dst)
                 if not os.path.exists(dst_dir):
@@ -48,12 +46,13 @@ def main():
                         left = hashlib.md5(f_src.read()).hexdigest()
                         right = hashlib.md5(f_dst.read()).hexdigest()
                         if left == right:
-                            skipped += 1
                             continue
                     os.remove(dst)
                 shutil.copy(src, dst)
-            print('Copied', len(copy_paths) - skipped, 'files')
-            print('Skipped', skipped, 'files')
+                print(' - Copied:', src)
+                print('            ->', dst)
+                n += 1
+        print('Copied', n, 'files')
         print('Finished installing for', mod.game_name)
         print('')
 
