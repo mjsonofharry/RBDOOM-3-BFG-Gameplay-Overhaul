@@ -12,9 +12,9 @@
         "game_path": "D:\\Classic-RBDOOM-3-BFG"
     },
     {
-        "game_name": "Doom-3",
+        "game_name": "dhewm 3",
         "is_pk4": true,
         "data_sources": ["shared", "d3_common"],
-        "game_path": null
+        "game_path": "D:\\dhewm3"
     }
 ]
