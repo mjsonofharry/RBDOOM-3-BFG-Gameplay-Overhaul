@@ -1,11 +1,47 @@
 import json
 import os
+import shutil
 import sys
 import zipfile
+import warnings
 
 import utils
 
+def create_mod_package(project_path, mod, source_data, install_pk4=False):
+    mod_name = mod.game_name + '-Gameplay-Overhaul'
+    target = os.path.join(project_path, 'packages',
+        mod_name + ('.pk4' if mod.is_pk4 else '.zip'))
+    if os.path.isfile(target):
+        os.remove(target)
+    print('Generating archive at', target)
+    z = zipfile.ZipFile(target, 'w')
+    n = 0
+    for source_root, source_paths in source_data:
+        archive_paths = [
+            (x, os.path.relpath(x, source_root))
+            for x in source_paths
+        ] if mod.is_pk4 else [
+            (x, os.path.join(mod_name, os.path.relpath(x, source_root)))
+            for x in source_paths
+        ]
+        print('Found', len(archive_paths),'files in', source_root)
+        for src, arc in archive_paths:
+            try:
+                z.write(src, arcname=arc)
+                print(' - {}:'.format(source_root), arc)
+            except UserWarning:
+                print(' - {}:'.format(source_root), arc, '- DUPLICATE')
+            n += 1
+    print('Zipped', n, 'files')
+    print('Finished packaging for', mod.game_name)
+    if install_pk4:
+        secondary_target = os.path.join(mod.game_path, mod_name)
+        shutil.copy(target, secondary_target)
+        print('Copied package to', secondary_target)
+    print('')
+
 def main():
+    warnings.filterwarnings('error')
     project_path = sys.path[0]
     print('Project root:', project_path)
     print('Reading configuration for mod definitions')
@@ -19,27 +55,7 @@ def main():
                 os.walk(data_source)))
             for data_source in mod.data_sources
         ]
-        mod_name = mod.game_name + '-Gameplay-Overhaul'
-        target = os.path.join(project_path, 'packages',
-            mod_name + ('.pk4' if mod.is_pk4 else '.zip'))
-        if os.path.isfile(target):
-            os.remove(target)
-        print('Generating archive at', target)
-        z = zipfile.ZipFile(target, 'w')
-        for source_root, source_paths in source_data:
-            archive_paths = [
-                (x, os.path.relpath(x, source_root))
-                for x in source_paths
-            ] if mod.is_pk4 else [
-                (x, os.path.join(mod_name, os.path.relpath(x, source_root)))
-                for x in source_paths
-            ]
-            print('Found the following files in', source_root)
-            [print(' -', x) for x,y in archive_paths]
-            for src, arc in archive_paths:
-                z.write(src, arcname=arc)
-        print('Finished packaging for', mod.game_name)
-        print('')
+        create_mod_package(project_path, mod, source_data)
 
 if __name__ == '__main__':
     main()
