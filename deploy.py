@@ -39,6 +39,8 @@ def create_mod_package(project_path, mod, source_data, install_pk4=False):
         if not os.path.isdir(secondary_target_dir):
             os.mkdir(secondary_target_dir)
         secondary_target = os.path.join(secondary_target_dir, mod_name + '.pk4')
+        if os.path.isfile(secondary_target):
+            os.remove(secondary_target)
         shutil.copy(target, secondary_target)
         print('Installed package to', secondary_target)
     print('')
