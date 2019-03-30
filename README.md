@@ -237,3 +237,9 @@ The following modified assets by an unidentified artist as distributed by [Sound
 * [sound/custom/weapons/chaingun/atchisson_06](http://soundbible.com/2021-Atchisson-Assault-Shotgun.html)
 * [sound/custom/weapons/chaingun/atchisson_07](http://soundbible.com/2021-Atchisson-Assault-Shotgun.html)
 * [sound/custom/weapons/chaingun/atchisson_08](http://soundbible.com/2021-Atchisson-Assault-Shotgun.html)
+
+The following modified assets by Mike Koenig as distributed by [SoundBible.com](http://soundbible.com/) are licensed under [Attribution 3.0](https://creativecommons.org/licenses/by/3.0/us/):
+
+* [sound/custom/weapons/shotgun/barrett_01](http://soundbible.com/1880-416-Barrett-Sniper-3x.html)
+* [sound/custom/weapons/shotgun/barrett_02](http://soundbible.com/1880-416-Barrett-Sniper-3x.html)
+* [sound/custom/weapons/shotgun/barrett_03](http://soundbible.com/1880-416-Barrett-Sniper-3x.html)
