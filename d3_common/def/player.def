@@ -335,7 +335,7 @@ export fred {
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/flashlight_swing1.mb -dest models/md5/characters/npcs/playermoves/flashlight_swing1
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/flashlight_swing1_up.mb -dest models/md5/characters/npcs/playermoves/flashlight_swing1_up
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/flashlight_swing2_down.mb -dest models/md5/characters/npcs/playermoves/flashlight_swing2_down
-	anim	models/characters/male_npc/cycles/tweakedplayermoves/flashlight_swing2.mb -dest  s/md5/characters/npcs/playermoves/flashlight_swing2
+	anim	models/characters/male_npc/cycles/tweakedplayermoves/flashlight_swing2.mb -dest models/md5/characters/npcs/playermoves/flashlight_swing2
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/flashlight_swing2_up.mb -dest models/md5/characters/npcs/playermoves/flashlight_swing2_up
 
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/chainsaw_raise.mb -dest models/md5/characters/npcs/playermoves/chainsaw_raise
@@ -405,23 +405,6 @@ export fred {
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/soulcube_idle.mb -dest models/md5/characters/npcs/playermoves/soulcube_idle
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/soulcube_idle_down.mb -dest models/md5/characters/npcs/playermoves/soulcube_idle_down
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/soulcube_fire.mb -dest models/md5/characters/npcs/playermoves/soulcube_fire
-
-	anim	models/characters/player_character/cycles/dbshotgun_idle_down.mb -rotate 90 -dest models/md5/characters/npcs/playermoves/dbshotgun_idle_down
-	anim	models/characters/player_character/cycles/dbshotgun_idle.mb -rotate 90 -dest models/md5/characters/npcs/playermoves/dbshotgun_idle
-	anim	models/characters/player_character/cycles/dbshotgun_idle_up.mb -rotate 90 -dest models/md5/characters/npcs/playermoves/dbshotgun_idle_up
-
-	anim	models/characters/player_character/cycles/dbshotgun_aim_up.mb -rotate 90 -dest models/md5/characters/npcs/playermoves/dbshotgun_aim_up
-	anim	models/characters/player_character/cycles/dbshotgun_aim.mb -rotate 90 -dest models/md5/characters/npcs/playermoves/dbshotgun_aim
-	anim	models/characters/player_character/cycles/dbshotgun_aim_down.mb -rotate 90 -dest models/md5/characters/npcs/playermoves/dbshotgun_aim_down
-
-	anim	models/characters/player_character/cycles/dbshotgun_fire.mb -rotate 90 -range 49 75 -dest models/md5/characters/npcs/playermoves/dbshotgun_fire1
-	anim	models/characters/player_character/cycles/dbshotgun_fire_up.mb -rotate 90 -range 49 75 -dest models/md5/characters/npcs/playermoves/dbshotgun_fire_up
-	anim	models/characters/player_character/cycles/dbshotgun_fire_down.mb -rotate 90 -range 49 75 -dest models/md5/characters/npcs/playermoves/dbshotgun_fire_down
-
-	anim	models/characters/player_character/cycles/dblower_raise.mb -rotate 90 -range 1 6 -dest models/md5/characters/npcs/playermoves/dblowerwep
-	anim	models/characters/player_character/cycles/dblower_raise.mb -rotate 90 -range 6 20 -dest models/md5/characters/npcs/playermoves/dbraisewep
-
-	anim	models/characters/player_character/cycles/dbshotgun_reload.mb -rotate 90 -dest models/md5/characters/npcs/playermoves/dbreload
 
 
 }
@@ -656,13 +639,6 @@ model model_sp_marine {
 	anim soulcube_aim					models/md5/characters/npcs/playermoves/soulcube_idle_down.md5anim, models/md5/characters/npcs/playermoves/soulcube_idle.md5anim, models/md5/characters/npcs/playermoves/soulcube_idle_up.md5anim
 	anim soulcube_fire					models/md5/characters/npcs/playermoves/soulcube_fire.md5anim, models/md5/characters/npcs/playermoves/soulcube_fire.md5anim, models/md5/characters/npcs/playermoves/soulcube_fire.md5anim
 	anim soulcube_lower					models/md5/characters/npcs/playermoves/lowerwep.md5anim
-
-	anim shotgun_double_raise					models/md5/characters/npcs/playermoves/raisewep.md5anim
-	anim shotgun_double_idle					models/md5/characters/npcs/playermoves/shotgun_idle_down.md5anim, models/md5/characters/npcs/playermoves/shotgun_idle.md5anim, models/md5/characters/npcs/playermoves/shotgun_idle_up.md5anim
-	anim shotgun_double_aim						models/md5/characters/npcs/playermoves/shotgun_aim_down.md5anim, models/md5/characters/npcs/playermoves/shotgun_aim.md5anim, models/md5/characters/npcs/playermoves/shotgun_aim_up.md5anim
-	anim shotgun_double_fire1					models/md5/characters/npcs/playermoves/shotgun_fire_down.md5anim, models/md5/characters/npcs/playermoves/shotgun_fire1.md5anim, models/md5/characters/npcs/playermoves/shotgun_fire_up.md5anim
-	anim shotgun_double_reload					models/md5/characters/npcs/playermoves/dbreload.md5anim
-	anim shotgun_double_lower					models/md5/characters/npcs/playermoves/lowerwep.md5anim
 }
 
 /***********************************************************************
@@ -717,7 +693,7 @@ entityDef player_base {
 	
 	"def_weapon5"						"weapon_handgrenade"
 	"weapon5_best"						"0"
-	"weapon5_cycle"						"0"
+	"weapon5_cycle"						"1"
 	"weapon5_toggle"					"0"
 	"weapon5_allowempty"				"0"
 	
@@ -763,11 +739,11 @@ entityDef player_base {
 	"weapon12_toggle"					"0"
 	"weapon12_allowempty"				"1"
 	
-	"def_weapon13"						"weapon_shotgun_double"	
+	"def_weapon13"						""	
 	"weapon13_best"						"0"
-	"weapon13_cycle"					"1"
+	"weapon13_cycle"					"0"
 	"weapon13_toggle"					"0"
-	"weapon13_allowempty"				"1"
+	"weapon13_allowempty"				"0"
 	
 	"def_weapon14"						""
 	"weapon14_best"						"0"
@@ -781,18 +757,15 @@ entityDef player_base {
 	"weapon15_toggle"					"0"
 	"weapon15_allowempty"				"0"
 
-	"weapontoggle1"						"1,10"
-	"weapontoggle1"						"2,13"
-
-	"max_ammo_shells"					"320"
-	"max_ammo_bullets"					"360"
-	"max_ammo_rockets"					"96"
-	"max_ammo_cells"					"500"
+	"max_ammo_shells"					"50"
+	"max_ammo_bullets"					"100"
+	"max_ammo_rockets"					"50"
+	"max_ammo_cells"					"200"
 	"max_ammo_grenades"					"50"
 	"max_ammo_souls"					"5"							// number of kills required to charge the soul cube
-	"max_ammo_bfg"						"32"
-	"max_ammo_clip"						"600"
-	"max_ammo_belt"						"600"
+	"max_ammo_bfg"						"10"
+	"max_ammo_clip"						"200"
+	"max_ammo_belt"						"200"
 	
 	// default weapons
 	// seperate multiple weapons with commas (no spaces).
