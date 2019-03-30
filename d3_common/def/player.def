@@ -693,7 +693,7 @@ entityDef player_base {
 	
 	"def_weapon5"						"weapon_handgrenade"
 	"weapon5_best"						"0"
-	"weapon5_cycle"						"1"
+	"weapon5_cycle"						"0"
 	"weapon5_toggle"					"0"
 	"weapon5_allowempty"				"0"
 	
@@ -705,7 +705,7 @@ entityDef player_base {
 	
 	"def_weapon7"						"weapon_rocketlauncher"
 	"weapon7_best"						"0"
-	"weapon7_cycle"						"0"
+	"weapon7_cycle"						"1"
 	"weapon7_toggle"					"0"
 	"weapon7_allowempty"				"1"
 	
