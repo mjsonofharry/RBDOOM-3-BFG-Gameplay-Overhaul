@@ -8,7 +8,7 @@ import warnings
 import utils
 
 def create_mod_package(project_path, mod, source_data, install_pk4=False):
-    mod_name = mod.game_name + '-Gameplay-Overhaul'
+    mod_name = mod.game_name + '_Gameplay_Overhaul'
     target = os.path.join(project_path, 'packages',
         mod_name + ('.pk4' if mod.is_pk4 else '.zip'))
     if os.path.isfile(target):
@@ -43,6 +43,7 @@ def create_mod_package(project_path, mod, source_data, install_pk4=False):
             os.remove(secondary_target)
         shutil.copy(target, secondary_target)
         print('Installed package to', secondary_target)
+    z.close()
     print('')
 
 def main():
