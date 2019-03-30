@@ -34,6 +34,7 @@ def create_mod_package(project_path, mod, source_data, install_pk4=False):
             n += 1
     print('Zipped', n, 'files')
     print('Finished packaging for', mod.game_name)
+    z.close()
     if install_pk4:
         secondary_target_dir = os.path.join(mod.game_path, mod_name)
         if not os.path.isdir(secondary_target_dir):
@@ -43,7 +44,6 @@ def create_mod_package(project_path, mod, source_data, install_pk4=False):
             os.remove(secondary_target)
         shutil.copy(target, secondary_target)
         print('Installed package to', secondary_target)
-    z.close()
     print('')
 
 def main():
