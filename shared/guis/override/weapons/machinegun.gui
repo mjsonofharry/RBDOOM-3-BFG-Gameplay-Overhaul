@@ -1,0 +1,88 @@
+windowDef Desktop {
+	rect	0 ,0 ,640 ,480 
+	matcolor	1 ,1 ,1 ,1 
+	background	"gui/weapons/machinegun/background"
+	visible	1
+
+	onEvent {
+		if ("gui::player_totalammo" <= 10) {
+			set "cliplow::visible" "1" ;
+			set "clipempty::visible" "0" ;
+			set "ammoempty::visible" "0" ;
+			set "ammovalue::forecolor" "1 0.5 0 1" ;
+		} else {
+			set "clipempty::visible" "0" ;
+			set "cliplow::visible" "0" ;
+			set "ammovalue::forecolor" "0.6 0.8 1 1" ;
+		}
+		if ("gui::player_ammo_empty" == 1) {
+			set "clipempty::visible" "1" ;
+			set "cliplow::visible" "0" ;
+			set "ammoempty::visible" "0" ;
+		} else {
+			set "clipempty::visible" "0" ;
+		}
+	} 
+
+	windowDef Status
+	{
+		text	"3 RND"
+		rect	20, 145, 361, 49
+		forecolor	0.6, 1, 1, 0.5
+		visible	1
+		textscale	0.8
+		textalign	1
+		font	"fonts/micro"
+	}
+
+	windowDef gridscroll {
+		rect		0 ,0 ,640 ,480 
+		background	"gui/weapons/machinegun/gridscroll"
+		matcolor	1 ,1 ,1 ,0.1
+		visible		1
+	}
+
+	windowDef bg2 {
+		rect		0 ,0 ,640 ,480 
+		background	"gui/weapons/machinegun/background"
+		matcolor	1 ,1 ,1 ,1
+		visible		1
+	}
+
+	windowDef ammovalue {
+		text		"gui::player_totalammo"
+		rect		200 ,180 ,250 ,220 
+		forecolor	0.6 ,0.8 ,1 ,0.9
+		visible		1
+		textscale	3
+		textalign	2
+	}
+
+	windowDef Raster {
+		rect		0 ,0 ,640 ,480 
+		background	"guis/assets/machinegun/raster2"
+		matcolor	0 ,0 ,0 ,1
+		visible		0
+	}
+
+	windowDef ammoempty {
+		rect		262 ,120 ,321 ,120 
+		background	"gui/weapons/machinegun/warning"
+		matcolor	1 ,1 ,1 ,1 
+		visible		0
+	}
+
+	windowDef cliplow {
+		rect		262 ,120 ,321 ,120 
+		background	"gui/weapons/machinegun/warning"
+		matcolor	1 ,1 ,1 ,1 
+		visible		0
+	}
+
+	windowDef clipempty {
+		rect		262 ,120 ,321 ,120 
+		background	"gui/weapons/machinegun/warning"
+		matcolor	1 ,1 ,1 ,1 
+		visible		0
+	}
+}
