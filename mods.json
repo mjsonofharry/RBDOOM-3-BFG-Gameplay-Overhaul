@@ -1,18 +1,18 @@
 [
     {
-        "game_name": "RBDOOM-3-BFG",
+        "game_name": "RBDOOM_3_BFG",
         "is_pk4": false,
         "data_sources": ["shared", "bfg_common", "bfg_rbdoom"],
         "game_path": "D:\\RBDOOM-3-BFG"
     },
     {
-        "game_name": "Classic-RBDOOM-3-BFG",
+        "game_name": "Classic_RBDOOM_3_BFG",
         "is_pk4": false,
         "data_sources": ["shared", "bfg_common", "bfg_rbdoom_classic"],
         "game_path": "D:\\Classic-RBDOOM-3-BFG"
     },
     {
-        "game_name": "dhewm 3",
+        "game_name": "dhewm_3",
         "is_pk4": true,
         "data_sources": ["shared", "d3_common"],
         "game_path": "D:\\dhewm3"
