@@ -8,7 +8,7 @@ import utils
 import deploy
 
 def install_bfg_mod(mod, source_data, clean_install=False):
-    mod_name = mod.game_name + '-Gameplay-Overhaul'
+    mod_name = mod.game_name + '_Gameplay_Overhaul'
     mod_install_root = os.path.join(mod.game_path, mod_name)
     if clean_install:
         print('Cleaning previous installations at', mod_install_root)
