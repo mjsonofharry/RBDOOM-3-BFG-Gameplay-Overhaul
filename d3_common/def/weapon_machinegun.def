@@ -69,7 +69,7 @@ entityDef weapon_machinegun {
 	"flashRadius"				"120"
 	"silent_fire"				"0"
 	
-	"gui"						"guis/weapons/machinegun.gui"
+	"gui"						"guis/override/weapons/machinegun.gui"
 	"mtr_guiLightShader"		"lights/viewWeaponGuiLight"
 	
 	"icon"						"guis/assets/hud/wpn_3"

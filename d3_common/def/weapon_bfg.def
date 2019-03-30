@@ -54,7 +54,7 @@ entityDef weapon_bfg {
 	"hide_time"					"0.3"								// time to hide weapon when talking to npcs or looking at guis
 	"hide_distance"				"-15"								// distance to offset weapon when talking to npcs or looking at guis
 
-	"gui"						"guis/weapons/bfg.gui"
+	"gui"						"guis/override/weapons/bfg.gui"
 	"mtr_guiLightShader"		"lights/viewWeaponGuiLight"
 
 	"def_overcharge_damage"		"damage_bfg_overcharge"

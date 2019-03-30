@@ -48,7 +48,7 @@ entityDef weapon_chaingun {
 	"inv_item"					"5"
 	"icon"						"guis/assets/hud/wpn_11"
 
-	"gui"						"guis/weapons/chaingun.gui"
+	"gui"						"guis/override/weapons/chaingun.gui"
 	"mtr_guiLightShader"		"lights/viewWeaponGuiLight"
 	
 	"weapon_scriptobject"		"weapon_chaingun"

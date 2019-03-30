@@ -58,7 +58,7 @@ entityDef weapon_plasmagun {
 	"inv_item"					"5"
 	"icon"						"guis/assets/hud/wpn_5"
 
-	"gui"						"guis/weapons/plasmagun.gui"
+	"gui"						"guis/override/weapons/plasmagun.gui"
 	"mtr_guiLightShader"		"lights/viewWeaponGuiLight"
 
 	"weapon_scriptobject"		"weapon_plasmagun"
