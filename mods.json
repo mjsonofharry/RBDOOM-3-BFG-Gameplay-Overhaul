@@ -16,5 +16,11 @@
         "is_pk4": true,
         "data_sources": ["shared", "d3_common"],
         "game_path": "D:\\dhewm3"
+    },
+    {
+        "game_name": "doom_3",
+        "is_pk4": true,
+        "data_sources": ["shared", "d3_common"],
+        "game_path": "D:\\SteamLibrary\\steamapps\\common\\Doom 3"
     }
 ]
