@@ -1745,7 +1745,7 @@ windowDef Desktop {
 	windowDef WeapIcon12 {
 		visible		1
 		rect		288, 280, 64, 64 
-		background	"guis/assets/hud/icons/soulcubew"
+		background	"guis/assets/hud/icons/scubew"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon11" == 2)
 		notime		1
