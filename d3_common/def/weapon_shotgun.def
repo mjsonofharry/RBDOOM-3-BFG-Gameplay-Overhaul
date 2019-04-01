@@ -54,7 +54,7 @@ entityDef weapon_shotgun {
 
 	"inv_name"					"Shotgun"
 	"inv_weapon"				"weapon_shotgun"
-	"inv_ammo_shells"			"4"
+	"inv_ammo_shells"			"8"
 	"inv_item"					"5"
 	"icon"						"guis/assets/hud/wpn_2"
 
