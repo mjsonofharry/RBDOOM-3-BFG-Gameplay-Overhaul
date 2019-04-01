@@ -20,9 +20,6 @@ windowDef Desktop {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 	onNamedEvent newWeapon {
-		if ("gui::newweapon" == 1) { 
-			resetTime "WeapIcon1Large" "0" ;
-		}
 		if ("gui::newweapon" == 2) { 
 			resetTime "WeapIcon2Large" "0" ;
 		}
@@ -49,6 +46,12 @@ windowDef Desktop {
 		}
 		if ("gui::newweapon" == 10) { 
 			resetTime "WeapIcon10Large" "0" ;
+		}
+		if ("gui::newweapon" == 11) { 
+			resetTime "WeapIcon11Large" "0" ;
+		}
+		if ("gui::newweapon" == 12) { 
+			resetTime "WeapIcon12Large" "0" ;
 		}
 	}
 
@@ -3525,37 +3528,10 @@ windowDef Desktop {
 //---------------------------------------------------------------------------------------------
 // New weapon pickup flash
 //---------------------------------------------------------------------------------------------
-	windowDef WeapIcon1Large {
-		visible		1
-		rect		288, 280, 64, 64
-		background	"gui/hud/pistol"
-		matcolor	1, 1, 1, 0
-		visible 1
-		notime 1
-		
-		onTime 0 {
-			transition "rect" "285 280 64 64" "288 280 64 64" "300" "0" "1" ;
-			transition "matcolor" "1 1 1 0" "1 1 1 1" "300" ;
-			transition "WeapName1Large::forecolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
-		}
-		onTime 1000 {
-			transition "rect" "288 280 64 64" "291 280 64 64" "300" "0" "1" ;
-			transition "matcolor" "1 1 1 1" "1 1 1 0" "300" ;
-			transition "WeapName1Large::forecolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
-		}
-	}
-	windowDef WeapName1Large {
-		text	"#str_00242"
-		rect	301 ,273 ,220 ,20 
-		forecolor	0.6, 1, 0.9, 0
-		visible	1
-		textscale	0.25
-		font		"fonts/bank"
-	}	
 	windowDef WeapIcon2Large {
 		visible		1
 		rect		256,280,128,64
-		background	"gui/hud/shotgun"
+		background	"gui/hud/chainsaw"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
@@ -3572,8 +3548,8 @@ windowDef Desktop {
 		}
 	}
 	windowDef WeapName2Large {
-		text	"#str_00243"
-		rect	288 ,279 ,220 ,20 
+		text	"#str_01425"
+		rect	287 ,273 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3581,26 +3557,26 @@ windowDef Desktop {
 	}	
 	windowDef WeapIcon3Large {
 		visible		1
-		rect		256,280,128,64
-		background	"gui/hud/machinegun"
+		rect		288, 280, 64, 64
+		background	"gui/hud/pistol"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
 		
 		onTime 0 {
-			transition "rect" "253 280 128 64" "256 280 128 64" "300" "0" "1" ;
+			transition "rect" "285 280 64 64" "288 280 64 64" "300" "0" "1" ;
 			transition "matcolor" "1 1 1 0" "1 1 1 1" "300" ;
 			transition "WeapName3Large::forecolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
 		}
 		onTime 1000 {
-			transition "rect" "256 280 128 64" "259 280 128 64" "300" "0" "1" ;
+			transition "rect" "288 280 64 64" "291 280 64 64" "300" "0" "1" ;
 			transition "matcolor" "1 1 1 1" "1 1 1 0" "300" ;
 			transition "WeapName3Large::forecolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
 		}
 	}
 	windowDef WeapName3Large {
-		text	"#str_01378"
-		rect	276 ,265 ,220 ,20 
+		text	"#str_00242"
+		rect	301 ,273 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3609,7 +3585,7 @@ windowDef Desktop {
 	windowDef WeapIcon4Large {
 		visible		1
 		rect		256,280,128,64
-		background	"gui/hud/chaingun"
+		background	"gui/hud/shotgun"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
@@ -3626,8 +3602,8 @@ windowDef Desktop {
 		}
 	}
 	windowDef WeapName4Large {
-		text	"#str_01421"
-		rect	300 ,280 ,220 ,20 
+		text	"#str_00243"
+		rect	288 ,279 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3635,26 +3611,26 @@ windowDef Desktop {
 	}	
 	windowDef WeapIcon5Large {
 		visible		1
-		rect		288, 280, 64, 64
-		background	"gui/hud/grenade"
+		rect		256,280,128,64
+		background	"gui/hud/shotgundouble"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
 		
 		onTime 0 {
-			transition "rect" "285 280 64 64" "288 280 64 64" "300" "0" "1" ;
+			transition "rect" "253 280 128 64" "256 280 128 64" "300" "0" "1" ;
 			transition "matcolor" "1 1 1 0" "1 1 1 1" "300" ;
 			transition "WeapName5Large::forecolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
 		}
 		onTime 1000 {
-			transition "rect" "288 280 64 64" "291 280 64 64" "300" "0" "1" ;
+			transition "rect" "256 280 128 64" "259 280 128 64" "300" "0" "1" ;
 			transition "matcolor" "1 1 1 1" "1 1 1 0" "300" ;
 			transition "WeapName5Large::forecolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
-		}		
+		}
 	}
 	windowDef WeapName5Large {
-		text	"#str_01422"
-		rect	289 ,280 ,220 ,20 
+		text	"#str_00100191"
+		rect	230 ,280 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3662,8 +3638,8 @@ windowDef Desktop {
 	}	
 	windowDef WeapIcon6Large {
 		visible		1
-		rect		251,280,128,64
-		background	"gui/hud/plasmagun"
+		rect		256,280,128,64
+		background	"gui/hud/machinegun"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
@@ -3680,8 +3656,8 @@ windowDef Desktop {
 		}
 	}
 	windowDef WeapName6Large {
-		text	"#str_01423"
-		rect	276 ,270 ,220 ,20 
+		text	"#str_01378"
+		rect	276 ,265 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3690,7 +3666,7 @@ windowDef Desktop {
 	windowDef WeapIcon7Large {
 		visible		1
 		rect		256,280,128,64
-		background	"gui/hud/rocketlauncher"
+		background	"gui/hud/chaingun"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
@@ -3707,8 +3683,8 @@ windowDef Desktop {
 		}
 	}
 	windowDef WeapName7Large {
-		text	"#str_01424"
-		rect	254 ,270 ,220 ,20 
+		text	"#str_01421"
+		rect	300 ,280 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3716,26 +3692,26 @@ windowDef Desktop {
 	}	
 	windowDef WeapIcon8Large {
 		visible		1
-		rect		256,280,128,64
-		background	"gui/hud/bfg"
+		rect		288, 280, 64, 64
+		background	"gui/hud/grenade"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
 		
 		onTime 0 {
-			transition "rect" "253 280 128 64" "256 280 128 64" "300" "0" "1" ;
+			transition "rect" "285 280 64 64" "288 280 64 64" "300" "0" "1" ;
 			transition "matcolor" "1 1 1 0" "1 1 1 1" "300" ;
 			transition "WeapName8Large::forecolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
 		}
 		onTime 1000 {
-			transition "rect" "256 280 128 64" "259 280 128 64" "300" "0" "1" ;
+			transition "rect" "288 280 64 64" "291 280 64 64" "300" "0" "1" ;
 			transition "matcolor" "1 1 1 1" "1 1 1 0" "300" ;
 			transition "WeapName8Large::forecolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
-		}
+		}	
 	}
 	windowDef WeapName8Large {
-		text	"#str_02022"
-		rect	282 ,268 ,220 ,20 
+		text	"#str_01422"
+		rect	289 ,280 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3743,26 +3719,26 @@ windowDef Desktop {
 	}	
 	windowDef WeapIcon9Large {
 		visible		1
-		rect		288, 280, 64, 64
-		background	"guis/assets/hud/icons/scubew"
-		matcolor	0.6, 1, 0.9, 0
+		rect		251,280,128,64
+		background	"gui/hud/plasmagun"
+		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
 		
 		onTime 0 {
-			transition "rect" "285 280 64 64" "288 280 64 64" "300" "0" "1" ;
-			transition "matcolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
+			transition "rect" "253 280 128 64" "256 280 128 64" "300" "0" "1" ;
+			transition "matcolor" "1 1 1 0" "1 1 1 1" "300" ;
 			transition "WeapName9Large::forecolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
 		}
 		onTime 1000 {
-			transition "rect" "288 280 64 64" "291 280 64 64" "300" "0" "1" ;
-			transition "matcolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
+			transition "rect" "256 280 128 64" "259 280 128 64" "300" "0" "1" ;
+			transition "matcolor" "1 1 1 1" "1 1 1 0" "300" ;
 			transition "WeapName9Large::forecolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
 		}
 	}
 	windowDef WeapName9Large {
-		text	"#str_02111"
-		rect	283 ,265 ,220 ,20 
+		text	"#str_01423"
+		rect	276 ,270 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
@@ -3771,7 +3747,7 @@ windowDef Desktop {
 	windowDef WeapIcon10Large {
 		visible		1
 		rect		256,280,128,64
-		background	"gui/hud/chainsaw"
+		background	"gui/hud/rocketlauncher"
 		matcolor	1, 1, 1, 0
 		visible 1
 		notime 1
@@ -3788,8 +3764,62 @@ windowDef Desktop {
 		}
 	}
 	windowDef WeapName10Large {
-		text	"#str_01425"
-		rect	287 ,273 ,220 ,20 
+		text	"#str_01424"
+		rect	254 ,270 ,220 ,20 
+		forecolor	0.6, 1, 0.9, 0
+		visible	1
+		textscale	0.25
+		font		"fonts/bank"
+	}	
+	windowDef WeapIcon11Large {
+		visible		1
+		rect		256,280,128,64
+		background	"gui/hud/bfg"
+		matcolor	1, 1, 1, 0
+		visible 1
+		notime 1
+		
+		onTime 0 {
+			transition "rect" "253 280 128 64" "256 280 128 64" "300" "0" "1" ;
+			transition "matcolor" "1 1 1 0" "1 1 1 1" "300" ;
+			transition "WeapName11Large::forecolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
+		}
+		onTime 1000 {
+			transition "rect" "256 280 128 64" "259 280 128 64" "300" "0" "1" ;
+			transition "matcolor" "1 1 1 1" "1 1 1 0" "300" ;
+			transition "WeapName11Large::forecolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
+		}
+	}
+	windowDef WeapName11Large {
+		text	"#str_02022"
+		rect	282 ,268 ,220 ,20 
+		forecolor	0.6, 1, 0.9, 0
+		visible	1
+		textscale	0.25
+		font		"fonts/bank"
+	}	
+	windowDef WeapIcon12Large {
+		visible		1
+		rect		288, 280, 64, 64
+		background	"guis/assets/hud/icons/scubew"
+		matcolor	0.6, 1, 0.9, 0
+		visible 1
+		notime 1
+		
+		onTime 0 {
+			transition "rect" "285 280 64 64" "288 280 64 64" "300" "0" "1" ;
+			transition "matcolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
+			transition "WeapName12Large::forecolor" "0.6 1 0.9 0" "0.6 1 0.9 1" "300" ;
+		}
+		onTime 1000 {
+			transition "rect" "288 280 64 64" "291 280 64 64" "300" "0" "1" ;
+			transition "matcolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
+			transition "WeapName12Large::forecolor" "0.6 1 0.9 1" "0.6 1 0.9 0" "300" ;
+		}
+	}
+	windowDef WeapName12Large {
+		text	"#str_02111"
+		rect	283 ,265 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1
 		textscale	0.25
