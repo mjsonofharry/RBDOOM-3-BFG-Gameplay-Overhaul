@@ -1565,7 +1565,7 @@ windowDef Desktop {
 	}
 	
 	windowDef WeapIcon0 {
-		rect		580, 410, 32, 32 
+		rect		560, 410, 64, 32 
 		background	"guis/assets/hud/icons/flashlightw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon0" == 2)
@@ -1579,7 +1579,7 @@ windowDef Desktop {
 	}
 	windowDef WeapIcon1 {
 		visible		1
-		rect		580, 405, 32, 32 
+		rect		580, 410, 32, 32 
 		background	"guis/assets/hud/icons/fistw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon1" == 2)
@@ -1594,7 +1594,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon2 {
 		visible		1
-		rect		560, 405, 64, 32 
+		rect		560, 410, 64, 32 
 		background	"guis/assets/hud/icons/chainsaww"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon2" == 2)
@@ -1609,7 +1609,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon3 {
 		visible		1
-		rect		560, 410, 64, 32 
+		rect		580, 405, 32, 32 
 		background	"guis/assets/hud/icons/pistolw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon3" == 2)
@@ -1624,7 +1624,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon4 {
 		visible		1
-		rect		560, 410, 64, 32 
+		rect		560, 405, 64, 32 
 		background	"guis/assets/hud/icons/shotgunw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon4" == 2)
@@ -1639,8 +1639,8 @@ windowDef Desktop {
 
 	windowDef WeapIcon5 {
 		visible		1
-		rect		580, 410, 32, 32 
-		background	"guis/assets/hud/icons/shotgunw"
+		rect		560, 405, 64, 32 
+		background	"guis/assets/hud/icons/doublebarrelw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon5" == 2)
 		notime		1
@@ -1669,7 +1669,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon7 {
 		visible		1
-		rect		560, 405, 64, 32 
+		rect		560, 410, 64, 32 
 		background	"guis/assets/hud/icons/chaingunw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon7" == 2)
@@ -1684,7 +1684,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon8 {
 		visible		1
-		rect		560, 405, 64, 32 
+		rect		580, 410, 32, 32 
 		background	"guis/assets/hud/icons/grenadew"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon8" == 2)
@@ -1699,7 +1699,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon9 {
 		visible		1
-		rect		580, 410, 32, 32 
+		rect		560, 410, 64, 32 
 		background	"guis/assets/hud/icons/plasmagunw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon9" == 2)
@@ -1714,7 +1714,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon10 {
 		visible		1
-		rect		560, 410, 64, 32 
+		rect		560, 405, 64, 32 
 		background	"guis/assets/hud/icons/rocketlauncherw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon10" == 2)
@@ -1729,7 +1729,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon11 {
 		visible		1
-		rect		560, 410, 64, 32 
+		rect		560, 405, 64, 32 
 		background	"guis/assets/hud/icons/bfgw"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon11" == 2)
@@ -1744,7 +1744,7 @@ windowDef Desktop {
 
 	windowDef WeapIcon12 {
 		visible		1
-		rect		560, 410, 64, 32 
+		rect		288, 280, 64, 64 
 		background	"guis/assets/hud/icons/soulcubew"
 		matcolor	1, 1, 1 ,0
 		visible	("gui::weapon11" == 2)
