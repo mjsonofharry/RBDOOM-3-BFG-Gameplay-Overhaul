@@ -733,7 +733,7 @@ entityDef player_base {
 
 	"def_weapon8"						"weapon_handgrenade"
 	"weapon8_best"						"0"
-	"weapon8_cycle"						"1"
+	"weapon8_cycle"						"0"
 	"weapon8_toggle"					"0"
 	"weapon8_allowempty"				"0"
 
