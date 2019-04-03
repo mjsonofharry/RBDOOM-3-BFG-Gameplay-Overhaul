@@ -435,7 +435,11 @@ float monster_demon_archvile::check_attacks() {
 		if ( !canReachEnemy() && ( currentTime >= nextAttack ) ) {
 			float range = enemyRange();
 			if ( ( range < ARCH_FLAME_WALL_MAX_RANGE) && ( range > ARCH_FLAME_WALL_MIN_RANGE ) && testChargeAttack() ) {
-				attack_flags |= ATTACK_FLAMEWALL;
+				if ( sys.random(1) > 0.2 ) {
+					attack_flags |= ATTACK_FLAMEWALL;
+				} else {
+					attack_flags |= ATTACK_INCINERATE;
+				}
 			} else {
 				attack_flags |= ATTACK_INCINERATE;
 			}
