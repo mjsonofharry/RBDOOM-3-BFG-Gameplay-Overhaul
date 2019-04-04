@@ -797,7 +797,6 @@ entityDef player_base {
 	"weapon18_toggle"					"0"
 	"weapon18_allowempty"				"0"
 
-	"current_weapon"					"1"
 	"weapontoggle1"						"2,1"
 	"weapontoggle4"						"5,4"
 
