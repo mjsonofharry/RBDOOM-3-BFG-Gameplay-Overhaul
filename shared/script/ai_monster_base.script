@@ -366,10 +366,10 @@ monster_base::state_Spawner
 =====================
 */
 void monster_base::state_Spawner() {
-	entity	ent;
+	monster_base	childMonster;
 	float	triggerCount;
 	float	maxSpawn;
-	float	i;
+	float	nextChildIdx;
 	string	name;
 
 	maxSpawn = getIntKey( "spawner" );
@@ -387,23 +387,31 @@ void monster_base::state_Spawner() {
 
 		if ( triggerCount ) {
 			if ( canBecomeSolid() ) {
-				for( i = 0; i < maxSpawn; i++ ) {
-					ent = sys.getEntity( name + i );
-					if ( !ent ) {
+				for( nextChildIdx = 0; nextChildIdx < maxSpawn; nextChildIdx++ ) {
+					childMonster = sys.getEntity( name + nextChildIdx );
+					if ( childMonster.AI_DEAD ) {
+						childMonster.preBurn();
+						sys.wait( 0.5 );
+						childMonster.burn();
+						childMonster.startSound( "snd_burn", SND_CHANNEL_BODY, false );
+						sys.wait( 3 );
+						childMonster.remove();
+					}
+					if ( !childMonster ) {
 						break;
 					}
 				}
 
-				if ( i < maxSpawn ) {
+				if ( nextChildIdx < maxSpawn ) {
 					triggerCount--;
 					sys.copySpawnArgs( self );
 					sys.setSpawnArg( "spawner", "0" );
-					sys.setSpawnArg( "name", name + i );
+					sys.setSpawnArg( "name", name + nextChildIdx );
 					if ( getKey( "spawn_target" ) != "" ) {
 						sys.setSpawnArg( "target", getKey( "spawn_target" ) );
 					}
-					ent = sys.spawn( getKey( "classname" ) );
-					sys.trigger( ent );
+					childMonster = sys.spawn( getKey( "classname" ) );
+					sys.trigger( childMonster );
 				}
 			}
 		}
