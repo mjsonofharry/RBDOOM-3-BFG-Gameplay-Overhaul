@@ -2,10 +2,6 @@ windowDef Desktop
 {
 	rect	0,0,640,480
 	
-	onESC {
-			set	"cmd"	"startgame game/erebus1" ;		
-	}	
-
 	onTrigger {
 		resetTime "Black" "0" ;
 	}
