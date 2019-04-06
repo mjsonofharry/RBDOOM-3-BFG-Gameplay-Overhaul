@@ -148,7 +148,6 @@ model monster_demon_imp {
 							
 	anim teleport					models/md5/monsters/imp/teleportin.md5anim {
 		frame 4							sound_body snd_footstep
-		frame 21						sound_body snd_sight
 	}		
 	anim initial					models/md5/monsters/imp/initial.md5anim
 	anim crawl						models/md5/monsters/imp/scurry2.md5anim {
@@ -436,9 +435,7 @@ model monster_demon_imp_crawler {
 		frame 57						sound_chatter snd_alert_idle
 		frame 140						sound_chatter snd_alert_idle
 	}
-	anim teleport					models/md5/monsters/imp/teleportin.md5anim {
-		frame 28						sound_body snd_sight
-	}
+	anim teleport					models/md5/monsters/imp/teleportin.md5anim
 	anim sight						models/md5/monsters/imp/on4_sight.md5anim {
 		frame 5							sound_body snd_sight
 	}

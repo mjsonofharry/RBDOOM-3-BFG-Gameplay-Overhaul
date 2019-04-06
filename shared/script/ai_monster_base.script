@@ -506,8 +506,6 @@ void monster_base::monster_begin() {
 			wait( 0.6 );
 		}
 		show();
-		playCustomAnim( "teleport", 0, 4 );
-		waitAction( "customAnim" );
 		setNeverDormant( getFloatKey( "neverdormant" ) );
 		locateEnemy();
 		setMoveType( movetype );
