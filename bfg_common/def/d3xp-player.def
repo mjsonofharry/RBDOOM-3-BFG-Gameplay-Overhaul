@@ -308,7 +308,7 @@ entityDef player_base_d3xp_sp {
 	"weapon0_allowempty"				"1"
 	"weapon0_visible"					"1"					// whether you can see this weapon in the inventory or not
 
-	"def_weapon1"						"weapon_grabber"
+	"def_weapon1"						"weapon_chainsaw"
 	"weapon1_best"						"0"
 	"weapon1_cycle"						"1"
 	"weapon1_toggle"					"0"
@@ -385,10 +385,10 @@ entityDef player_base_d3xp_sp {
 	"weapon11_allowempty"				"0"
 	"weapon11_visible"					"0"					// whether you can see this weapon in the inventory or not
 
-	"def_weapon12"						""
+	"def_weapon12"						"weapon_grabber"
 	"weapon12_best"						"0"
 	"weapon12_cycle"					"1"
-	"weapon12_toggle"					"0"
+	"weapon12_toggle"					"1"
 	"weapon12_allowempty"				"1"
 	"weapon12_visible"					"0"					// whether you can see this weapon in the inventory or not
 

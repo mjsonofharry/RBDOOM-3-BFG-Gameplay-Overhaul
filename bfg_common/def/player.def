@@ -748,10 +748,10 @@ entityDef player_base {
 	"weapon11_allowempty"				"0"
 	"weapon11_visible"					"0"					// whether you can see this weapon in the inventory or not
 
-	"def_weapon12"						""
+	"def_weapon12"						"weapon_grabber"
 	"weapon12_best"						"0"
 	"weapon12_cycle"					"1"
-	"weapon12_toggle"					"0"
+	"weapon12_toggle"					"1"
 	"weapon12_allowempty"				"1"
 	"weapon12_visible"					"0"					// whether you can see this weapon in the inventory or not
 
