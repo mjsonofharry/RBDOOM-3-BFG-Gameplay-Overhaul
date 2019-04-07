@@ -1,0 +1,1141 @@
+windowDef Desktop
+{
+	rect	0,0,640,480
+	menugui	1
+	backcolor 0,0,0,1
+
+	onESC {
+			set	"cmd"	"startgame" ;
+	}
+	onActivate {
+		resetTime "BG" "0" ;
+		showcursor "0" ;
+	}
+	windowDef BG
+	{
+		rect	0,-80,640,640
+		background	"gui/intro/marsflyby"
+		matcolor	1,1,1,1
+		visible	1
+		notime	1
+
+		//onTime 10
+		onTime 110 {	
+			set	"cmd"	"play e1_gui_intro" ;
+		}
+
+		//onTime 510
+		onTime 610 {
+			resetCinematics ;
+			resetTime "AnimBorderIn" "0" ;
+		}
+	}
+	windowDef BGLogo
+	{
+		rect	0,-80,640,640
+		background	"guis/assets/mainmenu/intrologo"
+		matcolor	1,1,1,0
+		visible	1
+	}
+	windowDef Crosshair1
+	{
+		rect	23,369,32,32
+		background	"guis/assets/end/crosshair"
+		matcolor	0,1,0.9,0
+		visible	1
+	}
+	windowDef Crosshair2
+	{
+		rect	586,369,-32,32
+		background	"guis/assets/end/crosshair"
+		matcolor	0,1,0.9,0
+		visible	1
+	}
+	windowDef Crosshair3
+	{
+		rect	23,419,32,-32
+		background	"guis/assets/end/crosshair"
+		matcolor	0,1,0.9,0
+		visible	1
+	}
+	windowDef Crosshair4
+	{
+		rect	586,419,-32,-32
+		background	"guis/assets/end/crosshair"
+		matcolor	0,1,0.9,0
+		visible	1
+	}
+	windowDef TopBarBG
+	{
+		rect	-14,3,689,32
+		visible	0
+		background	"guis/assets/common/titlebar_mid"
+		matcolor	0.2,0.9,1,0.1
+	}
+	windowDef BtmBarBG
+	{
+		rect	-3,445,689,32
+		visible	0
+		background	"guis/assets/common/titlebar_mid"
+		matcolor	0.2,0.9,1,0.1
+	}
+	windowDef BtmBar
+	{
+		rect	0,459,640,16
+		visible	0
+		background	"guis/assets/teleporter/grid3"
+		matcolor	0.5,0.9,1,0.3
+	}
+	windowDef TopBar
+	{
+		rect	0,5,640,-16
+		visible	0
+		background	"guis/assets/teleporter/grid3"
+		matcolor	0.5,0.9,1,0.3
+	}
+	windowDef Static11
+	{
+		rect	0,0,640,482
+		visible	1
+		background	"gui/staticColor"
+		matcolor	0.7, 1, 0.9, 0
+		matscalex	3
+		matscaley	2
+	}
+	windowDef BlackMask
+	{
+		rect	0,0,640,480
+		visible	1
+		backcolor	0,0,0,1
+	}
+	windowDef Scanlines1
+	{
+		rect	0,0,640,240
+		matcolor	0.1,0.4,0.3,0
+		background	"guis/assets/test/gui_scanline4"
+		noevents	1
+		visible	1
+	}
+	windowDef Scanlines2
+	{
+		rect	0,240,640,240
+		matcolor	0.1,0.4,0.3,0
+		background	"guis/assets/test/gui_scanline4"
+		noevents	1
+		visible	1
+	}
+	windowDef Mask1
+	{
+		rect	-5,-14,325,254
+		background	"guis/assets/end/overlay1"
+		matcolor	1,1,1,0
+		visible	1
+	}
+	windowDef Mask2
+	{
+		rect	320,-14,-325,254
+		background	"guis/assets/end/overlay1"
+		matcolor	1,1,1,0
+		visible	1
+	}
+	windowDef Mask3
+	{
+		rect	-5,240,325,-254
+		background	"guis/assets/end/overlay1"
+		matcolor	1,1,1,0
+		visible	1
+	}
+	windowDef Mask4
+	{
+		rect	320,240,-325,-254
+		background	"guis/assets/end/overlay1"
+		matcolor	1,1,1,0
+		visible	1
+	}
+	windowDef TextDate
+	{
+		rect	38,351,240,24
+		visible	1
+		text	""
+		forecolor	1,1,1,1
+		textscale	0.31
+		font	"fonts/micro"
+	}
+	windowDef Text1Line1
+	{
+		rect	0,381,0,20
+		visible	0
+		windowDef Text1
+		{
+			rect	38,-1,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.25,1,1,1
+			textscale	0.25
+		}
+		windowDef Text1TL
+		{
+			rect	37,-2,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1TR
+		{
+			rect	39,-2,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1BR
+		{
+			rect	39,0,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1BL
+		{
+			rect	37,0,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+	}
+	windowDef Text1Line2
+	{
+		rect	0,400,0,20
+		visible	0
+		windowDef Text12
+		{
+			rect	38,-20,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.25,1,1,1
+			textscale	0.25
+		}
+		windowDef Text1TL2
+		{
+			rect	37,-21,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1TR2
+		{
+			rect	39,-21,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1BR2
+		{
+			rect	39,-19,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1BL2
+		{
+			rect	37,-19,562,68
+			visible	1
+			text	"#str_00100853"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+	}
+	windowDef Text1Line3
+	{
+		rect	0,418,0,20
+		visible	0
+		windowDef Text13
+		{
+			rect	38,-38,562,68
+			visible	1
+			text	"#str_00100854"
+			forecolor	0.25,1,1,1
+			textscale	0.25
+		}
+		windowDef Text1TL3
+		{
+			rect	37,-39,562,68
+			visible	1
+			text	"#str_00100854"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1TR3
+		{
+			rect	39,-39,562,68
+			visible	1
+			text	"#str_00100854"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1BR3
+		{
+			rect	39,-37,562,68
+			visible	1
+			text	"#str_00100854"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text1BL3
+		{
+			rect	37,-37,562,68
+			visible	1
+			text	"#str_00100854"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+	}
+	windowDef Text2Line1
+	{
+		rect	0,381,0,20
+		visible	0
+		windowDef Text2
+		{
+			rect	38,-1,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.25,1,1,1
+			textscale	0.25
+		}
+		windowDef Text2TL
+		{
+			rect	37,-1,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text2TR
+		{
+			rect	39,-1,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text2BR
+		{
+			rect	39,0,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text2BL
+		{
+			rect	37,0,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+	}
+	windowDef Text2Line2
+	{
+		rect	0,400,0,20
+		visible	0
+		windowDef Text22
+		{
+			rect	38,-20,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.25,1,1,1
+			textscale	0.25
+		}
+		windowDef Text2TL2
+		{
+			rect	37,-21,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text2TR2
+		{
+			rect	39,-21,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text2BR2
+		{
+			rect	39,-19,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text2BL2
+		{
+			rect	37,-19,562,68
+			visible	1
+			text	"#str_00100855"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+	}
+	windowDef Text3Line1
+	{
+		rect	0,381,0,20
+		visible	0
+		windowDef Text3
+		{
+			rect	38,-1,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.25,1,1,1
+			textscale	0.25
+		}
+		windowDef Text3TL
+		{
+			rect	37,-1,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text3TR
+		{
+			rect	39,-1,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text3BR
+		{
+			rect	39,0,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text3BL
+		{
+			rect	37,0,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+	}
+	windowDef Text3Line2
+	{
+		rect	0,400,0,20
+		visible	0
+		windowDef Text32
+		{
+			rect	38,-20,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.25,1,1,1
+			textscale	0.25
+		}
+		windowDef Text3TL2
+		{
+			rect	37,-21,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text3TR2
+		{
+			rect	39,-21,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text3BR2
+		{
+			rect	39,-19,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+		windowDef Text3BL2
+		{
+			rect	37,-179,562,68
+			visible	1
+			text	"#str_00100996"
+			forecolor	0.5,1,1,0.1
+			textscale	0.25
+		}
+	}
+	windowDef Bar
+	{
+		rect	9,369,584,42
+		visible	1
+		background	"guis/assets/marscity/bar"
+		matcolor	0.6,1,1,0
+	}
+	windowDef Blink
+	{
+		rect	38,354,16,21
+		visible	1
+		matcolor	0.6,1,1,0
+		background	"guis/assets/marscity/cursor"
+/*		notime 1
+
+		onTime 0 {
+			transition "matcolor" "0.6 0.8 0.8 1" "0.4 0.6 0.6 0.9" "100" ;
+		}
+
+		onTime 100 {
+			transition "matcolor" "0.4 0.6 0.6 0.9" "0.6 0.8 0.8 1" "100" ;
+		}
+
+		onTime 200 {
+			resetTime "0" ;
+		}
+*/
+	}
+	windowDef AnimStart
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			set	"cmd"	"play e1_gui_intro" ;
+		}
+
+		onTime 500 {
+			resetTime "AnimBorderIn" "0" ;
+			resetTime "BG" "0" ;
+		}
+
+	}
+//1500
+	windowDef AnimBorderIn
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "Mask1::matcolor" "1 1 1 0" "1 1 1 0.5" "50" ;
+			transition "Mask2::matcolor" "1 1 1 0" "1 1 1 0.5" "50" ;
+			transition "Mask3::matcolor" "1 1 1 0" "1 1 1 0.5" "50" ;
+			transition "Mask4::matcolor" "1 1 1 0" "1 1 1 0.5" "50" ;
+			transition "Scanlines1::matcolor" "0 0 0 0" "0 0.18 0.2 0.5" "50" ;
+			transition "Scanlines2::matcolor" "0 0 0 0" "0 0.18 0.2 0.5" "50" ;
+		}
+
+		onTime 50 {
+			transition "BlackMask::backcolor" "0 0 0 1" "0 0 0 0" "500" ;
+			transition "Scanlines1::matcolor" "0 0.18 0.2 0.5" "0 0 0 0" "1100" ;
+			transition "Scanlines2::matcolor" "0 0.18 0.2 0.5" "0 0 0 0" "1100" ;
+			transition "Mask1::matcolor" "1 1 1 0.5" "1 1 1 0.25" "500" ;
+			transition "Mask2::matcolor" "1 1 1 0.5" "1 1 1 0.25" "500" ;
+			transition "Mask3::matcolor" "1 1 1 0.5" "1 1 1 0.25" "500" ;
+			transition "Mask4::matcolor" "1 1 1 0.5" "1 1 1 0.25" "500" ;
+		}
+		onTime 800 {
+			transition "blink::rect" "300 354 16 21" "38 354 16 21" "400" "0" "1" ;
+			transition "blink::matcolor" "0.6 0.8 0.8 0" "0.6 0.8 0.8 1" "400" ;
+		}
+
+		onTime 1200 {
+			resetTime "AnimDateIn1" "0" ;
+		}
+
+	}
+//2700
+	windowDef AnimDateIn1
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "blink::rect" "38 354 16 21" "245 354 16 21" "350" ;
+			set "TextDate::text" "N" ;
+		}
+
+		onTime 25 {
+			set "TextDate::text" "#str_00100857" ;
+		}
+
+		onTime 50 {
+			set "TextDate::text" "#str_00100858" ;
+		}
+
+		onTime 75 {
+			set "TextDate::text" "#str_00100859" ;
+		}
+
+		onTime 100 {
+			set "TextDate::text" "#str_00100860" ;
+		}
+
+		onTime 125 {
+			set "TextDate::text" "#str_00100861" ;
+		}
+
+		onTime 150 {
+			set "TextDate::text" "#str_00100862" ;
+			transition "blink::matcolor" "0.6 0.8 0.8 1" "0.6 0.8 0.8 0" "200" ;
+		}
+
+		onTime 175 {
+			set "TextDate::text" "#str_00100863" ;
+		}
+
+		onTime 200 {
+			set "TextDate::text" "#str_00100864" ;
+		}
+
+		onTime 225 {
+			set "TextDate::text" "#str_00100865" ;
+		}
+
+		onTime 250 {
+			set "TextDate::text" "#str_00100866" ;
+		}
+
+		onTime 275 {
+			set "TextDate::text" "#str_00100867" ;
+		}
+
+		onTime 300 {
+			set "TextDate::text" "#str_00100868" ;
+		}
+
+		onTime 325 {
+			set "TextDate::text" "#str_00100869" ;
+		}
+
+		onTime 350 {
+			set "TextDate::text" "#str_00100870" ;
+		}
+		onTime 1000 {
+			resetTime "AnimText1" "0" ;
+		}
+
+	}
+//3700
+	windowDef AnimText1
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			set "Crosshair1::matcolor" "1 1 1 1" ;
+			set "Crosshair2::matcolor" "1 1 1 1" ;
+			set "Crosshair3::matcolor" "1 1 1 1" ;
+			set "Crosshair4::matcolor" "1 1 1 1" ;
+		}
+		onTime 40 {
+			set "Crosshair1::matcolor" "1 1 1 0" ;
+			set "Crosshair2::matcolor" "1 1 1 0" ;
+			set "Crosshair3::matcolor" "1 1 1 0" ;
+			set "Crosshair4::matcolor" "1 1 1 0" ;
+		}
+		onTime 80 {
+			set "Crosshair1::matcolor" "1 1 1 1" ;
+			set "Crosshair2::matcolor" "1 1 1 1" ;
+			set "Crosshair3::matcolor" "1 1 1 1" ;
+			set "Crosshair4::matcolor" "1 1 1 1" ;
+		}
+		onTime 120 {
+			set "Crosshair1::matcolor" "1 1 1 0" ;
+			set "Crosshair2::matcolor" "1 1 1 0" ;
+			set "Crosshair3::matcolor" "1 1 1 0" ;
+			set "Crosshair4::matcolor" "1 1 1 0" ;
+		}
+		onTime 160 {
+			transition "Crosshair1::matcolor" "1 1 1 1" "0 1 0.9 1" "800" ;
+			transition "Crosshair2::matcolor" "1 1 1 1" "0 1 0.9 0" "800" ;
+			transition "Crosshair3::matcolor" "1 1 1 1" "0 1 0.9 0" "800" ;
+			transition "Crosshair4::matcolor" "1 1 1 1" "0 1 0.9 0" "800" ;
+		}
+//Line1 - 4000
+		onTime 300 {
+			transition "Text1Line1::rect" "0 381 0 20" "0 381 640 20" "3200" ;
+			set "Text1Line1::visible" "1" ;
+			transition "Bar::matcolor" "0.6 1 1 0.6" "0.6 1 1 0" "300" ;
+			transition "Bar::rect" "50 364 584 52" "9 369 584 42" "100" "0" "1" ;
+		}
+//Line2 - 7100
+		onTime 3400 {
+			transition "Text1Line2::rect" "0 400 0 20" "0 400 640 20" "3200" ;
+			set "Text1Line2::visible" "1" ;
+			transition "Bar::matcolor" "0.6 1 1 0.6" "0.6 1 1 0" "300" ;
+			transition "Bar::rect" "50 383 584 52" "9 388 584 42" "100" "0" "1" ;
+		}
+//Line3 - 10100
+		onTime 6400 {
+			transition "Text1Line3::rect" "0 418 0 20" "0 418 150 20" "900" ;
+			set "Text1Line3::visible" "1" ;
+			transition "Bar::matcolor" "0.6 1 1 0.6" "0.6 1 1 0" "300" ;
+			transition "Bar::rect" "50 401 584 52" "9 406 584 42" "100" "0" "1" ;
+		}
+
+		onTime 7800 {
+			transition "Text1Line3::rect" "0 418 150 20" "0 418 640 20" "2500" ;
+			set "Text1Line3::visible" "1" ;
+		}
+
+//Line1OUT -14700
+		onTime 11000 {
+			transition "Text1TL::rect" "37 -1 562 68" "35 -4 562 68" "400" ;
+			transition "Text1TR::rect" "39 -1 562 68" "41 -4 562 68" "400" ;
+			transition "Text1BR::rect" "39 0 562 68" "41 1 562 68" "400" ;
+			transition "Text1BL::rect" "37 0 562 68" "35 1 562 68" "400" ;
+			transition "Text1::forecolor" "1 1 1 1" "0.25 1 1 0" "400" ;
+		}
+		onTime 11400 {
+			set "Text1Line1::visible" "0" ;
+		}
+
+//Line2OUT - 14900
+		onTime 11200 {
+			transition "Text1TL2::rect" "37 -21 562 68" "35 -23 562 68" "400" ;
+			transition "Text1TR2::rect" "39 -21 562 68" "41 -23 562 68" "400" ;
+			transition "Text1BR2::rect" "39 -19 562 68" "41 -17 562 68" "400" ;
+			transition "Text1BL2::rect" "37 -19 562 68" "35 -17 562 68" "400" ;
+			transition "Text12::forecolor" "1 1 1 1" "0.25 1 1 0" "400" ;
+		}
+		onTime 11600 {
+			set "Text1Line2::visible" "0" ;
+		}
+//Line3OUT - 15000
+		onTime 11300 {
+			transition "Text1TL3::rect" "37 -39 562 68" "35 -41 562 68" "400" ;
+			transition "Text1TR3::rect" "39 -39 562 68" "41 -41 562 68" "400" ;
+			transition "Text1BR3::rect" "39 -37 562 68" "41 -35 562 68" "400" ;
+			transition "Text1BL3::rect" "37 -37 562 68" "35 -35 562 68" "400" ;
+			transition "Text13::forecolor" "1 1 1 1" "0.25 1 1 0" "400" ;
+		}
+		onTime 11700 {
+			set "Text1Line3::visible" "0" ;
+		}
+		onTime 12000 {
+			resetTime "AnimDateIn2" "0" ;
+		}
+
+	}
+//15700
+	windowDef AnimDateIn2
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "blink::rect" "245 354 16 21" "38 354 16 21" "350" ;
+			transition "blink::matcolor" "0.6 0.8 0.8 0" "0.6 0.8 0.8 1" "200" ;
+			set "TextDate::text" "#str_00100870" ;
+		}
+
+		onTime 25 {
+			set "TextDate::text" "#str_00100869" ;
+		}
+
+		onTime 50 {
+			set "TextDate::text" "#str_00100868" ;
+		}
+
+		onTime 75 {
+			set "TextDate::text" "#str_00100867" ;
+		}
+
+		onTime 100 {
+			set "TextDate::text" "#str_00100871" ;
+		}
+
+		onTime 125 {
+			set "TextDate::text" "#str_00100865" ;
+		}
+
+		onTime 150 {
+			set "TextDate::text" "#str_00100864" ;
+		//	transition "blink::matcolor" "0.6 0.8 0.8 1" "0.6 0.8 0.8 0" "200" ;
+		}
+
+		onTime 175 {
+			set "TextDate::text" "#str_00100863" ;
+		}
+
+		onTime 200 {
+			set "TextDate::text" "#str_00100862" ;
+		}
+
+		onTime 225 {
+			set "TextDate::text" "#str_00100861" ;
+		}
+
+		onTime 250 {
+			set "TextDate::text" "#str_00100860" ;
+		}
+
+		onTime 275 {
+			set "TextDate::text" "#str_00100859" ;
+		}
+
+		onTime 300 {
+			set "TextDate::text" "#str_00100858" ;
+		}
+
+		onTime 325 {
+			set "TextDate::text" "#str_00100857" ;
+		}
+
+		onTime 350 {
+			set "TextDate::text" "N" ;
+		}
+		onTime 375 {
+			set "TextDate::text" "" ;
+			set "blink::matcolor" "0.6 0.8 0.8 0" ;
+		}
+		onTime 400 {
+			transition "blink::rect" "38 354 16 21" "162 354 16 21" "200" ;
+			transition "blink::matcolor" "0.6 0.8 0.8 1" "0.6 0.8 0.8 0" "200" ;
+			set "TextDate::text" "M" ;
+		}
+
+		onTime 425 {
+			set "TextDate::text" "#str_00100872" ;
+		}
+
+		onTime 450 {
+			set "TextDate::text" "#str_00100873" ;
+		}
+
+		onTime 475 {
+			set "TextDate::text" "#str_00100874" ;
+		}
+
+		onTime 500 {
+			set "TextDate::text" "#str_00100875" ;
+		}
+
+		onTime 525 {
+			set "TextDate::text" "#str_00100876" ;
+		}
+
+		onTime 550 {
+			set "TextDate::text" "#str_00100877" ;
+		}
+		onTime 575 {
+			set "TextDate::text" "#str_00100878" ;
+		}
+		onTime 600 {
+			set "TextDate::text" "#str_00100879" ;
+		}
+		onTime 1000 {
+			resetTime "AnimText2" "0" ;
+		}
+	}
+//16700
+	windowDef AnimText2
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "Crosshair1::matcolor" "1 1 1 1" "0 1 0.9 1" "800" ;
+		}
+//Line1 - 16800
+		onTime 100 {
+			transition "Text2Line1::rect" "0 381 0 20" "0 381 640 20" "3200" ;
+			set "Text2Line1::visible" "1" ;
+			transition "Bar::matcolor" "0.6 1 1 0.6" "0.6 1 1 0" "300" ;
+			transition "Bar::rect" "50 364 584 52" "9 369 584 42" "100" "0" "1" ;
+		}
+//Line2 - 19800
+		onTime 3100 {
+			transition "Text2Line2::rect" "0 400 0 20" "0 400 640 20" "3200" ;
+			set "Text2Line2::visible" "1" ;
+			transition "Bar::matcolor" "0.6 1 1 0.6" "0.6 1 1 0" "300" ;
+			transition "Bar::rect" "50 383 584 52" "9 388 584 42" "100" "0" "1" ;
+		}
+//Line1OUT - 22700
+		onTime 6000 {
+			transition "Text2TL::rect" "37 -1 562 68" "35 -4 562 68" "400" ;
+			transition "Text2TR::rect" "39 -1 562 68" "41 -4 562 68" "400" ;
+			transition "Text2BR::rect" "39 0 562 68" "41 1 562 68" "400" ;
+			transition "Text2BL::rect" "37 0 562 68" "35 1 562 68" "400" ;
+			transition "Text2::forecolor" "1 1 1 1" "0.25 1 1 0" "400" ;
+		}
+		onTime 6400 {
+			set "Text2Line1::visible" "0" ;
+		}
+
+//Line2OUT - 22900
+		onTime 6200 {
+			transition "Text2TL2::rect" "37 -21 562 68" "35 -23 562 68" "400" ;
+			transition "Text2TR2::rect" "39 -21 562 68" "41 -23 562 68" "400" ;
+			transition "Text2BR2::rect" "39 -19 562 68" "41 -17 562 68" "400" ;
+			transition "Text2BL2::rect" "37 -19 562 68" "35 -17 562 68" "400" ;
+			transition "Text22::forecolor" "1 1 1 1" "0.25 1 1 0" "400" ;
+		}
+		onTime 6600 {
+			set "Text2Line2::visible" "0" ;
+		}
+
+		onTime 7000 {
+			resetTime "AnimDateIn3" "0" ;
+		}
+	}
+//23700
+	windowDef AnimDateIn3
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "blink::rect" "162 354 16 21" "38 354 16 21" "200" ;
+			transition "blink::matcolor" "0.6 0.8 0.8 0" "0.6 0.8 0.8 1" "200" ;
+			set "TextDate::text" "#str_00100879" ;
+		}
+
+		onTime 25 {
+			set "TextDate::text" "#str_00100878" ;
+		}
+
+		onTime 50 {
+			set "TextDate::text" "#str_00100877" ;
+		}
+
+		onTime 75 {
+			set "TextDate::text" "#str_00100876" ;
+		}
+
+		onTime 100 {
+			set "TextDate::text" "#str_00100875" ;
+		}
+
+		onTime 125 {
+			set "TextDate::text" "#str_00100874" ;
+		}
+
+		onTime 150 {
+			set "TextDate::text" "#str_00100873" ;
+
+		}
+
+		onTime 175 {
+			set "TextDate::text" "#str_00100872" ;
+		}
+
+		onTime 200 {
+			set "TextDate::text" "M" ;
+		}
+
+		onTime 225 {
+			set "TextDate::text" "" ;
+			set "blink::matcolor" "0.6 0.8 0.8 0" ;
+		}
+		onTime 250 {
+			transition "blink::rect" "38 354 16 21" "198 354 16 21" "200" ;
+			set "TextDate::text" "A" ;
+		}
+
+		onTime 275 {
+			set "TextDate::text" "#str_00100880" ;
+		}
+
+		onTime 300 {
+			set "TextDate::text" "#str_00100881" ;
+		}
+
+		onTime 325 {
+			set "TextDate::text" "#str_00100882" ;
+			transition "blink::matcolor" "0.6 0.8 0.8 1" "0.6 0.8 0.8 0" "200" ;
+		}
+
+		onTime 350 {
+			set "TextDate::text" "#str_00100883" ;
+		}
+
+		onTime 375 {
+			set "TextDate::text" "#str_00100884" ;
+		}
+
+		onTime 400 {
+			set "TextDate::text" "#str_00100885" ;
+		}
+		onTime 425 {
+			set "TextDate::text" "#str_00100886" ;
+		}
+		onTime 450 {
+			set "TextDate::text" "#str_00100887" ;
+		}
+		onTime 475 {
+			set "TextDate::text" "#str_00100888" ;
+		}
+		onTime 500 {
+			set "TextDate::text" "#str_00100889" ;
+		}
+		onTime 525 {
+			set "TextDate::text" "#str_00100890" ;
+		}
+		onTime 1000 {
+			resetTime "AnimText3" "0" ;
+		}
+	}
+//24700
+	windowDef AnimText3
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "Crosshair1::matcolor" "1 1 1 1" "0 1 0.9 1" "800" ;
+		}
+//Line1 - 24800
+		onTime 100 {
+			transition "Text3Line1::rect" "0 381 0 20" "0 381 640 20" "3200" ;
+			set "Text3Line1::visible" "1" ;
+			transition "Bar::matcolor" "0.6 1 1 0.6" "0.6 1 1 0" "300" ;
+			transition "Bar::rect" "50 364 584 52" "9 369 584 42" "100" "0" "1" ;
+		}
+//Line2 - 27800
+		onTime 3200 {
+			transition "Text3Line2::rect" "0 400 0 20" "0 400 640 20" "3200" ;
+			set "Text3Line2::visible" "1" ;
+			transition "Bar::matcolor" "0.6 1 1 0.6" "0.6 1 1 0" "300" ;
+			transition "Bar::rect" "50 383 584 52" "9 388 584 42" "100" "0" "1" ;
+		}
+//Line1OUT - 31500 //add 500
+		onTime 7300 {
+			transition "Crosshair1::matcolor" "0 1 0.9 1" "0 1 0.9 0" "800" ;
+			transition "Text3TL::rect" "37 -1 562 68" "35 -4 562 68" "400" ;
+			transition "Text3TR::rect" "39 -1 562 68" "41 -4 562 68" "400" ;
+			transition "Text3BR::rect" "39 0 562 68" "41 1 562 68" "400" ;
+			transition "Text3BL::rect" "37 0 562 68" "35 1 562 68" "400" ;
+			transition "Text3::forecolor" "1 1 1 1" "0.25 1 1 0" "400" ;
+		}
+		onTime 7700 {
+			set "Text3Line1::visible" "0" ;
+		}
+
+//Line2OUT - 31700
+		onTime 7500 {
+			transition "Text3TL2::rect" "37 -21 562 68" "35 -23 562 68" "400" ;
+			transition "Text3TR2::rect" "39 -21 562 68" "41 -23 562 68" "400" ;
+			transition "Text3BR2::rect" "39 -19 562 68" "41 -17 562 68" "400" ;
+			transition "Text3BL2::rect" "37 -19 562 68" "35 -17 562 68" "400" ;
+			transition "Text32::forecolor" "1 1 1 1" "0.25 1 1 0" "400" ;
+		}
+		onTime 7900 {
+			set "Text3Line2::visible" "0" ;
+	//	}
+
+	//	onTime 8000 {
+			resetTime "AnimDateOut" "0" ;
+		}
+	}
+//32500
+	windowDef AnimDateOut
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "blink::rect" "198 354 16 21" "38 354 16 21" "300" ;
+			transition "blink::matcolor" "0.6 0.8 0.8 1" "0.6 0.8 0.8 0" "300" ;
+			transition "TextDate::forecolor" "1 1 1 1" "1 1 1 0" "300" ;
+			set "TextDate::text" "#str_00100890" ;
+
+			transition "Mask1::matcolor" "1 1 1 0.25" "1 1 1 0" "1500" ;
+			transition "Mask2::matcolor" "1 1 1 0.25" "1 1 1 0" "1500" ;
+			transition "Mask3::matcolor" "1 1 1 0.25" "1 1 1 0" "1500" ;
+			transition "Mask4::matcolor" "1 1 1 0.25" "1 1 1 0" "1500" ;
+		}
+
+		onTime 25 {
+			set "TextDate::text" "#str_00100889" ;
+		}
+
+		onTime 50 {
+			set "TextDate::text" "#str_00100888" ;
+		}
+
+		onTime 75 {
+			set "TextDate::text" "#str_00100887" ;
+		}
+
+		onTime 100 {
+			set "TextDate::text" "#str_00100886" ;
+		}
+
+		onTime 125 {
+			set "TextDate::text" "#str_00100885" ;
+		}
+
+		onTime 150 {
+			set "TextDate::text" "#str_00100884" ;
+
+		}
+
+		onTime 175 {
+			set "TextDate::text" "#str_00100883" ;
+		}
+
+		onTime 200 {
+			set "TextDate::text" "#str_00100882" ;
+		}
+		onTime 225 {
+			set "TextDate::text" "#str_00100881" ;
+		}
+		onTime 250 {
+			set "TextDate::text" "#str_00100880" ;
+		}
+		onTime 275 {
+			set "TextDate::text" "A" ;
+		}
+		onTime 300 {
+			set "TextDate::text" "" ;
+			set "blink::matcolor" "0.6 0.8 0.8 0" ;
+		}
+
+		onTime 2500 {
+			resetTime "LogoIn" "0" ;
+		}
+	}
+//34s07ms start shrink - 36:13 tag anim complete
+	windowDef LogoIn
+	{
+		rect	0,0,0,0
+		visible	0
+		notime	1
+
+		onTime 0 {
+			transition "BG::rect" "0 -80 640 640" "35 -50 580 580" "4500" "0" "1" ;
+			transition "BGLogo::rect" "0 -80 640 640" "35 -50 580 580" "4500" "0" "1" ;
+		}
+		onTime 3300 {
+			transition "BGLogo::matcolor" "1 1 1 0" "1 1 1 1" "1000" ;
+		}
+		onTime 5000 {
+			set "BG::rect" "0 0 0 0" ;
+			transition "BGLogo::matcolor" "1 1 1 1" "1 1 1 0" "1000" ;
+		}
+		onTime 7500 {
+			set	"cmd"	"startgame" ;
+		}
+
+	}
+}

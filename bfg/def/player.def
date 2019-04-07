@@ -406,7 +406,11 @@ export fred {
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/soulcube_idle_down.mb -dest models/md5/characters/npcs/playermoves/soulcube_idle_down
 	anim	models/characters/male_npc/cycles/tweakedplayermoves/soulcube_fire.mb -dest models/md5/characters/npcs/playermoves/soulcube_fire
 
-
+	anim grabber_raise					models/md5/characters/npcs/playermoves/raisewep.md5anim
+	anim grabber_idle					models/md5/characters/npcs/playermoves/plasmagun_idle_down.md5anim, models/md5/characters/npcs/playermoves/plasmagun_idle.md5anim, models/md5/characters/npcs/playermoves/plasmagun_idle_up.md5anim
+	anim grabber_aim					models/md5/characters/npcs/playermoves/plasmagun_aim_down.md5anim, models/md5/characters/npcs/playermoves/plasmagun_aim.md5anim, models/md5/characters/npcs/playermoves/plasmagun_aim_up.md5anim
+	anim grabber_fire1					models/md5/characters/npcs/playermoves/plasmagun_fire_down.md5anim, models/md5/characters/npcs/playermoves/plasmagun_fire1.md5anim, models/md5/characters/npcs/playermoves/plasmagun_fire_up.md5anim
+	anim grabber_lower					models/md5/characters/npcs/playermoves/lowerwep.md5anim
 }
 
 /***********************************************************************
@@ -639,6 +643,13 @@ model model_sp_marine {
 	anim soulcube_aim					models/md5/characters/npcs/playermoves/soulcube_idle_down.md5anim, models/md5/characters/npcs/playermoves/soulcube_idle.md5anim, models/md5/characters/npcs/playermoves/soulcube_idle_up.md5anim
 	anim soulcube_fire					models/md5/characters/npcs/playermoves/soulcube_fire.md5anim, models/md5/characters/npcs/playermoves/soulcube_fire.md5anim, models/md5/characters/npcs/playermoves/soulcube_fire.md5anim
 	anim soulcube_lower					models/md5/characters/npcs/playermoves/lowerwep.md5anim
+
+	anim shotgun_double_raise					models/md5/characters/npcs/playermoves/raisewep.md5anim
+	anim shotgun_double_idle					models/md5/characters/npcs/playermoves/shotgun_idle_down.md5anim, models/md5/characters/npcs/playermoves/shotgun_idle.md5anim, models/md5/characters/npcs/playermoves/shotgun_idle_up.md5anim
+	anim shotgun_double_aim						models/md5/characters/npcs/playermoves/shotgun_aim_down.md5anim, models/md5/characters/npcs/playermoves/shotgun_aim.md5anim, models/md5/characters/npcs/playermoves/shotgun_aim_up.md5anim
+	anim shotgun_double_fire1					models/md5/characters/npcs/playermoves/shotgun_fire_down.md5anim, models/md5/characters/npcs/playermoves/shotgun_fire1.md5anim, models/md5/characters/npcs/playermoves/shotgun_fire_up.md5anim
+	anim shotgun_double_reload					models/md5/characters/npcs/playermoves/dbreload.md5anim
+	anim shotgun_double_lower					models/md5/characters/npcs/playermoves/lowerwep.md5anim
 }
 
 /***********************************************************************

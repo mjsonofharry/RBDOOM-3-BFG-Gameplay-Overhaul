@@ -1747,15 +1747,15 @@ windowDef Desktop {
 
 	windowDef WeapIcon12 {
 		visible		1
-		rect		288, 280, 64, 64 
-		background	"guis/assets/hud/icons/scubew"
+		rect		560, 405, 64, 32 
+		background	"guis/assets/hud/icons/grabberw"
 		matcolor	1, 1, 1 ,0
-		visible	("gui::weapon11" == 2)
+		visible	("gui::weapon12" == 2)
 		notime		1
 
 		onTime 0 {
 			transition "matcolor" "0.7 1 1 0.7" "0.3 0.6 0.6 0" "1000" "1" "0" ;
-			set "weapname::text" "#str_02024" ;
+			set "weapname::text" "#str_00100189" ;
 			resetTime "weapname" "0" ;
 		}
 	}
@@ -3800,8 +3800,8 @@ windowDef Desktop {
 	}	
 	windowDef WeapIcon12Large {
 		visible		1
-		rect		288, 280, 64, 64
-		background	"guis/assets/hud/icons/scubew"
+		rect		256,280,128,64
+		background	"gui/hud/grabber"
 		matcolor	0.6, 1, 0.9, 0
 		visible 1
 		notime 1
@@ -3818,7 +3818,7 @@ windowDef Desktop {
 		}
 	}
 	windowDef WeapName12Large {
-		text	"#str_02111"
+		text	"#str_00100189"
 		rect	283 ,265 ,220 ,20 
 		forecolor	0.6, 1, 0.9, 0
 		visible	1

@@ -1476,7 +1476,7 @@
 			windowDef WeapIconBG12
 			{
 				visible	1
-				rect	837,1,80,40
+				rect	87,1,80,40
 				notime	1
 				background	"guis/assets/hud/icons/weaplargeclip"
 				matcolor	0.25,0.3,0.3,1
@@ -1490,8 +1490,8 @@
 				windowDef WeapIcon12
 				{
 					visible	("gui::weapon12" >= 1)
-					rect	4,3,32,32
-					background	"guis/assets/hud/icons/scubew"
+					rect	7,2,64,32
+					background	"guis/assets/hud/icons/grabberw"
 					matcolor	1, 1, 1, 1
 					float "weaponon" 0
 
@@ -1596,7 +1596,7 @@
 					}
 					onMouseEnter {
 						transition "TextWeapName::forecolor" "1 1 1 0.8" "1 1 1 0.4" "150" ;
-						set "TextWeapName::text" "#str_02525" ;
+						set "TextWeapName::text" "#str_00100207" ;
 					}
 
 					onMouseExit {
@@ -2264,8 +2264,8 @@
 			windowDef WeapIcon12Big
 			{
 				visible	1
-				rect	40,1,64,64
-				background	"guis/assets/hud/icons/scubew"
+				rect	3,0,128,64
+				background	"guis/assets/hud/icons/grabberw"
 				matcolor	1, 1, 1, 1
 			}
 			windowDef WeapTitle12
@@ -2273,16 +2273,16 @@
 				rect	138,-3,234,21
 				visible	1
 				foreColor	1,1,1,1
-				text	"#str_02023"
+				text	"#str_00100207"
 				textscale	0.25
 				font	"fonts/bank"
 			}
 			windowDef WeapText12
 			{
-				rect	139,14,230,55
+				rect	139,14,243,55
 				visible	1
 				foreColor	1,1,1,0.8
-				text	"#str_02542"
+				text	"#str_00100210"
 				textscale	0.22
 				font	"fonts/an"
 			}
