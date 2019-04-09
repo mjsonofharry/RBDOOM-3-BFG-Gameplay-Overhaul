@@ -5,6 +5,11 @@
   - [BFG Edition](#bfg-edition)
   - [Doom 3 with Resurrection of Evil](#doom-3-with-resurrection-of-evil)
   - [Configuration](#configuration)
+  - [Known Issues](#known-issues)
+    - [Doom 3](#doom-3)
+    - [dhewm 3](#dhewm-3)
+    - [RBDOOM 3 BFG](#rbdoom-3-bfg)
+    - [Classic RBDOOM 3 BFG](#classic-rbdoom-3-bfg)
 - [Summary](#summary)
   - [Weapons](#weapons)
     - [Flashlight](#flashlight)
@@ -87,6 +92,18 @@ The **autoexec.cfg** file included with this mod disables automatic weapon switc
 
 For Doom 3 BFG Edition, many of the fancy new special effects have been disabled in order to make the game darker and more faithful to the original. Furthermore, the flashlight's battery drain mechanic has been disabled.
 
+### Known Issues
+
+#### Doom 3
+
+#### dhewm 3
+
+#### RBDOOM 3 BFG
+
+* The game hangs if you equip the grabber on any non-RoE multiplayer maps. The grabber is not intended for multiplayer so this should not affect normal gameplay.
+
+#### Classic RBDOOM 3 BFG
+
 ## Summary
 
 ### Weapons
@@ -97,7 +114,9 @@ Furthermore, ejected brass and other debris have been given a time-to-live of 1 
 
 #### Flashlight
 
-The flashlight's light cone has received a dramatic upgrade. You will find that it illuminates the entire room in front of you (assuming you are in a room). Swinging it around also results in a slight aim kick.
+The original flashlight's light cone has received a dramatic upgrade. You will find that it illuminates the entire room in front of you (assuming you are in a room). Swinging it around also results in a slight aim kick.
+
+The BFG flashlight no longer requires battery.
 
 #### Fists
 
@@ -184,6 +203,8 @@ Health and armor pickup yields are also considerably reduced. To put it into per
 Stamina has been removed from the game. No stamina meter will appear on your HUD. You can just run forever. Also, crouch-walking is a bit faster because crouching mostly takes place in air ducts and is pretty uneventful.
 
 Ammo carry limits have been reduced significantly. They're now similar to classic Doom carry limits, except a little bit harsher because you can carry so many different ammo types.
+
+Health drain has been removed entirely from Nightmare mode.
 
 ### Enemies
 
