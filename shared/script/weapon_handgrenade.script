@@ -79,7 +79,6 @@ void weapon_handgrenade::Raise() {
 
 void weapon_handgrenade::Lower() {
 	weaponLowering();
-	playAnim( ANIMCHANNEL_ALL, "putaway" );
 	weaponHolstered();
 	waitUntil( WEAPON_RAISEWEAPON );
 	weaponState( "Raise", 0 );
