@@ -178,7 +178,17 @@ model monster_demon_imp {
 	 	frame 2							leftfoot
 		frame 19						rightfoot
 	}
+	anim fast_walk					models/md5/monsters/imp/fast_walk.md5anim {
+		random_cycle_start
+	 	frame 2							leftfoot
+		frame 19						rightfoot
+	}
 	anim run						models/md5/monsters/imp/faster_walk.md5anim {
+		random_cycle_start
+		frame 13						leftfoot
+		frame 26						rightfoot
+	}
+	anim fast_run					models/md5/monsters/imp/fast_run.md5anim {
 		random_cycle_start
 		frame 13						leftfoot
 		frame 26						rightfoot
@@ -227,6 +237,12 @@ model monster_demon_imp {
 		frame 22						sound_weapon snd_attackmissile
 		frame 22						launch_missile RMissile
 	}
+	anim fast_range_attack1			models/md5/monsters/imp/fast_range.md5anim {
+		frame 2							sound_weapon snd_createmissile
+		frame 2							create_missile RMissile
+		frame 22						sound_weapon snd_attackmissile
+		frame 22						launch_missile RMissile
+	}
 	anim range_attack2				models/md5/monsters/imp/range3.md5anim {
 		frame 11						sound_weapon snd_createmissile
 		frame 11						create_missile RMissile
@@ -240,6 +256,12 @@ model monster_demon_imp {
 		frame 37						launch_missile RMissile
 	}
 	anim turret_attack1				models/md5/monsters/imp/turret_attack1.md5anim {
+		frame 2							sound_weapon snd_createmissile
+		frame 2							create_missile RMissile
+		frame 22						sound_weapon snd_attackmissile
+		frame 22						launch_missile RMissile
+	}
+	anim fast_turret_attack1		models/md5/monsters/imp/turret_attack1.md5anim {
 		frame 2							sound_weapon snd_createmissile
 		frame 2							create_missile RMissile
 		frame 22						sound_weapon snd_attackmissile
