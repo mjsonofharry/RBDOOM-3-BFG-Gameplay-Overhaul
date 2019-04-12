@@ -599,8 +599,8 @@ entityDef monster_demon_imp_crawler {
 	"snd_sight"						"monster_demon_imp_sight"
 	"snd_sight2"					"monster_demon_imp_sight2"
 	"snd_sight8"					"monster_demon_imp_sight8"
-	"snd_chatter"					"monster_demon_imp_chatter"
-	"snd_chatter_combat"			"monster_demon_imp_chatter_combat"
+	"snd_chatter"					""
+	"snd_chatter_combat"			""
 	"snd_pain"						"monster_demon_imp_pain"
 	"snd_attackmelee_1"				"monster_demon_imp_attackmelee_1"
 	"snd_attackmelee_2"				"monster_demon_imp_attackmelee_2"
@@ -644,13 +644,16 @@ entityDef projectile_impfireball {
 	"maxs"							"4 4 4"
 	"cone"							"3"
 	"model" 						"impfireball2.prt"
-						
+
+	"scriptobject"					"projectile_impfireball"
+
 	"def_damage"					"damage_impfireball"
 	"def_splash_damage"				"damage_impfireball_splash"
 									
 	"launchFromBarrel"				"1"
 	"health"						"5"					// amount of damage projectile can take if damaged (0 means it can't be destroyed)
-	"velocity"						"525 0 -150"			// how fast the projectile leaves the gun (or distance if fuse is 0)
+	"velocity"						"775 0 -150"			// how fast the projectile leaves the gun (or distance if fuse is 0)
+	"fast_velocity"					"1050 0 0"
 	"angular_velocity"				"0 0 0"				// how the projectile is rotating when it leaves the gun
 	"thrust"						"0"					// the rate of acceleration (always in the direction of the projectiles model)
 	"thrust_start"					"0"					// when to start accelerating
