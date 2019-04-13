@@ -105,3 +105,4 @@
 
 // Gameplay Overhaul
 #include "script/projectile_impfireball.script"
+#include "script/projectile_fireball_hellknight.script"

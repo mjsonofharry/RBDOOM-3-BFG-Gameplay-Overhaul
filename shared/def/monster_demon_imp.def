@@ -664,6 +664,7 @@ entityDef projectile_impfireball {
 	"bounce"						"0"					// how much speed a projectile retains when it bounces off of objects (coefficient of restitution).  0 means no bounce.
 	"mass"							"5"
 	"gravity"						"250"				// how much gravity affects the trajectory.  gravity direction is same as the entity that fired it.
+	"fast_gravity"					"375"
 	"fuse"							"20"				// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
 
 	"detonate_on_fuse"				"0"					// whether projectile should detonate when it's fuse runs out

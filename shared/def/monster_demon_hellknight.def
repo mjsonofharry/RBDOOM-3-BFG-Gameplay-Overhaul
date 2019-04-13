@@ -75,6 +75,12 @@ model monster_demon_hellknight {
 		frame 31						sound_body snd_footstep
 		frame 31						sound_body2 snd_deepfs
 	}
+	anim fast_walk					models/md5/monsters/hellknight/fast_walk.md5anim {
+		frame 13						sound_body snd_footstep
+		frame 13						sound_body2 snd_deepfs
+		frame 31						sound_body snd_footstep
+		frame 31						sound_body2 snd_deepfs
+	}
 	anim walk_left					models/md5/monsters/hellknight/walk7_left.md5anim {
 		frame 13						sound_body snd_footstep
 		frame 13						sound_body2 snd_deepfs
@@ -136,8 +142,27 @@ model monster_demon_hellknight {
 		frame 47						fx fx/hkwalk.fx
 		frame 52						sound_voice snd_chatter_combat
 	}
+	anim fast_range_attack			models/md5/monsters/hellknight/fast_range_attack.md5anim {
+		frame 8							sound_body2 monster_demon_hellknight_fireball_create
+		frame 8							create_missile rmissile
+		frame 33						sound_body snd_footstep
+		frame 33						sound_body2 snd_deepfs
+		frame 33						fx fx/hkwalk.fx
+		//frame 34						sound_weapon snd_attackmissile
+		frame 34						launch_missile rmissile
+		frame 47						sound_body snd_footstep
+		frame 47						sound_body2 snd_deepfs
+		frame 47						fx fx/hkwalk.fx
+		frame 52						sound_voice snd_chatter_combat
+	}
 
 	anim turret_attack				models/md5/monsters/hellknight/turret_attack.md5anim {
+		frame 8							sound_body2 monster_demon_hellknight_fireball_create
+		frame 8							create_missile rmissile
+		frame 20						sound_weapon snd_attackmissile
+		frame 23						launch_missile rmissile
+	}
+	anim fast_turret_attack			models/md5/monsters/hellknight/fast_turret_attack.md5anim {
 		frame 8							sound_body2 monster_demon_hellknight_fireball_create
 		frame 8							create_missile rmissile
 		frame 20						sound_weapon snd_attackmissile
@@ -268,12 +293,15 @@ entityDef projectile_fireball_hellknight {
 	"cone"						"3"
 	"model" 					"hellknight_fireball2.prt"
 
+	"scriptobject"				"projectile_fireball_hellknight"
+
 	"def_damage"				"damage_fireball_hellknight"
 	"def_splash_damage"			"damage_fireball_hellknight_splash"
 								
 	"launchFromBarrel"			"1"
 	"health"					"5"					// amount of damage projectile can take if damaged (0 means it can't be destroyed)
 	"velocity"					"475 0 -150"			// how fast the projectile leaves the gun (or distance if fuse is 0)
+	"fast_velocity"				"630 0 0"
 	"angular_velocity"			"0 0 0"				// how the projectile is rotating when it leaves the gun
 	"thrust"					"0"					// the rate of acceleration (always in the direction of the projectiles model)
 	"thrust_start"				"0"					// when to start accelerating
@@ -284,6 +312,7 @@ entityDef projectile_fireball_hellknight {
 	"bounce"					"0"					// how much speed a projectile retains when it bounces off of objects (coefficient of restitution).  0 means no bounce.
 	"mass"						"5"
 	"gravity"					"250"				// how much gravity affects the trajectory.  gravity direction is same as the entity that fired it.
+	"fast_gravity"				"350"
 	"fuse"						"20"				// how long before the projectile is removed or self-detonates.  Use 0 for beam weapons (velocity == distance).
 								
 	"detonate_on_fuse"			"0"					// whether projectile should detonate when it's fuse runs out

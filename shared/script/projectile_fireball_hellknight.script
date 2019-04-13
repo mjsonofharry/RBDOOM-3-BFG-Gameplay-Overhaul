@@ -1,8 +1,8 @@
-object projectile_impfireball {
+object projectile_fireball_hellknight {
     void		init();
 };
 
-void projectile_impfireball::init() {
+void projectile_fireball_hellknight::init() {
 	if ( sys.getcvar( "g_skill" ) == "3" ) {
 		setKey( "velocity", getKey( "fast_velocity" ) );
 		setKey( "gravity", getKey( "fast_gravity" ) );
