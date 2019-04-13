@@ -27,8 +27,6 @@ object monster_demon_imp : monster_base {
 	entity		combat_node;
 
 	string		range_attack_anim;
-
-	boolean		fast;
 	
 	// States
 	void		state_Begin();
@@ -252,13 +250,6 @@ monster_demon_imp::init
 void monster_demon_imp::init() {
 	run_distance	= IMP_RUNDISTANCE;
 	walk_turn		= IMP_WALKTURN;
-	
-	if ( sys.getcvar( "g_skill" ) == "3" ) {
-		fast = true;
-	} else {
-		fast = false;
-	}
-
 	setState( "state_Begin" );
 }
 

@@ -52,8 +52,6 @@ object monster_demon_wraith : monster_base {
 	entity		spawn_effect;
 
 	boolean		invisible;
-	
-	boolean		fast;
 
 	// States
 	void		state_Begin();
@@ -213,12 +211,6 @@ monster_demon_wraith::init
 =====================
 */
 void monster_demon_wraith::init() {
-	if ( sys.getcvar( "g_skill" ) == "3" ) {
-		fast = true;
-	} else {
-		fast = false;
-	}
-
 	setState( "state_Begin" );
 }
 
