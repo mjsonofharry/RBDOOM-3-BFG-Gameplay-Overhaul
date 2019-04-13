@@ -159,12 +159,15 @@ entityDef projectile_cacodemon_fireball {
 	"maxs"							"6 6 6"
 	"model" 						"caco_lightningball.prt"
 
+	"scriptobject"					"projectile_cacodemon_fireball"
+
 	"def_damage"					"damage_cacodemon_fireball"
 	"def_splash_damage"				"damage_cacodemon_fireball_splash"
 
 	"launchFromBarrel"				"1"
 	"health"						"5"					// amount of damage projectile can take if damaged (0 means it can't be destroyed)
 	"velocity"						"325 0 -350"			// how fast the projectile leaves the gun (or distance if fuse is 0)
+	"fast_velocity"					"475 0 0"
 	"angular_velocity"				"0 0 0"				// how the projectile is rotating when it leaves the gun
 	"thrust"						"0"					// the rate of acceleration (always in the direction of the projectiles model)
 	"thrust_start"					"0"					// when to start accelerating

@@ -1,0 +1,9 @@
+object projectile_cacodemon_fireball {
+    void		init();
+};
+
+void projectile_cacodemon_fireball::init() {
+	if ( sys.getcvar( "g_skill" ) == "3" ) {
+		setKey( "velocity", getKey( "fast_velocity" ) );
+	}
+}
