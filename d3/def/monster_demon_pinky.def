@@ -88,6 +88,15 @@ model monster_demon_pinky {
 		frame 20						sound_body2 snd_footstep
 		frame 21						sound_body snd_handstep
 	}
+	anim fast_run					models/md5/monsters/pinky/fast_run.md5anim {
+		frame 1							sound_item snd_breath
+		frame 7							sound_body snd_gear
+		frame 10						sound_body2 snd_footstep
+		frame 11						sound_body snd_handstep
+		frame 17						sound_body snd_gear
+		frame 20						sound_body2 snd_footstep
+		frame 21						sound_body snd_handstep
+	}
 	anim evade_left1				models/md5/monsters/pinky/evade_left.md5anim {
 		frame 1							sound_voice snd_pain
 		frame 9							sound_weapon snd_melee_4
