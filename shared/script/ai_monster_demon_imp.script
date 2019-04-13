@@ -375,21 +375,7 @@ float monster_demon_imp::check_attacks() {
 	}
 
 	if ( ( ( sys.getTime() > nextNoFOVAttack ) && AI_ENEMY_VISIBLE ) || AI_ENEMY_IN_FOV ) {
-		range = enemyRange();
-		if ( ( range >= IMP_LEAP_RANGE_MIN ) && ( range < IMP_LEAP_RANGE_MAX ) && ( currentTime >= nextLeap ) ) {
-			if ( canHitEnemy() ) {
-				t = animLength( ANIMCHANNEL_TORSO, "jump_start" );
-				jumpTarget = predictEnemyPos( t );
-				jumpVelocity = getJumpVelocity( jumpTarget, IMP_LEAP_SPEED, IMP_LEAP_MAXHEIGHT );
-				if ( jumpVelocity != '0 0 0' ) {
-					attack_flags |= ATTACK_LEAP;
-				} else {
-					// check if we can leap again in 2 seconds
-					nextLeap = DelayTime( 2 );
-				}
-			}
-		}
-		
+		range = enemyRange();		
 		if ( !canReachEnemy() || ( currentTime >= nextAttack ) ) {
 			if ( fast ) {
 				range_attack_anim = chooseAnim( ANIMCHANNEL_LEGS, "fast_turret_attack" );
