@@ -41012,7 +41012,7 @@ Version 2
 "name" "func_static_52873"
 "model" "func_static_52873"
 "origin" "11648 1140 0"
-"gui" "guis/d3xp-credits.gui"
+"gui" "guis/credits.gui"
 // primitive 0
 {
  patchDef2
