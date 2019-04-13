@@ -3,7 +3,7 @@ commandline "anim models/monsters/imp/animation/cycles/range1.ma -dest models/md
 
 numFrames 33
 numJoints 71
-frameRate 24
+frameRate 36
 numAnimatedComponents 128
 
 hierarchy {
