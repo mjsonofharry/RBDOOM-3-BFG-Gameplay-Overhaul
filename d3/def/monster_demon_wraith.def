@@ -54,7 +54,19 @@ model monster_demon_wraith {
 		frame 24						sound_body snd_footstep
 		frame 31						sound_body snd_footstep
 	}
+	anim fast_walk					models/md5/monsters/wraith/fast_walk.md5anim {
+		frame 7							sound_body snd_footstep
+		frame 15						sound_body snd_footstep
+		frame 24						sound_body snd_footstep
+		frame 31						sound_body snd_footstep
+	}
 	anim run						models/md5/monsters/wraith/run.md5anim {
+		frame 3							sound_body snd_footstep
+		frame 8							sound_body snd_footstep
+		frame 12						sound_body snd_footstep
+		frame 14						sound_body snd_footstep
+	}
+	anim fast_run					models/md5/monsters/wraith/fast_run.md5anim {
 		frame 3							sound_body snd_footstep
 		frame 8							sound_body snd_footstep
 		frame 12						sound_body snd_footstep

@@ -7,7 +7,7 @@ monster_demon_wraith
 ***********************************************************************/
 
 #define WRAITH_ATTACK_RATE			1.5
-#define WRAITH_DODGE_RATE			5
+#define WRAITH_DODGE_RATE			1
 #define	WRAITH_PAIN_DELAY			0.25
 #define WRAITH_RUNDISTANCE			192
 #define WRAITH_WALKTURN				65
@@ -53,6 +53,8 @@ object monster_demon_wraith : monster_base {
 
 	boolean		invisible;
 	
+	boolean		fast;
+
 	// States
 	void		state_Begin();
 	void		state_Idle();
@@ -152,7 +154,11 @@ void monster_demon_wraith::Legs_Idle() {
 }
 
 void monster_demon_wraith::Legs_Walk() {
-	playCycle( ANIMCHANNEL_LEGS, "walk" );
+	if ( fast ) {
+		playCycle( ANIMCHANNEL_LEGS, "fast_walk" );
+	} else {
+		playCycle( ANIMCHANNEL_LEGS, "walk" );
+	}
 	
 	eachFrame {
 		if ( run && AI_FORWARD )	{ animState( ANIMCHANNEL_LEGS, "Legs_Run", WRAITH_WALK_TO_RUN ); }
@@ -161,7 +167,11 @@ void monster_demon_wraith::Legs_Walk() {
 }
 
 void monster_demon_wraith::Legs_Run() {
-	playCycle( ANIMCHANNEL_LEGS, "run" );
+	if ( fast ) {
+		playCycle( ANIMCHANNEL_LEGS, "fast_run" );
+	} else {
+		playCycle( ANIMCHANNEL_LEGS, "run" );
+	}
 	
 	eachFrame {
 		if ( !run && AI_FORWARD )	{ animState( ANIMCHANNEL_LEGS, "Legs_Walk", WRAITH_RUN_TO_WALK ); }
@@ -203,6 +213,12 @@ monster_demon_wraith::init
 =====================
 */
 void monster_demon_wraith::init() {
+	if ( sys.getcvar( "g_skill" ) == "3" ) {
+		fast = true;
+	} else {
+		fast = false;
+	}
+
 	setState( "state_Begin" );
 }
 
