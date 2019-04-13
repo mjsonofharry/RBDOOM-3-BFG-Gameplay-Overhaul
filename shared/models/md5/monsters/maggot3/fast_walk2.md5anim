@@ -3,7 +3,7 @@ commandline "anim models/monsters/maggot/mag3cycles/walk2.mb -dest models/md5/mo
 
 numFrames 25
 numJoints 83
-frameRate 24
+frameRate 36
 numAnimatedComponents 133
 
 hierarchy {
