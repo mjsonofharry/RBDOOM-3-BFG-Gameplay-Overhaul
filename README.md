@@ -2,8 +2,14 @@
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-  - [Instructions](#instructions)
+  - [BFG Edition](#bfg-edition)
+  - [Doom 3 with Resurrection of Evil](#doom-3-with-resurrection-of-evil)
   - [Configuration](#configuration)
+  - [Known Issues](#known-issues)
+    - [Doom 3](#doom-3)
+    - [dhewm 3](#dhewm-3)
+    - [RBDOOM 3 BFG](#rbdoom-3-bfg)
+    - [Classic RBDOOM 3 BFG](#classic-rbdoom-3-bfg)
 - [Summary](#summary)
   - [Weapons](#weapons)
     - [Flashlight](#flashlight)
@@ -19,6 +25,8 @@
     - [Rocket launcher](#rocket-launcher)
     - [BFG](#bfg)
     - [PDA](#pda)
+    - [Soul Cube and Artifact](#soul-cube-and-artifact)
+    - [Grabber](#grabber)
   - [Pickups](#pickups)
   - [Player](#player)
   - [Enemies](#enemies)
@@ -28,6 +36,7 @@
     - [Wraith](#wraith)
     - [Hellknight](#hellknight)
     - [Archvile](#archvile)
+    - [Cyberdemon](#cyberdemon)
     - [Zombie security](#zombie-security)
   - [Levels](#levels)
 - [How to make your own mods for RBDOOM-3-BFG](#how-to-make-your-own-mods-for-rbdoom-3-bfg)
@@ -35,30 +44,65 @@
 
 ## Introduction
 
-RBDOOM-3-BFG-Gameplay-Overhaul is a mod for [RBDOOM-3-BFG](https://github.com/RobertBeckebans/RBDOOM-3-BFG/releases) and [Classic-RBDOOM-3-BFG](https://github.com/MadDeCoDeR/Classic-RBDOOM-3-BFG/releases). Some highlights include:
+Doom 3 Gameplay Overhaul is a mod that offers:
 
 * No reloading
 * Unlimited sprinting
-* Better weapons
-* Less ammo, health, and armor
-* More challenging enemies
-* Super shotgun
+* Improved weapons
+* Deadly enemies
+* Scarcity of ammo, health, and armor
+* Super shotgun and grabber in base campaign
 * Persistent ragdolls and ejected brass
+* No artifact or soulcube
+
+The following version of Doom 3 are supported:
+
+* [Doom 3](https://store.steampowered.com/app/9050/DOOM_3/) with [Resurrection of Evil](https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/) installed
+* [dhewm 3](https://dhewm3.org/)
+* [RBDOOM 3 BFG](https://github.com/RobertBeckebans/RBDOOM-3-BFG)
+* [Classic RBDOOM 3 BFG](https://github.com/MadDeCoDeR/Classic-RBDOOM-3-BFG)
+
+The mod may work with other source ports. However, only the titles listed above receive testing.
 
 ## Installation
 
-### Instructions
+### BFG Edition
 
 1. Get [RBDOOM-3-BFG](https://github.com/RobertBeckebans/RBDOOM-3-BFG/releases) or [Classic-RBDOOM-3-BFG](https://github.com/MadDeCoDeR/Classic-RBDOOM-3-BFG/releases).
 2. Get the [latest release](https://github.com/mjsonofharry/RBDOOM-3-BFG-Gameplay-Overhaul/releases/latest) of this mod.
-3. Move the mod files to *<path to Doom 3 BFG Edition>/RBDOOM-3-BFG-Gameplay-Overhaul/*.
-4. Create a shortcut to *<path to Doom 3 BFG Edition>/RBDoom3BFG.exe* with the following launch parameters: `+set fs_game RBDOOM-3-BFG-Gameplay-Overhaul +set fs_resourceLoadPriority 0`
+3. Move the mod files to `<path to RBDOOM 3 BFG Edition>/RBDOOM-3-BFG-Gameplay-Overhaul/`.
+4. Create a shortcut to the game executable with the following launch parameters: `+set fs_game RBDOOM-3-BFG-Gameplay-Overhaul +set fs_resourceLoadPriority 0`
 
 Some changes will not work correctly when applied to pre-existing saves. Also, if you're using **Classic-RBDOOM-3-BFG**, adding `+set flashlight_old 1` to your launch arguments is recommended but not required.
 
+### Doom 3 with Resurrection of Evil
+
+1. Get the latest pk4 of this mod.
+2. Drop the pk4 in `<path to Doom 3>/d3xp`.
+3. Use this launch parameter: `fs_game d3xp`.
+4. (Optional but recommended) install [Arl's Improvements](https://www.moddb.com/mods/arls-improvements).
+
+These steps are the same if you're using a compatible source port, such as [dhewm 3](https://dhewm3.org/).
+
+Alternatively, you can place the files in a separate directory from d3xp and then use `set fs_game_base` with `set fs_game`, but this can cause game-breaking errors and is not supported.
+
 ### Configuration
 
-The **autoexec.cfg** file included with this mod will select Doom 3 and skip intro videos at launch. During gameplay, many of the fancy _new_ rendering effects have been disabled in order to make the BFG Edition darker and more faithful to the visual style of the original. Lastly, autoswitching is disabled; do not override this or else you wil throw your first grenade at the wall. Then it will bounce off the wall and land at your feet, and you will probably feel sorry about the whole situation.
+The **autoexec.cfg** file included with this mod disables automatic weapon switching. Do not turn it back on or else you will have a bad time when you pick up your first grenades. Additionally, nightmare mode is allowed by default, and its health drain mechanic has been disabled.
+
+For Doom 3 BFG Edition, many of the fancy new special effects have been disabled in order to make the game darker and more faithful to the original. Furthermore, the flashlight's battery drain mechanic has been disabled.
+
+### Known Issues
+
+#### Doom 3
+
+#### dhewm 3
+
+#### RBDOOM 3 BFG
+
+* The game hangs if you equip the grabber on any non-RoE multiplayer maps. The grabber is not intended for multiplayer so this should not affect normal gameplay.
+
+#### Classic RBDOOM 3 BFG
 
 ## Summary
 
@@ -70,7 +114,9 @@ Furthermore, ejected brass and other debris have been given a time-to-live of 1 
 
 #### Flashlight
 
-The flashlight's light cone has received a dramatic upgrade. You will find that it illuminates the entire room in front of you (assuming you are in a room). Swinging it around also results in a slight aim kick.
+The original flashlight's light cone has received a dramatic upgrade. You will find that it illuminates the entire room in front of you (assuming you are in a room). Swinging it around also results in a slight aim kick.
+
+The BFG flashlight no longer requires battery.
 
 #### Fists
 
@@ -138,6 +184,14 @@ No changes needed apart from the on-weapon GUI being updated. You also can't ove
 
 Opening and closing the PDA is now instant.
 
+#### Soul Cube and Artifact
+
+Replaced in both campaigns with the grabber.
+
+#### Grabber
+
+Damage reduced for caught enemy projectiles.
+
 ### Pickups
 
 All ammo pickup yields have been greatly diminished. Where applicable, these yields are consistent with the corresponding pickup models. For example, grenade pickup models consist of a pack of 4 grenades. So, as you would expect, picking one of these up adds exactly 4 grenades to your inventory.
@@ -150,13 +204,17 @@ Stamina has been removed from the game. No stamina meter will appear on your HUD
 
 Ammo carry limits have been reduced significantly. They're now similar to classic Doom carry limits, except a little bit harsher because you can carry so many different ammo types.
 
+Health drain has been removed entirely from Nightmare mode.
+
 ### Enemies
 
 Just about every demon has received a considerable health buff. Where applicable, they have the same HP values as their classic Doom counterparts.
 
 Furthermore, hit zones are now more diverse. Generally, arms and legs take less damage than torsos which take less damage than heads. The effect is either more or less pronounced depending on how armored or tough the body part looks.
 
-Also, ragdolls will never disappear or burn up. Please enjoy using them as markers for which corridors you've already explored, or as trophies, or whatever.
+Enemies no longer use their luxurious teleportation animations. This means that you can't just rush them with the shotgun while they're still getting ready.
+
+Also, ragdolls will never disappear or burn up (except for when they come from infinite enemy spawners). Please enjoy using them as markers for which corridors you've already explored, or as trophies, or whatever.
 
 #### Imp
 
@@ -188,6 +246,10 @@ The archvile can now use its signature move: incinerate. Furthermore, its flamew
 
 Generally, you can expect to see incinerate when you are either very far away from or very close to the archvile, and you will see flamewall if you're at close to medium range and there are no obstacles in the way.
 
+#### Cyberdemon
+
+The cyberdemon can be harmed by any weapon. Please enjoy shooting at him.
+
 #### Zombie security
 
 Zombie security ranged attacks have significantly reduced aim kick, because aim kick is annoying in hitscan battles.
@@ -201,6 +263,8 @@ Some of the more repetitive sounds (such as when spotting a player) see less fre
 Health station reserves have been drastically decreased in the base campaign.
 
 Super shotguns can be found in various mid to late-game levels.
+
+In the original Doom 3, there is now a level transition from the final level of the base campaign to the first level of the Resurrection of Evil campaign.
 
 ## How to make your own mods for RBDOOM-3-BFG
 
@@ -237,3 +301,9 @@ The following modified assets by an unidentified artist as distributed by [Sound
 * [sound/custom/weapons/chaingun/atchisson_06](http://soundbible.com/2021-Atchisson-Assault-Shotgun.html)
 * [sound/custom/weapons/chaingun/atchisson_07](http://soundbible.com/2021-Atchisson-Assault-Shotgun.html)
 * [sound/custom/weapons/chaingun/atchisson_08](http://soundbible.com/2021-Atchisson-Assault-Shotgun.html)
+
+The following modified assets by Mike Koenig as distributed by [SoundBible.com](http://soundbible.com/) are licensed under [Attribution 3.0](https://creativecommons.org/licenses/by/3.0/us/):
+
+* [sound/custom/weapons/shotgun/barrett_01](http://soundbible.com/1880-416-Barrett-Sniper-3x.html)
+* [sound/custom/weapons/shotgun/barrett_02](http://soundbible.com/1880-416-Barrett-Sniper-3x.html)
+* [sound/custom/weapons/shotgun/barrett_03](http://soundbible.com/1880-416-Barrett-Sniper-3x.html)

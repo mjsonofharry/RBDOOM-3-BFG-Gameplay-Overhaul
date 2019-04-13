@@ -1,0 +1,26 @@
+[
+    {
+        "game_name": "RBDOOM_3_BFG",
+        "is_pk4": false,
+        "data_sources": ["shared", "bfg"],
+        "game_path": "D:\\RBDOOM-3-BFG"
+    },
+    {
+        "game_name": "Classic_RBDOOM_3_BFG",
+        "is_pk4": false,
+        "data_sources": ["shared", "bfg"],
+        "game_path": "D:\\Classic-RBDOOM-3-BFG"
+    },
+    {
+        "game_name": "dhewm_3",
+        "is_pk4": true,
+        "data_sources": ["shared", "d3"],
+        "game_path": "D:\\dhewm3"
+    },
+    {
+        "game_name": "doom_3",
+        "is_pk4": true,
+        "data_sources": ["shared", "d3"],
+        "game_path": "D:\\SteamLibrary\\steamapps\\common\\Doom 3"
+    }
+]

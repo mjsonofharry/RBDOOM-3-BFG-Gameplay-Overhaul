@@ -1,0 +1,110 @@
+/***********************************************************************
+
+weapon_shotgun.script
+
+***********************************************************************/
+
+#define SHOTGUN_FIRERATE		1.25
+#define SHOTGUN_LOWAMMO			5
+#define	SHOTGUN_NUMPROJECTILES	7
+
+// blend times
+#define SHOTGUN_IDLE_TO_IDLE	0
+#define SHOTGUN_IDLE_TO_LOWER	4
+#define SHOTGUN_IDLE_TO_FIRE	1
+#define	SHOTGUN_IDLE_TO_RELOAD	4
+#define	SHOTGUN_IDLE_TO_NOAMMO	4
+#define SHOTGUN_NOAMMO_TO_RELOAD 4
+#define SHOTGUN_NOAMMO_TO_IDLE	4
+#define SHOTGUN_RAISE_TO_IDLE	1
+#define SHOTGUN_FIRE_TO_IDLE	4
+#define SHOTGUN_RELOAD_TO_IDLE	4
+#define	SHOTGUN_RELOAD_TO_FIRE	4
+#define SHOTGUN_RELOAD_TO_LOWER 2
+
+object weapon_shotgun : weapon_base {
+	float		next_attack;
+	float		spread;
+	
+	void		init();
+	
+	void		Lower();
+	void		Raise();
+	void		Idle();
+	void		NoAmmo();
+	void		Fire();
+	void		Reload();
+	void		ExitCinematic();
+};
+
+void weapon_shotgun::init() {
+	next_attack = 0;
+	spread		= getFloatKey( "spread" );
+	weaponState( "Raise", 0 );
+}
+
+void weapon_shotgun::Raise() {
+	weaponRising();
+	playAnim( ANIMCHANNEL_ALL, "raise" );
+	waitUntil( animDone( ANIMCHANNEL_ALL, SHOTGUN_RAISE_TO_IDLE ) );
+	weaponState( "Idle", SHOTGUN_RAISE_TO_IDLE );
+}
+
+void weapon_shotgun::Lower() {
+	weaponLowering();
+	playAnim( ANIMCHANNEL_ALL, "putaway" );
+	waitUntil( animDone( ANIMCHANNEL_ALL, 0 ) );
+	weaponHolstered();
+	waitUntil( WEAPON_RAISEWEAPON );
+	weaponState( "Raise", 0 );
+}
+
+void weapon_shotgun::Idle() {	
+	if ( !ammoAvailable() ) {
+		weaponOutOfAmmo();
+	} else {
+		weaponReady();
+	}
+	playCycle( ANIMCHANNEL_ALL, "idle" );
+	while( 1 ) {
+		if ( WEAPON_LOWERWEAPON ) {
+			weaponState( "Lower", SHOTGUN_IDLE_TO_LOWER );
+		}
+		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK ) {
+			if ( ammoAvailable() > 0 ) {
+				weaponState( "Fire", SHOTGUN_IDLE_TO_FIRE );
+			} else {
+				weaponState( "NoAmmo", SHOTGUN_IDLE_TO_NOAMMO );
+			}
+		}
+		waitFrame();
+	}
+}
+
+void weapon_shotgun::NoAmmo() {
+	playAnim( ANIMCHANNEL_ALL, "noammo" );
+	waitUntil( animDone( ANIMCHANNEL_ALL, SHOTGUN_NOAMMO_TO_IDLE ) );
+	weaponState( "Idle", SHOTGUN_NOAMMO_TO_IDLE );
+}
+
+void weapon_shotgun::Fire() {
+	next_attack = sys.getTime() + SHOTGUN_FIRERATE;
+	
+	if ( ammoAvailable() == SHOTGUN_LOWAMMO ) {
+		startSound( "snd_lowammo", SND_CHANNEL_ITEM, true );
+	}
+	
+	launchProjectiles( SHOTGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
+	playAnim( ANIMCHANNEL_ALL, "fire" );
+	waitUntil( animDone( ANIMCHANNEL_ALL, SHOTGUN_FIRE_TO_IDLE ) );
+	weaponState( "Idle", SHOTGUN_FIRE_TO_IDLE );
+}
+
+void weapon_shotgun::Reload() {
+	weaponState( "Idle", 0 );
+}
+
+void weapon_shotgun::ExitCinematic() {
+	next_attack = 0;
+	weaponState( "Idle", 0 );
+}
