@@ -640,20 +640,20 @@ windowDef Desktop {
 			set 	"AmmoFlash2::visible" "0" ;
 			set 	"AmmoFlash1::visible" "1" ;
 			set	"ScanLineLA::visible" "0" ;
-			set	"ScanLineLAG::visible" "0" ;
-			set	"BorderLAGrenades::visible" "0" ;
+			set	"ScanLineLAG::visible" "1" ;
+			set	"BorderLAGrenades::visible" "1" ;
 			set	"BorderLA::visible" "0" ;
+			set	"weaphud" "2" ;
 			set	"BorderLA_1::visible" "0" ;
 			set	"BorderLA_2::visible" "0" ;
-			set	"weaphud" "1" ;
 			set	"BgLA::visible" "0" ;
 			set	"Lines1A::visible" "0" ;
-			set	"Lines1B::visible" "0" ;
+			set	"Lines1B::visible" "1" ;
 			set	"Lines2A::visible" "0" ;
 			set	"ammovalue2Black::visible" "0" ;
 			set	"ammovalue2::visible" "0" ;
-			set	"ammovalue3Black::visible" "0" ;
-			set	"ammovalue3::visible" "0" ;
+			set	"ammovalue3Black::visible" "1" ;
+			set	"ammovalue3::visible" "1" ;
 		} 
 		if ("gui::weapon10" == 2) { 
 			resetTime "WeapIcon10" "0" ; 
@@ -674,20 +674,20 @@ windowDef Desktop {
 			set 	"AmmoFlash2::visible" "0" ;
 			set 	"AmmoFlash1::visible" "1" ;
 			set	"ScanLineLA::visible" "0" ;
-			set	"ScanLineLAG::visible" "0" ;
-			set	"BorderLAGrenades::visible" "0" ;
+			set	"ScanLineLAG::visible" "1" ;
+			set	"BorderLAGrenades::visible" "1" ;
 			set	"BorderLA::visible" "0" ;
+			set	"weaphud" "2" ;
 			set	"BorderLA_1::visible" "0" ;
 			set	"BorderLA_2::visible" "0" ;
-			set	"weaphud" "1" ;
 			set	"BgLA::visible" "0" ;
 			set	"Lines1A::visible" "0" ;
-			set	"Lines1B::visible" "0" ;
+			set	"Lines1B::visible" "1" ;
 			set	"Lines2A::visible" "0" ;
 			set	"ammovalue2Black::visible" "0" ;
 			set	"ammovalue2::visible" "0" ;
-			set	"ammovalue3Black::visible" "0" ;
-			set	"ammovalue3::visible" "0" ;
+			set	"ammovalue3Black::visible" "1" ;
+			set	"ammovalue3::visible" "1" ;
 		} 
 		if ("gui::weapon11" == 2) { 
 			resetTime "WeapIcon11" "0" ; 
