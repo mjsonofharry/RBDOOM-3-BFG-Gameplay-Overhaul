@@ -120,6 +120,10 @@ void monster_demon_hellknight::Torso_RangeAttack() {
 	disablePain();
 	faceEnemy();
 
+	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) ) {
+		moveToEnemy();
+	}
+
 	playAnim( ANIMCHANNEL_TORSO, range_attack_anim );
 	while( !animDone( ANIMCHANNEL_TORSO, HELLKNIGHT_RANGE_TO_IDLE ) ) {
 		lookAtEnemy( 1 );	

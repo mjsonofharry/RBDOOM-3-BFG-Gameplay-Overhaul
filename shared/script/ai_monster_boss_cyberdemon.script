@@ -108,7 +108,9 @@ void monster_boss_cyberdemon::Torso_MeleeAttack() {
 void monster_boss_cyberdemon::Torso_RangeAttack() {
 	disablePain();
 
-	moveToEnemy();
+	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) ) {
+			moveToEnemy();
+	}
 
 	playAnim( ANIMCHANNEL_TORSO, range_attack_anim );
 	while( !AI_SPECIAL_DAMAGE && !animDone( ANIMCHANNEL_TORSO, CYBER_RANGE_TO_IDLE ) ) {
