@@ -109,13 +109,14 @@ void monster_boss_cyberdemon::Torso_MeleeAttack() {
 void monster_boss_cyberdemon::Torso_RangeAttack() {
 	disablePain();
 
+	moveToEnemy();
+
 	playAnim( ANIMCHANNEL_TORSO, range_attack_anim );
 	while( !AI_SPECIAL_DAMAGE && !animDone( ANIMCHANNEL_TORSO, CYBER_RANGE_TO_IDLE ) ) {
 		lookAtEnemy( 1 );	
 		waitFrame();
 	}
 
-	allowMovement( true );
 	finishAction( "range_attack" );
 
 	if ( AI_SPECIAL_DAMAGE ) {
