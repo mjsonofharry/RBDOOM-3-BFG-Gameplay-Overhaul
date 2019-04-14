@@ -37,6 +37,7 @@ model monster_flying_cacodemon {
 	anim fly						models/md5/monsters/cacodemon/walk.md5anim {
 		//frame 1							sound_body snd_walk
 	}
+	anim fast_fly					models/md5/monsters/cacodemon/fast_walk.md5anim 
 	anim walk						models/md5/monsters/cacodemon/walk.md5anim {
 		//frame 1							sound_body snd_walk
 	}
@@ -48,6 +49,11 @@ model monster_flying_cacodemon {
 		frame 14						melee melee_cacodemon
 	}
 	anim range_attack1				models/md5/monsters/cacodemon/range_attack1.md5anim {
+		frame 13						create_missile caco_launch
+		frame 13						sound_weapon monster_demon_cacodemon_attackmissile
+		frame 15						launch_missile caco_launch
+	}
+	anim fast_range_attack1			models/md5/monsters/cacodemon/fast_range_attack.md5anim {
 		frame 13						create_missile caco_launch
 		frame 13						sound_weapon monster_demon_cacodemon_attackmissile
 		frame 15						launch_missile caco_launch
@@ -88,12 +94,13 @@ entityDef monster_flying_cacodemon {
 	"turn_rate"						"150"
 	"fly_offset"					"-56"
 	"fly_speed"						"175"
+	"fast_fly_speed"				"350"
 	"fly_seek_scale"				"4"
 	"fly_roll_max"					"60"
 	"fly_roll_scale"				"100"
 	"fly_pitch_scale"				"45"
 	"fly_pitch_max"					"15"
-	"mass"							"200"
+	"mass"							"300"
 	
 	"bone_flytilt"					"Body2"
 
