@@ -53,6 +53,13 @@ model monster_demon_revenant {
 		frame 15						launch_missile Rmissile
 		frame 15						sound_body snd_footstep
 	}
+	anim fast_turret_attack			models/md5/monsters/revenant/fast_range_attack3.md5anim {
+		frame 1							call overrideLegs
+		frame 13						sound_weapon snd_attackmissile
+		frame 14						launch_missile Lmissile
+		frame 15						launch_missile Rmissile
+		frame 15						sound_body snd_footstep
+	}
 
 	anim af_pose					models/md5/monsters/revenant/james/af_pose.md5anim
 	anim ik_pose					models/md5/monsters/revenant/james/af_pose.md5anim
@@ -75,6 +82,10 @@ model monster_demon_revenant {
 	}
 
 	anim walk						models/md5/monsters/revenant/james/walk1.md5anim {
+		frame 11						sound_body snd_footstep
+		frame 24						sound_body snd_footstep
+	}
+	anim fast_walk					models/md5/monsters/revenant/fast_walk.md5anim {
 		frame 11						sound_body snd_footstep
 		frame 24						sound_body snd_footstep
 	}
@@ -116,6 +127,10 @@ model monster_demon_revenant {
 	}
 
 	anim run						models/md5/monsters/revenant/james/walk2.md5anim {
+		frame 11						sound_body snd_footstep
+		frame 24						sound_body snd_footstep
+	}
+	anim fast_run					models/md5/monsters/revenant/fast_run.md5anim {
 		frame 11						sound_body snd_footstep
 		frame 24						sound_body snd_footstep
 	}
@@ -187,14 +202,31 @@ model monster_demon_revenant {
 		frame 12						sound_weapon snd_attackmissile
 		frame 12						launch_missile Lmissile
 	}
+	anim fast_range_attack1			models/md5/monsters/revenant/fast_range_attack1.md5anim {
+		frame 1							call overrideLegs	
+		frame 12						sound_weapon snd_attackmissile
+		frame 12						launch_missile Lmissile
+	}
 
 	anim range_attack2				models/md5/monsters/revenant/james/range_attack2.md5anim {
 		frame 1							call overrideLegs	
 		frame 13						sound_weapon snd_attackmissile
 		frame 13						launch_missile Rmissile
 	}
+	anim fast_range_attack2			models/md5/monsters/revenant/fast_range_attack2.md5anim {
+		frame 1							call overrideLegs	
+		frame 13						sound_weapon snd_attackmissile
+		frame 13						launch_missile Rmissile
+	}
 
 	anim range_attack3				models/md5/monsters/revenant/james/range_attack3.md5anim {
+		frame 1							call overrideLegs
+		frame 13						sound_weapon snd_attackmissile
+		frame 14						launch_missile Lmissile
+		frame 15						launch_missile Rmissile
+		frame 15						sound_body snd_footstep
+	}
+	anim fast_range_attack3			models/md5/monsters/revenant/fast_range_attack3.md5anim {
 		frame 1							call overrideLegs
 		frame 13						sound_weapon snd_attackmissile
 		frame 14						launch_missile Lmissile
