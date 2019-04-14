@@ -154,10 +154,12 @@ void monster_base::Torso_Sight() {
 
 	if ( animname != "" ) {
 		if ( hasAnim( ANIMCHANNEL_TORSO, animname ) ) {
-			playAnim( ANIMCHANNEL_TORSO, animname );
-		
-			while( !animDone( ANIMCHANNEL_TORSO, blendFrames ) ) {
-				waitFrame();
+			if ( !fast || ( animname != "sight" ) ) {
+				playAnim( ANIMCHANNEL_TORSO, animname );
+			
+				while( !animDone( ANIMCHANNEL_TORSO, blendFrames ) ) {
+					waitFrame();
+				}
 			}
 		}
 	}
@@ -717,10 +719,8 @@ void monster_base::sight_enemy() {
 		if ( getIntKey( "walk_on_sight" ) ) {
 			moveToEnemy();
 		}
-		if ( !fast ) {
-			animState( ANIMCHANNEL_TORSO, "Torso_Sight", 4 );
-			waitAction( "sight" );
-		}
+		animState( ANIMCHANNEL_TORSO, "Torso_Sight", 4 );
+		waitAction( "sight" );
 		setNeverDormant( getFloatKey( "neverdormant" ) );
 	}
 }
