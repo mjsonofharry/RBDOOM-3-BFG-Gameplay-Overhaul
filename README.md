@@ -242,9 +242,9 @@ Hellknights no longer constantly scream when using their ranged attacks. This ha
 
 #### Archvile
 
-The archvile can now use its signature move: incinerate. Furthermore, its flamewall attack has received a huge speed boost.
+The archvile can now use its signature move: incinerate. Furthermore, its flamewall attack has received a huge speed boost. Generally, you can expect to see incinerate when you are either very far away from or very close to the archvile, and you will see flamewall if you're at close to medium range and there are no obstacles in the way.
 
-Generally, you can expect to see incinerate when you are either very far away from or very close to the archvile, and you will see flamewall if you're at close to medium range and there are no obstacles in the way.
+Also, it powerwalks instead of ambling, just like in Doom 2.
 
 #### Cyberdemon
 
@@ -265,6 +265,14 @@ Health station reserves have been drastically decreased in the base campaign.
 Super shotguns can be found in various mid to late-game levels.
 
 In the original Doom 3, there is now a level transition from the final level of the base campaign to the first level of the Resurrection of Evil campaign.
+
+### Nightmare
+
+The health drain mechanic has been removed. You will also not start with the soul cube because the soul cube is not equipable in this mod.
+
+Enemies no longer use a 'reaction' animation when first seeing the player. Instead, they will begin attacking immediately.
+
+Many enemy animations have been sped up. This means that they can walk, run, and attack faster. Imp, cacodemon, and hellknight fireballs are also faster.
 
 ## How to make your own mods for RBDOOM-3-BFG
 
