@@ -46,6 +46,10 @@ model monster_demon_archvile {
 		frame 14						sound_body snd_footstep
 		frame 27						sound_body snd_footstep
 	}
+	anim fast_walk					models/md5/monsters/archvile/fast_walk.md5anim {
+		frame 14						sound_body snd_footstep
+		frame 27						sound_body snd_footstep
+	}
 	anim teleport					models/md5/monsters/archvile/teleport.md5anim {
 		frame 4							sound_body snd_footstep
 		frame 5							sound_body snd_footstep
