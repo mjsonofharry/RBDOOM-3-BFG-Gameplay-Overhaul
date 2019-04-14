@@ -134,6 +134,23 @@ model monster_demon_trite {
 		frame 39						sound_body snd_footstep
 		frame 41						sound_body2 snd_footstep
 	}
+	anim fast_run					models/md5/monsters/trite/fast_run.md5anim {
+		frame 1						enableWalkIK	
+		frame 5							sound_body snd_footstep
+		frame 6							sound_body2 snd_footstep
+		frame 11						sound_body snd_footstep
+		frame 13						sound_body2 snd_footstep
+		frame 16						sound_body snd_footstep
+		frame 20						sound_body2 snd_footstep
+		frame 21						sound_body snd_footstep
+		frame 26						sound_body2 snd_footstep
+		frame 29						sound_body snd_footstep
+		frame 31						sound_body2 snd_footstep		
+		frame 36						sound_body snd_footstep
+		frame 37						sound_body2 snd_footstep
+		frame 39						sound_body snd_footstep
+		frame 41						sound_body2 snd_footstep
+	}
 	anim walk1						models/md5/monsters/trite/walk2.md5anim {
 		frame 1							enableWalkIK
 		frame 3							sound_body snd_footstep
@@ -153,7 +170,57 @@ model monster_demon_trite {
 		frame 53						sound_body snd_footstep
 		frame 55						sound_body2 snd_footstep
 	}
+	anim fast_walk1					models/md5/monsters/trite/fast_walk1.md5anim {
+		frame 1							enableWalkIK
+		frame 3							sound_body snd_footstep
+		frame 4							sound_body2 snd_footstep		
+		frame 7							sound_body snd_footstep
+		frame 8							sound_body2 snd_footstep
+		frame 11						sound_body snd_footstep		
+		frame 13						sound_body2 snd_footstep
+		frame 14						sound_body snd_footstep
+		frame 28						sound_body2 snd_footstep
+		frame 29						sound_body snd_footstep
+		frame 33						sound_body2 snd_footstep
+		frame 39						sound_body snd_footstep
+		frame 43						sound_body2 snd_footstep
+		frame 45						sound_body snd_footstep	
+		frame 50						sound_body2 snd_footstep		
+		frame 53						sound_body snd_footstep
+		frame 55						sound_body2 snd_footstep
+	}
 	anim walk2						models/md5/monsters/trite/walk3.md5anim {
+		frame 1							enableWalkIK
+		frame 2							sound_voice snd_sight
+		frame 3							sound_body snd_footstep
+		frame 4							sound_body2 snd_footstep		
+		frame 7							sound_body snd_footstep
+		frame 11						sound_body2 snd_footstep
+		frame 14						sound_body snd_footstep
+		frame 25						sound_voice snd_chomp		
+		frame 28						sound_body2 snd_footstep
+		frame 29						sound_body snd_footstep
+		frame 34						sound_body2 snd_footstep
+		frame 39						sound_body snd_footstep
+		frame 41						sound_voice snd_sight
+		frame 45						sound_body2 snd_footstep
+		frame 50						sound_body snd_footstep
+		frame 55						sound_body2 snd_footstep
+		frame 59						sound_body snd_footstep
+		frame 63						sound_voice snd_chomp
+		frame 74						sound_body2 snd_footstep
+		frame 76						sound_body snd_footstep
+		frame 81						sound_voice snd_sight
+		frame 84						sound_body2 snd_footstep
+		frame 85						sound_body snd_footstep
+		frame 86						sound_body2 snd_footstep
+		frame 93						sound_body snd_footstep
+		frame 94						sound_body2 snd_footstep
+		frame 96						sound_body snd_footstep
+		frame 99						sound_body2 snd_footstep
+		frame 100						sound_body snd_footstep
+	}
+	anim fast_walk2					models/md5/monsters/trite/fast_walk2.md5anim {
 		frame 1							enableWalkIK
 		frame 2							sound_voice snd_sight
 		frame 3							sound_body snd_footstep
@@ -216,8 +283,15 @@ model monster_demon_trite {
 	anim jump_start					models/md5/monsters/trite/leap1start.md5anim {
 		frame 8							sound_body snd_footstep
 	}
+	anim fast_jump_start			models/md5/monsters/trite/fast_leap_start.md5anim {
+		frame 8							sound_body snd_footstep
+	}
 	anim jump_loop1					models/md5/monsters/trite/leap1loop.md5anim
 	anim jump_end					models/md5/monsters/trite/leap1end.md5anim {
+		frame 1							sound_body snd_footstep
+		frame 2							sound_body snd_footstep
+	}
+	anim fast_jump_end				models/md5/monsters/trite/fast_leap_end.md5anim {
 		frame 1							sound_body snd_footstep
 		frame 2							sound_body snd_footstep
 	}
