@@ -111,21 +111,24 @@ void monster_demon_imp::Torso_MeleeAttack() {
 }
 
 void monster_demon_imp::Torso_RangeAttack() {
-	disablePain();
+	string nextAnim;
 
 	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) ) {
 		moveToEnemy();
 	}
 
+	nextAnim = "Torso_Idle";
 	playAnim( ANIMCHANNEL_TORSO, range_attack_anim );
 	while( !animDone( ANIMCHANNEL_TORSO, 4 ) ) {
+		if ( AI_PAIN ) {
+			nextAnim = "Torso_Pain";
+			break;
+		}
 		lookAtEnemy( 1 );	
 		waitFrame();
 	}
-
-	allowMovement( true );
 	finishAction( "range_attack" );
-	animState( ANIMCHANNEL_TORSO, "Torso_Idle", 4 );
+	animState( ANIMCHANNEL_TORSO, nextAnim, 4 );
 }
 
 void monster_demon_imp::Torso_TurretAttack() {
