@@ -3,7 +3,7 @@ commandline "anim models/monsters/imp/animation/cycles/turret_attack1.ma -dest m
 
 numFrames 37
 numJoints 71
-frameRate 36
+frameRate 30
 numAnimatedComponents 121
 
 hierarchy {

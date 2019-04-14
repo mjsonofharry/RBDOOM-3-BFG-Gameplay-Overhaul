@@ -3,7 +3,7 @@ commandline "anim models/monsters/imp/animation/cycles/walk1.ma -dest models/md5
 
 numFrames 36
 numJoints 71
-frameRate 36
+frameRate 30
 numAnimatedComponents 56
 
 hierarchy {
