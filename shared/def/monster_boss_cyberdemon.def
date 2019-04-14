@@ -83,6 +83,12 @@ model monster_boss_cyberdemon {
 		frame 37					sound_body snd_footstep
 		frame 37					triggerSmokeParticle cyber_lfoot_dust
 	}
+	anim fast_walk				models/md5/monsters/cyberdemon/fast_walk.md5anim {
+		frame 17					sound_body snd_footstep
+		frame 17					triggerSmokeParticle cyber_rfoot_dust
+		frame 37					sound_body snd_footstep
+		frame 37					triggerSmokeParticle cyber_lfoot_dust
+	}
 	anim pain						models/md5/monsters/cyberdemon/pain_big1.md5anim {
 		frame 1						call overrideLegs
 		frame 1						sound_voice	snd_pain
@@ -131,11 +137,29 @@ model monster_boss_cyberdemon {
 		frame 66						sound_weapon snd_attackmissile
 		frame 66						launch_missile Barrel
 	}
+	anim fast_range_attack1			models/md5/monsters/cyberdemon/fast_range_attack1.md5anim {
+		frame 19						sound_weapon snd_attackmissile
+		frame 19						launch_missile Barrel
+		frame 42						sound_weapon snd_attackmissile
+		frame 42						launch_missile Barrel
+		frame 66						sound_weapon snd_attackmissile
+		frame 66						launch_missile Barrel
+	}
 	anim range_attack2				models/md5/monsters/cyberdemon/oneshot.md5anim {
 		frame 19						sound_weapon snd_attackmissile
 		frame 19						launch_missile Barrel
 	}
+	anim fast_range_attack2			models/md5/monsters/cyberdemon/fast_range_attack2.md5anim {
+		frame 19						sound_weapon snd_attackmissile
+		frame 19						launch_missile Barrel
+	}
 	anim range_attack3				models/md5/monsters/cyberdemon/twoshot.md5anim {
+		frame 19						sound_weapon snd_attackmissile
+		frame 19						launch_missile Barrel
+		frame 42						sound_weapon snd_attackmissile
+		frame 42						launch_missile Barrel
+	}
+	anim fast_range_attack3			models/md5/monsters/cyberdemon/fast_range_attack3.md5anim {
 		frame 19						sound_weapon snd_attackmissile
 		frame 19						launch_missile Barrel
 		frame 42						sound_weapon snd_attackmissile
