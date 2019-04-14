@@ -6,8 +6,7 @@ monster_boss_cyberdemon
 
 ***********************************************************************/
 
-#define CYBER_ATTACK_RATE			5
-#define FAST_CYBER_ATTACK_RATE		1
+#define CYBER_ATTACK_RATE			1
 #define	CYBER_PAIN_DELAY			0.25
 #define CYBER_NOFOVTIME				4
 
@@ -271,11 +270,7 @@ void monster_boss_cyberdemon::combat_range() {
 	waitAction( "range_attack" );
 
 	// don't attack for a bit
-	if ( fast ) {
-		nextAttack = DelayTime( FAST_CYBER_ATTACK_RATE );
-	} else {
-		nextAttack = DelayTime( CYBER_ATTACK_RATE );
-	}
+	nextAttack = DelayTime( CYBER_ATTACK_RATE );
 	nextNoFOVAttack = sys.getTime() + CYBER_NOFOVTIME;
 }
 

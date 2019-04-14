@@ -113,6 +113,10 @@ void monster_demon_imp::Torso_MeleeAttack() {
 void monster_demon_imp::Torso_RangeAttack() {
 	disablePain();
 
+	if ( fast && ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) ) {
+		moveToEnemy();
+	}
+
 	playAnim( ANIMCHANNEL_TORSO, range_attack_anim );
 	while( !animDone( ANIMCHANNEL_TORSO, 4 ) ) {
 		lookAtEnemy( 1 );	
@@ -366,6 +370,21 @@ float monster_demon_imp::check_attacks() {
 	}
 
 	if ( ( ( sys.getTime() > nextNoFOVAttack ) && AI_ENEMY_VISIBLE ) || AI_ENEMY_IN_FOV ) {
+		range = enemyRange();
+		if ( ( range >= IMP_LEAP_RANGE_MIN ) && ( range < IMP_LEAP_RANGE_MAX ) && ( currentTime >= nextLeap ) ) {
+			if ( canHitEnemy() ) {
+				t = animLength( ANIMCHANNEL_TORSO, "jump_start" );
+				jumpTarget = predictEnemyPos( t );
+				jumpVelocity = getJumpVelocity( jumpTarget, IMP_LEAP_SPEED, IMP_LEAP_MAXHEIGHT );
+				if ( jumpVelocity != '0 0 0' ) {
+					attack_flags |= ATTACK_LEAP;
+				} else {
+					// check if we can leap again in 2 seconds
+					nextLeap = DelayTime( 2 );
+				}
+			}
+		}
+		
 		range = enemyRange();		
 		if ( !canReachEnemy() || ( currentTime >= nextAttack ) ) {
 			if ( fast ) {
