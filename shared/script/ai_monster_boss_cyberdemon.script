@@ -109,7 +109,7 @@ void monster_boss_cyberdemon::Torso_RangeAttack() {
 	disablePain();
 
 	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) ) {
-			moveToEnemy();
+		moveToEnemy();
 	}
 
 	playAnim( ANIMCHANNEL_TORSO, range_attack_anim );
