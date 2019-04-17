@@ -68,7 +68,7 @@ entityDef weapon_chaingun {
 	"silent_fire"				"0"
 	"muzzle_kick_time"			".1"
 	"muzzle_kick_maxtime"		".6"
-	"muzzle_kick_angles"		"-4 -5 -10"
+	"muzzle_kick_angles"		"-2 -3 -5"
 	"muzzle_kick_offset"		"1 1 2"
 	"recoilTime"				"100"
 	"recoilAngles"				"-1 0 0"

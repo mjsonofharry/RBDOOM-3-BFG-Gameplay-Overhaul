@@ -4,13 +4,13 @@ weapon_chaingun.script
 
 ***********************************************************************/
 
-#define CHAINGUN_FIRE_SHOTS_PER_SEC	9
+#define CHAINGUN_FIRE_SHOTS_PER_SEC	18
 #define CHAINGUN_FIRE_SKIPFRAMES	( GAME_FPS / CHAINGUN_FIRE_SHOTS_PER_SEC )
 #define CHAINGUN_LOWAMMO			10
 #define CHAINGUN_NUMPROJECTILES		1
-#define	CHAINGUN_BARREL_SPEED		480
-#define	CHAINGUN_BARREL_ACCEL_TIME	0.2
-#define CHAINGUN_BARREL_DECCEL_TIME	1.0
+#define	CHAINGUN_BARREL_SPEED		640
+#define	CHAINGUN_BARREL_ACCEL_TIME	0.4
+#define CHAINGUN_BARREL_DECCEL_TIME	1
 #define	CHAINGUN_BARREL_ACCEL		( CHAINGUN_BARREL_SPEED / CHAINGUN_BARREL_ACCEL_TIME )
 #define CHAINGUN_BARREL_DECCEL		( CHAINGUN_BARREL_SPEED / CHAINGUN_BARREL_DECCEL_TIME )
 
@@ -22,12 +22,11 @@ weapon_chaingun.script
 #define CHAINGUN_WINDDOWN_TO_IDLE	0
 #define CHAINGUN_RELOAD_TO_IDLE		0
 
-#define CHAINGUN_BEST_SHOTS			3
-#define CHAINGUN_GOOD_TIME			4
+#define CHAINGUN_BEST_SHOTS			6
+#define CHAINGUN_BEST_SPREAD		2.5
+#define CHAINGUN_NORMAL_SPREAD		5
 
-#define CHAINGUN_BEST_SPREAD		1
-#define CHAINGUN_GOOD_SPREAD		2
-#define CHAINGUN_NORMAL_SPREAD		2.5
+#define CHAINGUN_MIN_FIRE_TIME		1
 
 object weapon_chaingun : weapon_base {
 	entity		world_model;
@@ -162,12 +161,12 @@ void weapon_chaingun::Idle() {
 
 void weapon_chaingun::Fire() {
 	float skip;
-	float endAccurateTime;
 	float spread;
-	float bestShots;
-	float ammo;
+	float accurateShots;
+	float currentTime;
+	float endFireTime;
 
-	bestShots = 0;
+	accurateShots = CHAINGUN_BEST_SHOTS;
 	spread = CHAINGUN_BEST_SPREAD;
 
 	SpinUp();
@@ -179,34 +178,35 @@ void weapon_chaingun::Fire() {
 
 	startSound( "snd_spin", SND_CHANNEL_BODY3, false );
 
-	endAccurateTime = sys.getTime() + CHAINGUN_GOOD_TIME;
-	while( WEAPON_ATTACK && !WEAPON_RELOAD && ammoAvailable() > 0 ) {
-		launchProjectiles( CHAINGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
+	currentTime = sys.getTime();
+	endFireTime = currentTime + CHAINGUN_MIN_FIRE_TIME;
+	while( currentTime < endFireTime ) {
+		if ( WEAPON_ATTACK ) {
+			endFireTime = currentTime + CHAINGUN_MIN_FIRE_TIME;
+		}
+
 		if ( ammoAvailable() > 0 ) {
 			launchProjectiles( CHAINGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
+			startSound( "snd_fire", SND_CHANNEL_WEAPON, false );
 		}
-		startSound( "snd_fire", SND_CHANNEL_WEAPON, false );
 
 		if ( ammoAvailable() == CHAINGUN_LOWAMMO ) {
 			startSound( "snd_lowammo", SND_CHANNEL_ITEM, false );
 		}
 		
-		if ( spread < CHAINGUN_GOOD_SPREAD ) {
-			if ( bestShots > 3 ) {
-				spread = CHAINGUN_GOOD_SPREAD;
-			}
-			bestShots++;
+		if ( spread == CHAINGUN_BEST_SPREAD ) {
+			accurateShots--;
 		}
-		else if ( spread < CHAINGUN_NORMAL_SPREAD ) {
-			if ( sys.getTime() > endAccurateTime ) {
-				spread = CHAINGUN_NORMAL_SPREAD;
-			}
+		if ( accurateShots == 0 ) {
+			spread = CHAINGUN_NORMAL_SPREAD;
 		}
 
 		for( skip = 0; skip < CHAINGUN_FIRE_SKIPFRAMES; skip++ ) {
 			UpdateBarrel();
 			waitFrame();
 		}
+
+		currentTime = sys.getTime();
 	}
 
 	SpinDown();
