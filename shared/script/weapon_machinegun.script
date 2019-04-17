@@ -4,7 +4,7 @@ weapon_machinegun.script
 
 ***********************************************************************/
 
-#define MACHINEGUN_FIRERATE			0.4
+#define MACHINEGUN_FIRERATE			0.08
 #define MACHINEGUN_LOWAMMO			10
 #define MACHINEGUN_NUMPROJECTILES	1
 
@@ -16,16 +16,13 @@ weapon_machinegun.script
 #define MACHINEGUN_FIRE_TO_IDLE		0
 #define MACHINEGUN_RELOAD_TO_IDLE	4
 
-#define MACHINEGUN_BURST_SHOTS		3
-#define MACHINEGUN_BURST_FIRERATE	0.07
-
-#define MACHINEGUN_BEST_BURSTS		1
+#define MACHINEGUN_BEST_SHOTS		3
 #define MACHINEGUN_BEST_SPREAD		0.2
-#define MACHINEGUN_NORMAL_SRREAD	0.6
+#define MACHINEGUN_NORMAL_SRREAD	1
 
 object weapon_machinegun : weapon_base {
 	float		next_attack;
-	float		accurate_bursts;
+	float		accurate_shots;
 	
 	void		init();
 	
@@ -39,7 +36,7 @@ object weapon_machinegun : weapon_base {
 
 void weapon_machinegun::init() {
 	next_attack = 0;
-	accurate_bursts = MACHINEGUN_BEST_BURSTS;
+	accurate_shots = MACHINEGUN_BEST_SHOTS;
 	weaponState( "Raise", 0 );
 }
 
@@ -76,49 +73,31 @@ void weapon_machinegun::Idle() {
 				weaponState( "Fire", MACHINEGUN_IDLE_TO_FIRE );
 			}
 		} else {
-			accurate_bursts = MACHINEGUN_BEST_BURSTS;
+			accurate_shots = MACHINEGUN_BEST_SHOTS;
 		}
 		waitFrame();
 	}
 }
 
 void weapon_machinegun::Fire() {
-	float burst_shots;
-	float next_burst_shot;
 	float spread;
 
 	next_attack = sys.getTime() + MACHINEGUN_FIRERATE;
 	
-	if ( accurate_bursts > 0 ) {
+	if ( accurate_shots > 0 ) {
 		spread = MACHINEGUN_BEST_SPREAD;
-		accurate_bursts = accurate_bursts - 1;
+		accurate_shots = accurate_shots - 1;
 	} else {
 		spread = MACHINEGUN_NORMAL_SRREAD;
 	}
 
-	for ( burst_shots = 0; burst_shots < MACHINEGUN_BURST_SHOTS; burst_shots++ ) {
-		if ( ammoAvailable() == MACHINEGUN_LOWAMMO ) {
-			startSound( "snd_lowammo", SND_CHANNEL_ITEM, true );
-		} else if ( ammoAvailable() <= 0 ) {
-			break;
-		}
-		launchProjectiles( MACHINEGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
-		next_burst_shot = sys.getTime() + MACHINEGUN_BURST_FIRERATE;
-		playAnim( ANIMCHANNEL_ALL, "fire" );
-		while( !animDone( ANIMCHANNEL_ALL, MACHINEGUN_FIRE_TO_IDLE ) ) {
-			if ( sys.getTime() >= next_burst_shot ) {
-				break;
-			}
-			waitFrame();
-		}
-		waitFrame();
+	if ( ammoAvailable() == MACHINEGUN_LOWAMMO ) {
+		startSound( "snd_lowammo", SND_CHANNEL_ITEM, true );
 	}
 
-	
+	launchProjectiles( MACHINEGUN_NUMPROJECTILES, spread, 0, 1.0, 1.0 );
+	playAnim( ANIMCHANNEL_ALL, "fire" );
 	while( !animDone( ANIMCHANNEL_ALL, MACHINEGUN_FIRE_TO_IDLE ) ) {
-		if ( ( sys.getTime() >= next_attack ) && WEAPON_ATTACK && ( ammoAvailable() > 0 ) ) {
-			weaponState( "Fire", 0 );
-		}
 		waitFrame();
 	}
 
