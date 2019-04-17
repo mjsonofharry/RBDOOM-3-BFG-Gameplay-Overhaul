@@ -116,11 +116,8 @@ void monster_demon_hellknight::Torso_MeleeAttack() {
 
 void monster_demon_hellknight::Torso_RangeAttack() {
 	string anim;
-	
-	disablePain();
-	faceEnemy();
 
-	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) ) {
+	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) && canReachEnemy() ) {
 		moveToEnemy();
 	}
 
