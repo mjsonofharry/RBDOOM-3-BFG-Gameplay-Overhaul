@@ -111,7 +111,7 @@ void monster_demon_imp::Torso_MeleeAttack() {
 }
 
 void monster_demon_imp::Torso_RangeAttack() {
-	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) ) {
+	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) && canReachEnemy() ) {
 		moveToEnemy();
 	}
 
@@ -381,8 +381,8 @@ float monster_demon_imp::check_attacks() {
 				}
 			}
 		}
-		
-		range = enemyRange();		
+
+		range = enemyRange();
 		if ( !canReachEnemy() || ( currentTime >= nextAttack ) ) {
 			if ( fast ) {
 				range_attack_anim = chooseAnim( ANIMCHANNEL_LEGS, "fast_turret_attack" );
