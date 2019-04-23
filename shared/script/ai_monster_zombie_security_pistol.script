@@ -30,7 +30,6 @@ monster_zsec_pistol_shield
 #define ZSECP_REPOSITION_DELAY_MIN		5
 #define ZSECP_REPOSITION_MAX_LENGTH		3
 #define ZSECP_REPOSITION_MIN_LENGTH		2
-#define ZSECP_REPOSITION_MAX_WAIT		1.5
 #define ZSECP_PERSONAL_SPACE			40
 #define ZSECP_CROUCHFIRE_MIN_RANGE		280
 
@@ -746,18 +745,19 @@ void monster_zombie_security_pistol::combat_reposition() {
 	float lastSightTime;
 	float cutoffTime;
 	float waitTime;
-	boolean exitedLineOfSight;
+	boolean brokeLineOfSight;
 
 	previous_attack_was_crouch = false;
 	previous_attack_was_reposition = true;
 
 	lastSightTime = sys.getTime();
 	cutoffTime = RandomDelay( ZSECP_REPOSITION_MIN_LENGTH, ZSECP_REPOSITION_MAX_LENGTH );
-	waitTime = sys.random( ZSECP_WAIT_MAX_LENGTH ) + 0.5;
-	exitedLineOfSight = false;
+	waitTime = sys.random( 1 ) + 0.5;
+	brokeLineOfSight = false;
+
 	moveToCover();
 	if ( AI_DEST_UNREACHABLE ) {
-		moveOutOfRange( getEnemy(), enemyRange2D() + 250 );
+		moveOutOfRange( getEnemy(), enemyRange2D() + 500 );
 	}
 	while ( !AI_ENEMY_DEAD ) {
 		if ( AI_MOVE_DONE ) {
@@ -770,23 +770,21 @@ void monster_zombie_security_pistol::combat_reposition() {
 		if ( AI_ENEMY_VISIBLE ) {
 			run = true;
 			lastSightTime = currentTime;
-			if ( exitedLineOfSight ) {
+			if ( brokeLineOfSight ) {
+				break;
+			}
+			if ( currentTime > cutoffTime ) {
 				break;
 			}
 		} else {
 			run = false;
-			exitedLineOfSight = true;
-			if ( currentTime > lastSightTime + waitTime) {
+			brokeLineOfSight = true;
+			if ( currentTime > lastSightTime + waitTime ) {
 				break;
 			}
 		}
-		if ( currentTime > cutoffTime ) {
-			break;
-		}
 		waitFrame();
 	}
-	if ( !AI_PAIN && !AI_ENEMY_VISIBLE ) {
-		setState( "state_LostCombat" );
-	}
+
 	next_reposition = RandomDelay( ZSECP_REPOSITION_DELAY_MIN, ZSECP_REPOSITION_DELAY_MAX );
 }
