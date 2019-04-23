@@ -12,21 +12,29 @@ monster_zsec_pistol_shield
 
 #define ZSECP_RUNDISTANCE				192
 #define ZSECP_WALKTURN					65
-#define ZSECP_DODGE_RATE				3
-#define ZSECP_ATTACK_DELAY_MIN			0.5
-#define ZSECP_ATTACK_DELAY_MAX			2
+#define ZSECP_DODGE_RATE				5
+#define ZSECP_ATTACK_DELAY_MIN			0.4
+#define ZSECP_ATTACK_DELAY_MAX			0.8
 #define ZSECP_ATTACK_MAX_LENGTH			3
-#define ZSECP_ATTACK_MIN_LENGTH			1
+#define ZSECP_ATTACK_MIN_LENGTH			2
 #define ZSECP_WAIT_MIN_LENGTH			0.3
-#define ZSECP_WAIT_MAX_LENGTH			1.5
-#define ZSECP_CROUCH_ATTACK_MAX_LENGTH	15
-#define ZSECP_CROUCH_ATTACK_MIN_LENGTH	3
-#define ZSECP_STAND_ATTACK_MAX_LENGTH	15
-#define ZSECP_STAND_ATTACK_MIN_LENGTH	3
+#define ZSECP_WAIT_MAX_LENGTH			0.7
+#define ZSECP_CROUCH_ATTACK_MAX_LENGTH	4
+#define ZSECP_CROUCH_ATTACK_MIN_LENGTH	2.5
+#define ZSECP_STAND_ATTACK_MAX_LENGTH	3
+#define ZSECP_STAND_ATTACK_MIN_LENGTH	1.5
 #define ZSECP_ATTACK_MIN_SHOOT_TIME		0.5
 #define ZSECP_NOFOVTIME					4
 
+#define ZSECP_REPOSITION_DELAY_MAX		9
+#define ZSECP_REPOSITION_DELAY_MIN		5
+#define ZSECP_REPOSITION_MAX_LENGTH		6
+#define ZSECP_REPOSITION_MIN_LENGTH		4
+#define ZSECP_REPOSITION_MAX_WAIT		1.5
+#define ZSECP_PERSONAL_SPACE			40
+
 #define ATTACK_ZSECP_CROUCHFIRE			ATTACK_SPECIAL1
+#define ATTACK_ZSECP_REPOSITION			ATTACK_SPECIAL2
 
 
 object monster_zombie_security_pistol : monster_zombie_base {
@@ -38,6 +46,8 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	float		nextNoFOVAttack;
 	entity		combat_node;
 	boolean 	previous_attack_was_crouch;
+	boolean		previous_attack_was_reposition;
+	float		next_reposition;
 
 	void		state_Begin();
 	void		state_Idle();
@@ -49,6 +59,7 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	void		stand_attack();
 	void		combat_dodge_left();
 	void		combat_dodge_right();
+	void		combat_reposition();
 
 	void		init();
 	
@@ -116,6 +127,9 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 	boolean first_shot;
 	
 	setAnimPrefix( "" );
+
+	overrideAnim( ANIMCHANNEL_LEGS );
+	stopMove();
 
 	playAnim( ANIMCHANNEL_TORSO, "range_attack" );
 	while( !animDone( ANIMCHANNEL_TORSO, 0 ) ) {
@@ -425,6 +439,8 @@ void monster_zombie_security_pistol::init() {
 	walk_turn		= ZSECP_WALKTURN;
 	run_attack		= getIntKey( "run_attack" );
 	previous_attack_was_crouch = false;
+	previous_attack_was_reposition = false;
+	next_reposition = RandomDelay( ZSECP_REPOSITION_DELAY_MIN, ZSECP_REPOSITION_DELAY_MAX );
 
 	setState( "state_Begin" );
 }
@@ -479,7 +495,9 @@ monster_zombie_security_pistol::do_attack
 */
 void monster_zombie_security_pistol::do_attack( float attack_flags ) {
 	nextNoFOVAttack = sys.getTime() + ZSECP_NOFOVTIME;
-	if ( attack_flags & ATTACK_DODGE_LEFT ) {
+	if ( attack_flags & ATTACK_ZSECP_REPOSITION ) {
+		combat_reposition();
+	} else if ( attack_flags & ATTACK_DODGE_LEFT ) {
 		combat_dodge_left();
 	} else if ( attack_flags & ATTACK_DODGE_RIGHT ) {
 		combat_dodge_right();
@@ -541,8 +559,7 @@ float monster_zombie_security_pistol::check_attacks() {
 	}
 
 	if ( try_attack ) {
-		// adjust the likelyhood of a crouch vs. stand attack based on the # of each.
-		if ( ( sys.random( 1 ) < 0.2 ) && !previous_attack_was_crouch ) {
+		if ( enemyRange2D() > 250 ) {
 			if ( canHitEnemyFromAnim( "crouch_range_attack_loop" ) ) {
 				attack_flags |= ATTACK_ZSECP_CROUCHFIRE;
 			} else if ( canHitEnemyFromAnim( "range_attack_loop" ) ) {
@@ -551,6 +568,15 @@ float monster_zombie_security_pistol::check_attacks() {
 		} else if ( canHitEnemyFromAnim( "range_attack_loop" ) ) {
 			attack_flags |= ATTACK_MISSILE;
 		}
+		if ( ( sys.getTime() >= next_reposition ) && !previous_attack_was_reposition ) {
+			if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV ) {
+				attack_flags |= ATTACK_ZSECP_REPOSITION;
+			}
+		}
+	}
+
+	if ( enemyRange2D() < ZSECP_PERSONAL_SPACE ) {
+		attack_flags |= ATTACK_ZSECP_REPOSITION;
 	}
 	
 	return attack_flags;
@@ -567,15 +593,9 @@ void monster_zombie_security_pistol::stand_attack() {
 	float left;
 	float right;
 	float attack_flags;
-	boolean do_run_attack;
 
 	previous_attack_was_crouch = false;
-
-	if ( sys.random( 10 ) < 6 ) {
-		do_run_attack = run_attack;
-	} else {
-		do_run_attack = false;
-	}
+	previous_attack_was_reposition = false;
 
 	fire = true;
 	attackTime = RandomDelay( ZSECP_STAND_ATTACK_MIN_LENGTH, ZSECP_STAND_ATTACK_MAX_LENGTH );
@@ -587,13 +607,10 @@ void monster_zombie_security_pistol::stand_attack() {
 				break;
 			}
 			lookAtEnemy( 1 );
-			if ( !do_run_attack || ( enemyRange() < 90 ) ) {
-				faceEnemy();
-			} else if ( !entityInAttackCone( getEnemy() ) ) {
+			faceEnemy();
+			if ( !entityInAttackCone( getEnemy() ) ) {
 				attackTime = 0;
 				break;
-			} else {
-				moveToEnemy();
 			}
 			if ( !canHitEnemyFromAnim( "range_attack_loop" ) ) {
 				break;
@@ -621,30 +638,6 @@ void monster_zombie_security_pistol::stand_attack() {
 		if ( !AI_ENEMY_VISIBLE || !canHitEnemyFromAnim( "range_attack_loop" ) ) {
 			break;
 		}
-		
-		left  = testAnimMove( "step_left" );
-		right =	testAnimMove( "step_right" );
-		if ( left && right ) {
-			if ( sys.random( 100 ) < 50 ) {
-				left = false;
-			} else {
-				right = false;
-			}
-		}
-		
-		if ( left ) {
-			animState( ANIMCHANNEL_LEGS, "Legs_StepLeft", 4 );
-			while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepLeft" ) ) {
-				lookAtEnemy( 1 );
-				waitFrame();
-			}
-		} else if ( right ) {
-			animState( ANIMCHANNEL_LEGS, "Legs_StepRight", 4 );
-			while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepRight" ) ) {
-				lookAtEnemy( 1 );
-				waitFrame();
-			}
-		}
 	}
 	
 	fire = false;
@@ -667,6 +660,7 @@ void monster_zombie_security_pistol::crouch_attack() {
 	float attack_flags;
 
 	previous_attack_was_crouch = true;
+	previous_attack_was_reposition = false;
 
 	faceEnemy();
 	crouch_fire = true;
@@ -732,4 +726,59 @@ void monster_zombie_security_pistol::combat_dodge_right() {
 	animState( ANIMCHANNEL_LEGS, "Legs_DodgeRight", 2 );	
 	waitAction( "strafe" );
 	nextDodge = DelayTime( ZSECP_DODGE_RATE );
+}
+
+/*
+=====================
+monster_zombie_security_pistol::combat_reposition
+=====================
+*/
+void monster_zombie_security_pistol::combat_reposition() {
+	float currentTime;
+	float lastSightTime;
+	float cutoffTime;
+	float waitTime;
+	boolean exitedLineOfSight;
+
+	previous_attack_was_crouch = false;
+	previous_attack_was_reposition = true;
+
+	lastSightTime = sys.getTime();
+	cutoffTime = RandomDelay( ZSECP_REPOSITION_MIN_LENGTH, ZSECP_REPOSITION_MAX_LENGTH );
+	waitTime = sys.random( ZSECP_WAIT_MAX_LENGTH ) + 0.5;
+	exitedLineOfSight = false;
+	moveToCover();
+	if ( AI_DEST_UNREACHABLE ) {
+		moveOutOfRange( getEnemy(), enemyRange2D() + 250 );
+	}
+	while ( !AI_ENEMY_DEAD ) {
+		if ( AI_MOVE_DONE ) {
+			wander();
+		}
+		if ( AI_DEST_UNREACHABLE ) {
+			break;
+		}
+		currentTime = sys.getTime();
+		if ( AI_ENEMY_VISIBLE ) {
+			run = true;
+			lastSightTime = currentTime;
+			if ( exitedLineOfSight ) {
+				break;
+			}
+		} else {
+			run = false;
+			exitedLineOfSight = true;
+			if ( currentTime > lastSightTime + waitTime) {
+				break;
+			}
+		}
+		if ( currentTime > cutoffTime ) {
+			break;
+		}
+		waitFrame();
+	}
+	if ( !AI_PAIN && !AI_ENEMY_VISIBLE ) {
+		setState( "state_LostCombat" );
+	}
+	next_reposition = RandomDelay( ZSECP_REPOSITION_DELAY_MIN, ZSECP_REPOSITION_DELAY_MAX );
 }
