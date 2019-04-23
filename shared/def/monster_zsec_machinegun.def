@@ -99,8 +99,16 @@ model model_monster_zsec_machinegun {
 		frame 1							sound_body monster_zombie_security_footstep
 		frame 14						sound_body monster_zombie_security_footstep		
 	}
+	anim fast_walk 					models/md5/monsters/zombies/zsec_machinegun/fast_machinegun_walk.md5anim {
+		frame 1							sound_body monster_zombie_security_footstep
+		frame 14						sound_body monster_zombie_security_footstep		
+	}
 	
 	anim run 						models/md5/monsters/zombies/zsec_machinegun/machinegun_run.md5anim {
+		frame 8							sound_body monster_zombie_security_footstep		
+		frame 18						sound_body monster_zombie_security_footstep		
+	}
+	anim fast_run					models/md5/monsters/zombies/zsec_machinegun/fast_machinegun_run.md5anim {
 		frame 8							sound_body monster_zombie_security_footstep		
 		frame 18						sound_body monster_zombie_security_footstep		
 	}

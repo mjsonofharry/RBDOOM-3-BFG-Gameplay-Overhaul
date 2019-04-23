@@ -93,8 +93,16 @@ model model_monster_zsec_shield {
 		frame 9						sound_body monster_zombie_security_footstep		
 		frame 21						sound_body monster_zombie_security_footstep		
 	}
+	anim fast_walk 					models/md5/monsters/zombies/zsec_shield/fast_shield_walk.md5anim {
+		frame 9							sound_body monster_zombie_security_footstep		
+		frame 21						sound_body monster_zombie_security_footstep		
+	}
 
 	anim run 						models/md5/monsters/zombies/zsec_shield/shield_run.md5anim {
+		frame 8							sound_body monster_zombie_security_footstep		
+		frame 18						sound_body monster_zombie_security_footstep		
+	}
+	anim fast_run 					models/md5/monsters/zombies/zsec_shield/fast_shield_run.md5anim {
 		frame 8							sound_body monster_zombie_security_footstep		
 		frame 18						sound_body monster_zombie_security_footstep		
 	}

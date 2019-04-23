@@ -108,13 +108,22 @@ model model_monster_zsec_pistol {
 		frame 9						sound_body monster_zombie_security_footstep					
 		frame 16					sound_body monster_zombie_security_footstep					
 	}
+	anim fast_run1					models/md5/monsters/zombies/zsec_pistol/fast_run1.md5anim {
+		frame 9						sound_body monster_zombie_security_footstep					
+		frame 16					sound_body monster_zombie_security_footstep					
+	}
 		
-	anim run2						models/md5/monsters/zombies/zsec_pistol/run2.md5anim {
+	anim run2					models/md5/monsters/zombies/zsec_pistol/run2.md5anim {
 		frame 1						sound_body monster_zombie_security_footstep					
 		frame 10					sound_body monster_zombie_security_footstep
 		frame 19					sound_body monster_zombie_security_footstep
 		frame 28					sound_body monster_zombie_security_footstep
-	
+	}
+	anim fast_run2				models/md5/monsters/zombies/zsec_pistol/fast_run2.md5anim {
+		frame 1						sound_body monster_zombie_security_footstep					
+		frame 10					sound_body monster_zombie_security_footstep
+		frame 19					sound_body monster_zombie_security_footstep
+		frame 28					sound_body monster_zombie_security_footstep
 	}
 
 	anim pain						models/md5/monsters/zombies/zsec_pistol/chestpain1.md5anim {
