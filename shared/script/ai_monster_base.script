@@ -140,7 +140,6 @@ void monster_base::Torso_CustomAnim() {
 void monster_base::Torso_Sight() {
 	string animname;
 	float blendFrames;
-	string nextAnim;
 	
 	if ( !getIntKey( "walk_on_sight" ) ) {
 		overrideAnim( ANIMCHANNEL_LEGS );
@@ -153,17 +152,12 @@ void monster_base::Torso_Sight() {
 		blendFrames = 4;
 	}
 
-	nextAnim = "Torso_Idle";
 	if ( animname != "" ) {
 		if ( hasAnim( ANIMCHANNEL_TORSO, animname ) ) {
 			if ( !fast || ( animname != "sight" ) ) {
 				playAnim( ANIMCHANNEL_TORSO, animname );
 			
 				while( !animDone( ANIMCHANNEL_TORSO, blendFrames ) ) {
-					if ( AI_PAIN ) {
-						nextAnim = "Torso_Pain";
-						break;
-					}
 					waitFrame();
 				}
 			}
@@ -171,7 +165,7 @@ void monster_base::Torso_Sight() {
 	}
 	
 	finishAction( "sight" );
-	animState( ANIMCHANNEL_TORSO, nextAnim, blendFrames );
+	animState( ANIMCHANNEL_TORSO, "Torso_Idle", blendFrames );
 }
 
 void monster_base::Torso_Death() {
