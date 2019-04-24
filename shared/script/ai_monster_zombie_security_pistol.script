@@ -582,11 +582,16 @@ float monster_zombie_security_pistol::check_attacks() {
 		} else {
 			attack_flags |= ATTACK_ZSECP_ADVANCE;
 		}
-		if ( currentTime >= next_reposition ) {
-			if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV ) {
-				attack_flags |= ATTACK_ZSECP_RETREAT;
-			}
+	}
+
+	if ( currentTime >= next_reposition ) {
+		if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV ) {
+			attack_flags |= ATTACK_ZSECP_RETREAT;
 		}
+	}
+
+	if ( !AI_ENEMY_VISIBLE && AI_PAIN ) {
+		attack_flags |= ATTACK_ZSECP_ADVANCE;
 	}
 
 	if ( enemyRange() < ZSECP_PERSONAL_SPACE ) {
