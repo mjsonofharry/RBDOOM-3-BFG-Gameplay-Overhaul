@@ -852,10 +852,13 @@ void monster_zombie_security_pistol::combat_advance() {
 	if ( AI_MOVE_DONE ) {
 		moveToPosition( enemy_last_known_position );
 	}
+	if ( AI_DEST_UNREACHABLE ) {
+		wander();
+	}
 
 	cutoffTime = RandomDelay( ZSECP_REPOSITION_MIN_LENGTH, ZSECP_REPOSITION_MAX_LENGTH );
 
-	while ( !AI_MOVE_DONE && !AI_DEST_UNREACHABLE && !check_blocked() ) {
+	while ( !AI_MOVE_DONE && !AI_DEST_UNREACHABLE ) {
 		if ( AI_ENEMY_DEAD ) {
 			enemy_dead();
 		}
