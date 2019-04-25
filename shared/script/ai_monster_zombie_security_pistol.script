@@ -534,7 +534,6 @@ float monster_zombie_security_pistol::check_attacks() {
 	attack_flags = 0;
 	
 	currentTime = sys.getTime();
-	enemy = getEnemy();
 
 	if ( AI_PAIN && ( currentTime >= nextDodge ) ) {
 		if ( testAnimMove( "evade_left" ) && ( sys.random( 1 ) > 0.5 ) ) {
@@ -587,6 +586,7 @@ float monster_zombie_security_pistol::check_attacks() {
 	}
 
 	if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE ) {
+		enemy = getEnemy();
 		enemy_last_known_position = enemy.getOrigin();
 
 		if ( enemy == $player1 ) {
@@ -599,6 +599,8 @@ float monster_zombie_security_pistol::check_attacks() {
 		if ( currentTime >= next_reposition ) {
 			attack_flags |= ATTACK_ZSECP_RETREAT;
 		}
+	} else {
+		attack_flags |= ATTACK_ZSECP_ADVANCE;
 	}
 	
 	if ( enemyRange() < ZSECP_PERSONAL_SPACE || AI_PAIN ) {
@@ -822,8 +824,10 @@ void monster_zombie_security_pistol::combat_retreat() {
 				}
 			}
 		} else {
-			run = false;
-			break;
+			if ( currentTime > lastTargetedTime + 2 + sys.random(5) ) {
+				run = false;
+				break;
+			}
 		}
 		waitFrame();
 	}
