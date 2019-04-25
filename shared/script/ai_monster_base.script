@@ -114,6 +114,8 @@ object monster_base : ai {
 	void 		path_hide();
 	void 		path_show();
 	void		path_attack();
+
+	boolean		is_clean_shot( entity enemy );
 };
 
 /***********************************************************************
@@ -2111,4 +2113,15 @@ monster_base::follow_alternate_path3
 void monster_base::follow_alternate_path3() {
 	current_path = getEntityKey( "alt_path2" );
 	setState( "state_FollowAlternatePath" );
+}
+
+
+boolean monster_base::is_clean_shot( entity enemy ) {
+	vector pos = getOrigin() + '0 0 48';
+	vector enemyPos = enemy.getOrigin();
+	sys.trace( pos, enemyPos, '0 0 0', '0 0 0', MASK_MONSTERSOLID, self );
+	if ( sys.getTraceEntity() == enemy ) {
+		return false;
+	}
+	return true;
 }

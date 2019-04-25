@@ -26,10 +26,10 @@ monster_zsec_pistol_shield
 #define ZSECP_ATTACK_MIN_SHOOT_TIME		0.5
 #define ZSECP_NOFOVTIME					4
 
-#define ZSECP_REPOSITION_DELAY_MAX		6
-#define ZSECP_REPOSITION_DELAY_MIN		2
 #define ZSECP_REPOSITION_MAX_LENGTH		11
 #define ZSECP_REPOSITION_MIN_LENGTH		6
+#define ZSECP_REPOSITION_DELAY_MAX		6
+#define ZSECP_REPOSITION_DELAY_MIN		2
 #define ZSECP_PERSONAL_SPACE			40
 #define ZSECP_CROUCHFIRE_MIN_RANGE		280
 
@@ -446,7 +446,6 @@ void monster_zombie_security_pistol::init() {
 	run_distance	= ZSECP_RUNDISTANCE;
 	walk_turn		= ZSECP_WALKTURN;
 	run_attack		= getIntKey( "run_attack" );
-	next_reposition = RandomDelay( ZSECP_REPOSITION_DELAY_MIN, ZSECP_REPOSITION_DELAY_MAX );
 	enemy_last_known_position = getOrigin();
 
 	setState( "state_Begin" );
@@ -530,10 +529,13 @@ float monster_zombie_security_pistol::check_attacks() {
 	boolean try_attack;
 	boolean reachable;
 	entity enemy;
+	player_base player;
 	
 	attack_flags = 0;
 	
 	currentTime = sys.getTime();
+	enemy = getEnemy();
+
 	if ( AI_PAIN && ( currentTime >= nextDodge ) ) {
 		if ( testAnimMove( "evade_left" ) && ( sys.random( 1 ) > 0.5 ) ) {
 			attack_flags |= ATTACK_DODGE_LEFT;
@@ -584,27 +586,25 @@ float monster_zombie_security_pistol::check_attacks() {
 		}
 	}
 
-	if ( currentTime >= next_reposition ) {
-		if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV ) {
+	if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE ) {
+		enemy_last_known_position = enemy.getOrigin();
+
+		if ( enemy == $player1 ) {
+			player = $player1;
+			if ( player.GetViewedEntity() == self ) {
+				attack_flags |= ATTACK_ZSECP_RETREAT;
+			}
+		}
+
+		if ( currentTime >= next_reposition ) {
 			attack_flags |= ATTACK_ZSECP_RETREAT;
 		}
 	}
-
-	if ( !AI_ENEMY_VISIBLE && AI_PAIN ) {
-		attack_flags |= ATTACK_ZSECP_ADVANCE;
-	}
-
-	if ( enemyRange() < ZSECP_PERSONAL_SPACE ) {
-		attack_flags |= ATTACK_ZSECP_RETREAT;
-	} else if ( currentTime >= next_reposition && !AI_PAIN ) {
-		attack_flags |= ATTACK_ZSECP_ADVANCE;
-	}
-
-	if ( AI_ENEMY_IN_FOV ) {
-		enemy = getEnemy();
-		enemy_last_known_position = enemy.getOrigin();
-	}
 	
+	if ( enemyRange() < ZSECP_PERSONAL_SPACE || AI_PAIN ) {
+		attack_flags |= ATTACK_ZSECP_RETREAT;
+	}
+
 	return attack_flags;
 }
 
@@ -646,7 +646,6 @@ void monster_zombie_security_pistol::stand_attack() {
 					return;
 				}
 			}
-			
 			waitFrame();
 		}
 
@@ -788,16 +787,21 @@ monster_zombie_security_pistol::combat_retreat
 */
 void monster_zombie_security_pistol::combat_retreat() {
 	float cutoffTime;
-	boolean brokeLineOfSight;
+	float lastTargetedTime;
+	float currentTime;
+	entity enemy;
+	player_base player;
 
 	cutoffTime = RandomDelay( ZSECP_REPOSITION_MIN_LENGTH, ZSECP_REPOSITION_MAX_LENGTH );
-	brokeLineOfSight = false;
+	enemy = getEnemy();
 
 	moveToCover();
+	lastTargetedTime = sys.getTime();
 	if ( AI_DEST_UNREACHABLE ) {
 		moveOutOfRange( getEnemy(), enemyRange() + 500 );
 	}
 	while ( !AI_ENEMY_DEAD ) {
+		currentTime = sys.getTime();
 		if ( AI_MOVE_DONE ) {
 			wander();
 		}
@@ -806,11 +810,16 @@ void monster_zombie_security_pistol::combat_retreat() {
 		}
 		if ( AI_ENEMY_VISIBLE ) {
 			run = true;
-			if ( brokeLineOfSight ) {
+			if ( currentTime > cutoffTime ) {
 				break;
 			}
-			if ( sys.getTime() > cutoffTime ) {
-				break;
+			if ( enemy == $player1 ) {
+				player = $player1;
+				if ( player.GetViewedEntity() == self ) {
+					lastTargetedTime = currentTime;
+				} else if ( currentTime > lastTargetedTime + 2 + sys.random(5) ) {
+					break;
+				}
 			}
 		} else {
 			run = false;

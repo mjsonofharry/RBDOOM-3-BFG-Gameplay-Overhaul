@@ -98,7 +98,7 @@ object player_base {
 	void		ReloadWeapon();
 	void		NetCatchup();
 
-	entity		getViewedEntity();
+	entity		GetViewedEntity();
 };
 
 /*
@@ -161,7 +161,12 @@ Required by game code for networking.  Implemented in subclasses.
 void player_base::NetCatchup() {
 }
 
-entity player_base::getViewedEntity() {
+/*
+=====================
+player_base::GetViewedEntity
+=====================
+*/
+entity player_base::GetViewedEntity() {
 	vector dir = sys.angToForward( getViewAngles() ) * 1000;
 	vector pos = getOrigin() + '0 0 68';
 	sys.trace( pos, pos + dir, '0 0 0', '0 0 0', MASK_MONSTERSOLID, self );
