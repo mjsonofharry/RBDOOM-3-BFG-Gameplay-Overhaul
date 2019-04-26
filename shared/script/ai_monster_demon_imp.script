@@ -13,7 +13,7 @@ monster_demon_imp_crawler
 #define IMP_LEAP_RATE		7
 #define IMP_LEAP_SPEED		650
 #define IMP_LEAP_MAXHEIGHT	48
-#define IMP_DODGE_RATE		8
+#define IMP_DODGE_RATE		0.5
 #define IMP_LEAP_RANGE_MIN	200
 #define IMP_LEAP_RANGE_MAX	480
 #define IMP_NOFOVTIME		4
@@ -111,7 +111,7 @@ void monster_demon_imp::Torso_MeleeAttack() {
 }
 
 void monster_demon_imp::Torso_RangeAttack() {
-	if ( ( enemyRange() >= 90 ) && entityInAttackCone( getEnemy() ) && canReachEnemy() ) {
+	if ( ( enemyRange() >= 90 ) && AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV && canReachEnemy() ) {
 		moveToEnemy();
 	}
 
@@ -332,25 +332,31 @@ float monster_demon_imp::check_attacks() {
 	float t;
 	string anim;
 	vector jumpTarget;
+	player_base player;
 	
 	attack_flags = 0;
-	
+
 	canMelee = testMeleeAttack();
 	currentTime = sys.getTime();
 	if ( !canMelee ) {
-		if ( AI_PAIN && ( currentTime >= nextDodge ) ) {
-			if ( testAnimMove( "evade_left" ) ) {
-				attack_flags |= ATTACK_DODGE_LEFT;
-			}
-			if ( testAnimMove( "evade_right" ) ) {
-				attack_flags |= ATTACK_DODGE_RIGHT;
-				
-				// if we can dodge either direction, pick one
-				if ( attack_flags & ATTACK_DODGE_LEFT ) {
-					if ( sys.random( 100 ) < 50 ) {
-						attack_flags &= ~ATTACK_DODGE_RIGHT;
-					} else {
-						attack_flags &= ~ATTACK_DODGE_LEFT;
+		if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE ) {
+			if ( getEnemy() == $player1 ) {
+				player = $player1;
+				if ( player.GetViewedEntity() == self ) {
+					if ( testAnimMove( "evade_left" ) ) {
+						attack_flags |= ATTACK_DODGE_LEFT;
+					}
+					if ( testAnimMove( "evade_right" ) ) {
+						attack_flags |= ATTACK_DODGE_RIGHT;
+						
+						// if we can dodge either direction, pick one
+						if ( attack_flags & ATTACK_DODGE_LEFT ) {
+							if ( sys.random( 100 ) < 50 ) {
+								attack_flags &= ~ATTACK_DODGE_RIGHT;
+							} else {
+								attack_flags &= ~ATTACK_DODGE_LEFT;
+							}
+						}
 					}
 				}
 			}
