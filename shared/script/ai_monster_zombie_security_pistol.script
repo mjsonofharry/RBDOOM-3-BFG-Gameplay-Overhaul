@@ -48,6 +48,7 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	entity		combat_node;
 	float		next_reposition;
 	vector		enemy_last_known_position;
+	boolean		can_retreat;
 
 	void		state_Begin();
 	void		state_Idle();
@@ -447,6 +448,7 @@ void monster_zombie_security_pistol::init() {
 	walk_turn		= ZSECP_WALKTURN;
 	run_attack		= getIntKey( "run_attack" );
 	enemy_last_known_position = getOrigin();
+	can_retreat = true;
 
 	setState( "state_Begin" );
 }
@@ -535,24 +537,6 @@ float monster_zombie_security_pistol::check_attacks() {
 	
 	currentTime = sys.getTime();
 
-	if ( AI_PAIN && ( currentTime >= nextDodge ) ) {
-		if ( testAnimMove( "evade_left" ) && ( sys.random( 1 ) > 0.5 ) ) {
-			attack_flags |= ATTACK_DODGE_LEFT;
-		}
-		if ( testAnimMove( "evade_right" ) && ( sys.random( 1 ) > 0.5 ) ) {
-			attack_flags |= ATTACK_DODGE_RIGHT;
-			
-			// if we can dodge either direction, pick one
-			if ( attack_flags & ATTACK_DODGE_LEFT ) {
-				if ( sys.random( 100 ) < 50 ) {
-					attack_flags &= ~ATTACK_DODGE_RIGHT;
-				} else {
-					attack_flags &= ~ATTACK_DODGE_LEFT;
-				}
-			}
-		}
-	}
-
 	combat_node = getCombatNode();
 	if ( combat_node ) {
 		attack_flags |= ATTACK_COMBAT_NODE;
@@ -591,12 +575,12 @@ float monster_zombie_security_pistol::check_attacks() {
 
 		if ( enemy == $player1 ) {
 			player = $player1;
-			if ( player.GetViewedEntity() == self ) {
+			if ( player.GetViewedEntity() == self && can_retreat ) {
 				attack_flags |= ATTACK_ZSECP_RETREAT;
 			}
 		}
 
-		if ( currentTime >= next_reposition ) {
+		if ( currentTime >= next_reposition && can_retreat ) {
 			attack_flags |= ATTACK_ZSECP_RETREAT;
 		}
 	} else {
@@ -621,6 +605,8 @@ void monster_zombie_security_pistol::stand_attack() {
 	float left;
 	float right;
 	float attack_flags;
+
+	can_retreat = true;
 
 	fire = true;
 	attackTime = RandomDelay( ZSECP_STAND_ATTACK_MIN_LENGTH, ZSECP_STAND_ATTACK_MAX_LENGTH );
@@ -682,6 +668,8 @@ monster_zombie_security_pistol::crouch_attack
 void monster_zombie_security_pistol::crouch_attack() {
 	float attackTime;
 	float attack_flags;
+
+	can_retreat = true;
 
 	faceEnemy();
 	crouch_fire = true;
@@ -794,6 +782,8 @@ void monster_zombie_security_pistol::combat_retreat() {
 	entity enemy;
 	player_base player;
 
+	can_retreat = false;
+
 	cutoffTime = RandomDelay( ZSECP_REPOSITION_MIN_LENGTH, ZSECP_REPOSITION_MAX_LENGTH );
 	enemy = getEnemy();
 
@@ -854,6 +844,8 @@ void monster_zombie_security_pistol::combat_advance() {
 	boolean do_run;
 	float delta;
 	vector position;
+
+	can_retreat = false;
 
 	if ( !AI_ENEMY_VISIBLE || ( enemyRange() > run_distance ) ) {
 		do_run = true;
