@@ -359,7 +359,7 @@ entityDef monster_zsec_pistol {
 	"use_aas"						"aas48"
 	"team"							"1"
 	"rank"							"1"
-	"health"						"60"
+	"health"						"160"
 	"def_projectile"				"projectile_bullet_zsec_pistol"
 	"attack_cone"					"70"
 	"attack_accuracy"				"3"
