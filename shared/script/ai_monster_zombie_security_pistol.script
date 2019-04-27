@@ -36,7 +36,7 @@ monster_zsec_pistol_shield
 #define ATTACK_ZSECP_CROUCHFIRE			ATTACK_SPECIAL1
 #define ATTACK_ZSECP_RETREAT			ATTACK_SPECIAL2
 #define ATTACK_ZSECP_ADVANCE			ATTACK_SPECIAL3
-
+#define ATTACK_ZSECP_REGROUP			ATTACK_SPECIAL4
 
 object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		fire;
@@ -49,6 +49,17 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	float		next_reposition;
 	vector		enemy_last_known_position;
 	boolean		can_retreat;
+	float		next_squad_search;
+
+	float squad_count;
+	monster_zombie_security_pistol	squad1;
+	monster_zombie_security_pistol	squad2;
+	monster_zombie_security_pistol	squad3;
+	monster_zombie_security_pistol	squad4;
+	vector							squad1_last_known_position;
+	vector							squad2_last_known_position;
+	vector							squad3_last_known_position;
+	vector							squad4_last_known_position;
 
 	void		state_Begin();
 	void		state_Idle();
@@ -62,6 +73,11 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	void		combat_dodge_right();
 	void		combat_retreat();
 	void		combat_advance();
+	void		combat_regroup();
+	void		find_squad();
+	void		find_squad_loop();
+	boolean		add_to_squad( entity team_mate );
+	float		check_squad();
 
 	void		init();
 	
@@ -449,6 +465,7 @@ void monster_zombie_security_pistol::init() {
 	run_attack		= getIntKey( "run_attack" );
 	enemy_last_known_position = getOrigin();
 	can_retreat = true;
+	next_squad_search = 0;
 
 	setState( "state_Begin" );
 }
@@ -467,6 +484,7 @@ monster_zombie_security_pistol::state_Begin
 void monster_zombie_security_pistol::state_Begin() {
 	fire = false;
 	crouch_fire = false;
+
 	animState( ANIMCHANNEL_TORSO, "Torso_Idle", 0 );
 	animState( ANIMCHANNEL_LEGS, "Legs_Idle", 0 );
 
@@ -505,6 +523,8 @@ void monster_zombie_security_pistol::do_attack( float attack_flags ) {
 	nextNoFOVAttack = sys.getTime() + ZSECP_NOFOVTIME;
 	if ( attack_flags & ATTACK_ZSECP_RETREAT ) {
 		combat_retreat();
+	} else if ( attack_flags & ATTACK_ZSECP_REGROUP ) {
+		combat_regroup();
 	} else if ( attack_flags & ATTACK_ZSECP_ADVANCE ) {
 		combat_advance();
 	} else if ( attack_flags & ATTACK_DODGE_LEFT ) {
@@ -536,6 +556,11 @@ float monster_zombie_security_pistol::check_attacks() {
 	attack_flags = 0;
 	
 	currentTime = sys.getTime();
+
+	if ( ( squad_count < 4 ) && ( currentTime > next_squad_search ) ) {
+		find_squad();
+		next_squad_search = currentTime + 60;
+	}
 
 	combat_node = getCombatNode();
 	if ( combat_node ) {
@@ -580,15 +605,21 @@ float monster_zombie_security_pistol::check_attacks() {
 			}
 		}
 
-		if ( currentTime >= next_reposition && can_retreat ) {
+		if ( ( currentTime >= next_reposition ) && can_retreat ) {
 			attack_flags |= ATTACK_ZSECP_RETREAT;
 		}
 	} else {
 		attack_flags |= ATTACK_ZSECP_ADVANCE;
 	}
-	
-	if ( enemyRange() < ZSECP_PERSONAL_SPACE || AI_PAIN ) {
+
+	if ( ( enemyRange() < ZSECP_PERSONAL_SPACE ) || AI_PAIN ) {
 		attack_flags |= ATTACK_ZSECP_RETREAT;
+	}
+
+	if ( ( check_squad() > 0 ) && !canSee( squad1 ) && !canSee( squad2 ) && !canSee( squad3 ) && !canSee( squad4 ) ) {
+		if ( !AI_ENEMY_VISIBLE && !AI_ENEMY_IN_FOV ) {
+			attack_flags |= ATTACK_ZSECP_REGROUP;
+		}
 	}
 
 	return attack_flags;
@@ -789,7 +820,7 @@ void monster_zombie_security_pistol::combat_retreat() {
 
 	moveToCover();
 	lastTargetedTime = sys.getTime();
-	if ( AI_DEST_UNREACHABLE ) {
+	if ( AI_DEST_UNREACHABLE || AI_BLOCKED || AI_OBSTACLE_IN_PATH ) {
 		moveOutOfRange( getEnemy(), enemyRange() + 500 );
 	}
 	while ( !AI_ENEMY_DEAD ) {
@@ -797,7 +828,7 @@ void monster_zombie_security_pistol::combat_retreat() {
 		if ( AI_MOVE_DONE ) {
 			wander();
 		}
-		if ( AI_DEST_UNREACHABLE ) {
+		if ( AI_DEST_UNREACHABLE || AI_BLOCKED || AI_OBSTACLE_IN_PATH ) {
 			break;
 		}
 		if ( AI_ENEMY_VISIBLE ) {
@@ -824,11 +855,7 @@ void monster_zombie_security_pistol::combat_retreat() {
 
 	next_reposition = RandomDelay( ZSECP_REPOSITION_DELAY_MIN, ZSECP_REPOSITION_DELAY_MAX );
 
-	if ( AI_ENEMY_VISIBLE || AI_ENEMY_IN_FOV ) {
-		check_attacks();
-	}
-
-	if ( AI_ENEMY_DEAD ) {
+	if ( AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV && AI_ENEMY_DEAD ) {
 		enemy_dead();
 	}
 }
@@ -857,13 +884,10 @@ void monster_zombie_security_pistol::combat_advance() {
 	if ( AI_MOVE_DONE ) {
 		moveToPosition( enemy_last_known_position );
 	}
-	if ( AI_DEST_UNREACHABLE ) {
-		wander();
-	}
 
 	cutoffTime = RandomDelay( ZSECP_REPOSITION_MIN_LENGTH, ZSECP_REPOSITION_MAX_LENGTH );
 
-	while ( !AI_MOVE_DONE && !AI_DEST_UNREACHABLE ) {
+	while ( !AI_MOVE_DONE && !AI_DEST_UNREACHABLE && !AI_BLOCKED && !AI_OBSTACLE_IN_PATH ) {
 		if ( AI_ENEMY_DEAD ) {
 			enemy_dead();
 		}
@@ -890,10 +914,180 @@ void monster_zombie_security_pistol::combat_advance() {
 	}
 
 	next_reposition = RandomDelay( ZSECP_REPOSITION_DELAY_MIN, ZSECP_REPOSITION_DELAY_MAX );
+}
 
-	if ( AI_ENEMY_IN_FOV ) {
+void monster_zombie_security_pistol::combat_regroup() {
+	float distance;
+	float shortest_distance;
+	vector closest_regroup_position;
+
+	if ( check_squad() == 0 ) {
+		return;
+	}
+
+	shortest_distance = travelDistanceToPoint( squad1_last_known_position );
+	closest_regroup_position = squad1_last_known_position;
+	distance = travelDistanceToPoint( squad2_last_known_position);
+	if ( distance < shortest_distance ) {
+		shortest_distance = distance;
+		closest_regroup_position = squad2_last_known_position;
+	}
+	distance = travelDistanceToPoint( squad3_last_known_position );
+	if ( distance < shortest_distance ) {
+		shortest_distance = distance;
+		closest_regroup_position = squad3_last_known_position;
+	}
+	distance = travelDistanceToPoint( squad4_last_known_position );
+	if ( distance < shortest_distance ) {
+		shortest_distance = distance;
+		closest_regroup_position = squad4_last_known_position;
+	}
+
+	moveToPosition( closest_regroup_position );
+	while ( !AI_MOVE_DONE && !AI_DEST_UNREACHABLE && !AI_BLOCKED && !AI_OBSTACLE_IN_PATH ) {
+		if ( ( AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV ) || AI_PAIN ) {
+			break;
+		}
+		if ( canSee( squad1 ) || canSee( squad2 ) || canSee( squad3 ) || canSee( squad4 ) ) {
+			break;
+		}
+		waitFrame();
+	}
+
+	if ( ( AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV ) || AI_PAIN ) {
 		check_attacks();
 	} else {
 		combat_lost();
 	}
 }
+
+void monster_zombie_security_pistol::find_squad() {
+	thread find_squad_loop();
+}
+
+void monster_zombie_security_pistol::find_squad_loop() {
+	string name;
+	entity ent;
+	float monster_type;
+	monster_zombie_security_pistol zsec;
+	float i;
+	float search_limit_per_type;
+	float num_found;
+
+	search_limit_per_type = 1000;
+	for( monster_type = 0; monster_type < 8; monster_type++ ) {
+		if ( monster_type == 0 ) {
+			name = "monster_zsec_pistol_";
+		} else if ( monster_type == 1 ) {
+			name = "monster_zsec_shotgun_";
+		} else if ( monster_type == 2 ) {
+			name = "monster_zsec_machinegun_";
+		} else if ( monster_type == 3 ) {
+			name = "monster_zsec_shield_";
+		} else if ( monster_type == 4 ) {
+			name = "idAI_monster_zsec_pistol_";
+		} else if ( monster_type == 5 ) {
+			name = "idAI_monster_zsec_shotgun_";
+		} else if ( monster_type == 6 ) {
+			name = "idAI_monster_zsec_machinegun_";
+		} else if ( monster_type == 7 ) {
+			name = "idAI_monster_zsec_shield_";
+		}
+
+		for( i = 0; ( i < search_limit_per_type ) && ( squad_count < 4 ); i++ ) {
+			ent = sys.getEntity( name + i );
+			if ( ( ent != $null_entity ) && ( ent != self ) ) {
+				zsec = ent;
+				if ( zsec.AI_DEAD ) {
+					continue;
+				}
+				if ( !zsec.add_to_squad( self ) ) {
+					continue;
+				}
+				self.add_to_squad( zsec );
+			}
+		}
+		if ( squad_count >= 4 ) {
+			break;
+		}
+	}
+}
+
+boolean monster_zombie_security_pistol::add_to_squad( entity team_mate ) {
+	if ( ( squad1 == team_mate ) || ( squad2 == team_mate ) || ( squad3 == team_mate ) || ( squad4 == team_mate ) ) {
+		return false;
+	}
+
+	if ( squad1 == $null_entity ) {
+		squad1 = team_mate;
+	} else if ( squad2 == $null_entity ) {
+		squad2 = team_mate;
+	} else if ( squad3 == $null_entity ) {
+		squad3 = team_mate;
+	} else if ( squad4 == $null_entity ) {
+		squad4 = team_mate;
+	} else {
+		return false;
+	}
+
+	squad_count++;
+	sys.println( "[" + getName() + "] ADDED: " + team_mate.getName() );
+	return true;
+}
+
+float monster_zombie_security_pistol::check_squad() {
+	float total;
+	float living = 0;
+	float dead = 0;
+
+	if ( squad1 != $null_entity ) {
+		if ( squad1.AI_DEAD ) {
+			sys.println( "[" + getName() + "] LOST: " + squad1.getName() );
+			squad1 = $null_entity;
+			dead++;
+		} else {
+			squad1_last_known_position = squad1.getOrigin();
+			living++;
+		}
+	}
+	if ( squad2 != $null_entity ) {
+		if ( squad2.AI_DEAD ) {
+			sys.println( "[" + getName() + "] LOST: " + squad2.getName() );
+			squad2 = $null_entity;
+			dead++;
+		} else {
+			squad2_last_known_position = squad2.getOrigin();
+			living++;
+		}
+	}
+	if ( squad3 != $null_entity ) {
+		if ( squad3.AI_DEAD ) {
+			sys.println( "[" + getName() + "] LOST: " + squad3.getName() );
+			squad3 = $null_entity;
+			dead++;
+		} else {
+			squad3_last_known_position = squad3.getOrigin();
+			living++;
+		}
+	}
+	if ( squad4 != $null_entity ) {
+		if ( squad4.AI_DEAD ) {
+			sys.println( "[" + getName() + "] LOST: " + squad4.getName() );
+			squad4 = $null_entity;
+			dead++;
+		} else {
+			squad4_last_known_position = squad4.getOrigin();
+			living++;
+		}
+	}
+
+	total = living + dead;
+	if ( total == 0 ) {
+		return 0;
+	}
+	
+	return living / total;
+}
+
+// returns an entity within the bounds specified
+// scriptEvent entity	findActorsInBounds( vector mins, vector maxs );
