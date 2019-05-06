@@ -44,7 +44,6 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	entity		combat_node;
 
 	// Squad logistics
-	float		priority;
 	float		next_squad_search;
 	float		living_squad_count;
 	monster_zombie_security_pistol	squad1;
@@ -63,16 +62,20 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		enemy_in_sight;
 	boolean		enemy_is_aiming_at_me;
 	boolean		enemy_is_attacking_me;
+	boolean		taking_damage;
 	vector		last_took_damage_position;
 	float		last_took_damage_time;
-	vector		last_saw_enemy_from_position;
-	float		last_saw_enemy_at_time;
-	vector		enemy_last_seen_position;
+	vector		enemy_last_seen_from_position;
+	vector		enemy_last_known_position;
 	float		enemy_last_seen_time;
-	entity		disturbance;
 	boolean		disturbance_exists;
+	entity		disturbance_source;
 	vector		disturbance_position;
 	float		disturbance_time;
+	boolean		aim_is_blocked;
+	entity		aim_blocked_by;
+	boolean		in_cover;
+	boolean		cover_is_valid;
 
 	// entity
 	void		init();
@@ -87,6 +90,7 @@ object monster_zombie_security_pistol : monster_zombie_base {
 
 	// control
 	void		check_status();
+	void		check_status_loop();
 	float		check_attacks();
 	void		do_attack( float attack_flags );
 
@@ -490,10 +494,10 @@ void monster_zombie_security_pistol::init() {
 	run_distance	= ZSECP_RUNDISTANCE;
 	walk_turn		= ZSECP_WALKTURN;
 	run_attack		= getIntKey( "run_attack" );
-	enemy_last_seen_position = getOrigin();
+	enemy_last_known_position = getOrigin();
 	next_squad_search = 0;
 
-	thread check_status();
+	check_status();
 
 	setState( "state_Begin" );
 }
@@ -877,7 +881,7 @@ void monster_zombie_security_pistol::advance() {
 
 	moveToEnemy();
 	if ( AI_MOVE_DONE ) {
-		moveToPosition( enemy_last_seen_position );
+		moveToPosition( enemy_last_known_position );
 	}
 
 	cutoffTime = RandomDelay( ZSECP_REPOSITION_MIN_LENGTH, ZSECP_REPOSITION_MAX_LENGTH );
@@ -955,6 +959,7 @@ void monster_zombie_security_pistol::find_squad_loop() {
 	monster_zombie_security_pistol zsec;
 	float i;
 	float num_found;
+	float dist;
 
 	for( monster_type = 0; monster_type < 8; monster_type++ ) {
 		if ( monster_type == 0 ) {
@@ -979,10 +984,11 @@ void monster_zombie_security_pistol::find_squad_loop() {
 			ent = sys.getEntity( name + i );
 			if ( ( ent != $null_entity ) && ( ent != self ) ) {
 				zsec = ent;
+				dist = travelDistanceToEntity(zsec);
 				if ( zsec.AI_DEAD ) {
 					continue;
 				}
-				if ( travelDistanceToEntity(zsec) < 25000 ) {
+				if ( dist < 0 || dist > 1000 ) {
 					continue;
 				}
 				if ( !zsec.add_to_squad( self ) ) {
@@ -1070,6 +1076,10 @@ float monster_zombie_security_pistol::check_squad() {
 }
 
 void monster_zombie_security_pistol::check_status() {
+	thread check_status_loop();
+}
+
+void monster_zombie_security_pistol::check_status_loop() {
 	float currentTime;
 	entity enemy;
 	entity ent;
@@ -1083,17 +1093,18 @@ void monster_zombie_security_pistol::check_status() {
 		currentTime = sys.getTime();
 		enemy = getEnemy();
 		myPosition = getOrigin();
-
 		amTakingDamage = AI_DAMAGE;
 		AI_DAMAGE = false;
 
 		// enemy_in_sight
+		// enemy_last_known_position
+		// enemy_last_seen_time
+		// enemy_last_seen_from_position
 		if ( AI_ENEMY_IN_FOV ) {
 			enemy_in_sight = true;
-			enemy_last_seen_position = enemy.getOrigin();
+			enemy_last_seen_from_position = myPosition;
+			enemy_last_known_position = enemy.getOrigin();
 			enemy_last_seen_time = currentTime;
-			last_saw_enemy_from_position = myPosition;
-			last_saw_enemy_at_time = currentTime;
 		} else {
 			enemy_in_sight = false;
 		}
@@ -1116,11 +1127,20 @@ void monster_zombie_security_pistol::check_status() {
 			enemy_is_aiming_at_me = false;
 		}
 
-		// enemy_is_attacking_me
-		if ( ( canSeeEnemyAimingAtMe && enemyPlayerFiring ) || amTakingDamage ) {
-			enemy_is_attacking_me = true;
+		// taking_damage
+		// last_took_damage_time
+		// last_took_damage_position
+		if ( amTakingDamage ) {
+			taking_damage = true;
 			last_took_damage_time = currentTime;
 			last_took_damage_position = myPosition;
+		} else if ( taking_damage && ( currentTime > last_took_damage_time + 2 ) ) {
+			taking_damage = false;
+		}
+
+		// enemy_is_attacking_me
+		if ( amTakingDamage || ( canSeeEnemyAimingAtMe && enemyPlayerFiring ) ) {
+			enemy_is_attacking_me = true;
 		} else if ( enemy_is_attacking_me && ( currentTime > last_took_damage_time + 2 ) ) {
 			enemy_is_attacking_me = false;
 		}
@@ -1133,21 +1153,45 @@ void monster_zombie_security_pistol::check_status() {
 		}
 
 		// disturbance_exists
+		// disturbance_source
+		// disturbance_position
+		// disturbance_time
 		ent = heardSound( false );
 		if ( ent != $null_entity ) {
 			disturbance_exists = true;
+			disturbance_source = ent;
 			disturbance_position = ent.getOrigin();
 			disturbance_time = currentTime;
 		} else if ( disturbance_exists ) {
-			if ( canSee(disturbance) || ( currentTime > disturbance_time + 120 ) ) {
+			if ( canSee( disturbance_source ) || ( currentTime > disturbance_time + 120 ) ) {
 				disturbance_exists = false;
 			}
 		}
 
+		// aim_is_blocked
+		// aim_blocked_by
+		ent = TraceEntity( enemy );
+		if ( ent == enemy ) {
+			aim_is_blocked = false;
+			aim_blocked_by = ent;
+		} else {
+			aim_is_blocked = true;
+		}
+
+		// cover_is_valid
+		// note: in_cover must be set elsewhere
+		if ( in_cover ) {
+			if ( enemy_in_sight || enemy_is_attacking_me ) {
+				cover_is_valid = false;
+			} else {
+				cover_is_valid = true;
+			}
+		}
+
 		if ( enemy_is_around ) {
-			sys.println( "ALERT:" + (60 - (currentTime - enemy_last_seen_time)) );
+			sys.println( "[ALERT] " + (60 - (currentTime - enemy_last_seen_time)) + "/60" );
 		} else if ( disturbance_exists ) {
-			sys.println( "CAUTION:" + (120 - (currentTime - disturbance_time)) );
+			sys.println( "[CAUTION] " + (120 - (currentTime - disturbance_time)) + "/120" );
 		}
 
 		if ( enemy_in_sight ) {
@@ -1156,16 +1200,22 @@ void monster_zombie_security_pistol::check_status() {
 			sys.println( "He's over there!" );
 		} else if ( enemy_is_around ) {
 			sys.println( "Stay alert!" );
-		} else if ( disturbance_exists ) {
+		} else if ( disturbance_exists) {
 			sys.println( "I heard something!" );
 		} else {
 			sys.println( "Area clear." );
 		}
 
-		if ( enemy_is_attacking_me ) {
+		if ( taking_damage ) {
+			sys.println( "Medic!" );
+		} else if ( enemy_is_attacking_me ) {
 			sys.println( "Taking fire!" );
 		} else if ( enemy_is_aiming_at_me ) {
-			sys.println( "Help!" );
+			sys.println( "Cover me!" );
+		}
+
+		if ( enemy_in_sight && aim_is_blocked ) {
+			sys.println( "Get out of the way!" );
 		}
 
 		sys.println( "" );
