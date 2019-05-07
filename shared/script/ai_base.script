@@ -98,7 +98,7 @@ object player_base {
 	void		ReloadWeapon();
 	void		NetCatchup();
 
-	entity		GetViewedEntity();
+	entity		TraceView( float distance );
 };
 
 /*
@@ -166,8 +166,8 @@ void player_base::NetCatchup() {
 player_base::GetViewedEntity
 =====================
 */
-entity player_base::GetViewedEntity() {
-	vector dir = sys.angToForward( getViewAngles() ) * 1000;
+entity player_base::TraceView( float distance ) {
+	vector dir = sys.angToForward( getViewAngles() ) * distance;
 	vector pos = getOrigin() + '0 0 68';
 	sys.trace( pos, pos + dir, '-8 -8 0', '8 8 16', MASK_MONSTERSOLID, self );
 	return sys.getTraceEntity();

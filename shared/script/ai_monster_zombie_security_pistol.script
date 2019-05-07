@@ -32,7 +32,8 @@ monster_zsec_pistol_shield
 #define ZSECP_REPOSITION_DELAY_MIN		2
 #define ZSECP_PERSONAL_SPACE			40
 
-#define ZSECP_COMBAT_COOLDOWN			30
+#define ZSECP_CAUTION_COOLDOWN			20
+#define ZSECP_ALERT_COOLDOWN			10
 
 object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		fire;
@@ -62,20 +63,26 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		enemy_in_sight;
 	boolean		enemy_is_aiming_at_me;
 	boolean		enemy_is_attacking_me;
-	boolean		taking_damage;
+	boolean		am_taking_damage;
 	vector		last_took_damage_position;
 	float		last_took_damage_time;
 	vector		enemy_last_seen_from_position;
 	vector		enemy_last_known_position;
 	float		enemy_last_seen_time;
+	float		enemy_last_detected_time;
 	boolean		disturbance_exists;
 	entity		disturbance_source;
 	vector		disturbance_position;
 	float		disturbance_time;
 	boolean		aim_is_blocked;
 	entity		aim_blocked_by;
-	boolean		in_cover;
+	boolean		move_is_blocked;
+	entity		move_blocked_by;
 	boolean		cover_is_valid;
+
+	// Voluntary status
+	boolean		am_in_cover;
+	boolean		am_attacking;
 
 	// entity
 	void		init();
@@ -138,7 +145,44 @@ object monster_zombie_security_pistol : monster_zombie_base {
 void monster_zombie_security_pistol::Torso_Idle() {
 	idleAnim( ANIMCHANNEL_TORSO, "stand" );
 	
-	eachFrame {		
+	eachFrame {
+		if ( enemy_is_around ) {
+			sys.println( "[ALERT]" + (ZSECP_ALERT_COOLDOWN - (sys.getTime() - enemy_last_detected_time)) + "/" + ZSECP_ALERT_COOLDOWN);
+		} else if ( disturbance_exists ) {
+			sys.println( "[CAUTION] " + (ZSECP_CAUTION_COOLDOWN - (sys.getTime() - disturbance_time)) + "/" + ZSECP_CAUTION_COOLDOWN);
+		}
+
+		if ( enemy_in_sight ) {
+			sys.println( "Contact!" );
+		} else if ( enemy_is_around && disturbance_exists ) {
+			sys.println( "He's over there!" );
+		} else if ( enemy_is_around ) {
+			sys.println( "Stay alert!" );
+		} else if ( disturbance_exists) {
+			sys.println( "I heard something!" );
+		} else {
+			sys.println( "Area clear." );
+		}
+
+		if ( am_taking_damage ) {
+			sys.println( "Medic!" );
+		} else if ( enemy_is_attacking_me ) {
+			sys.println( "Taking fire!" );
+		} else if ( enemy_is_aiming_at_me ) {
+			sys.println( "Cover me!" );
+		}
+
+		if ( enemy_in_sight && aim_is_blocked ) {
+			sys.println( "Get out of the way!" );
+		}
+
+		if ( enemy_in_sight && move_is_blocked ) {
+			sys.println( "You're in my spot!" );
+		}
+
+		sys.println( "" );
+		continue;
+
 		if ( AI_PAIN ) {
 			Torso_Pain();
 			idleAnim( ANIMCHANNEL_TORSO, "stand" );
@@ -845,7 +889,7 @@ void monster_zombie_security_pistol::retreat() {
 			}
 			if ( enemy == $player1 ) {
 				player = $player1;
-				if ( player.GetViewedEntity() == self ) {
+				if ( player.TraceView( 1000 ) == self ) {
 					lastTargetedTime = currentTime;
 				} else if ( currentTime > lastTargetedTime + 2 + sys.random(5) ) {
 					break;
@@ -1114,7 +1158,7 @@ void monster_zombie_security_pistol::check_status_loop() {
 		canSeeEnemyAimingAtMe = false;
 		if ( enemy_in_sight && enemy == $player1 ) {
 			player = $player1;
-			if ( player.GetViewedEntity() == self ) {
+			if ( player.TraceView( 1000 ) == self ) {
 				canSeeEnemyAimingAtMe = true;
 			}
 			if ( player.AI_WEAPON_FIRED || player.AI_ATTACK_HELD ) {
@@ -1127,15 +1171,15 @@ void monster_zombie_security_pistol::check_status_loop() {
 			enemy_is_aiming_at_me = false;
 		}
 
-		// taking_damage
+		// am_taking_damage
 		// last_took_damage_time
 		// last_took_damage_position
 		if ( amTakingDamage ) {
-			taking_damage = true;
+			am_taking_damage = true;
 			last_took_damage_time = currentTime;
 			last_took_damage_position = myPosition;
-		} else if ( taking_damage && ( currentTime > last_took_damage_time + 2 ) ) {
-			taking_damage = false;
+		} else if ( am_taking_damage && ( currentTime > last_took_damage_time + 2 ) ) {
+			am_taking_damage = false;
 		}
 
 		// enemy_is_attacking_me
@@ -1148,8 +1192,37 @@ void monster_zombie_security_pistol::check_status_loop() {
 		// enemy_is_around
 		if ( enemy_in_sight || enemy_is_attacking_me ) {
 			enemy_is_around = true;
-		} else if ( enemy_is_around && ( currentTime > enemy_last_seen_time + 60 ) ) {
+			enemy_last_detected_time = currentTime;
+		} else if ( squad1.enemy_is_around || squad2.enemy_is_around || squad3.enemy_is_around || squad4.enemy_is_around ) {
+			enemy_is_around = true;
+		} else if ( enemy_is_around && ( currentTime > enemy_last_detected_time + ZSECP_ALERT_COOLDOWN ) ) {
 			enemy_is_around = false;
+		}
+
+		// enemy_last_known_position
+		// enemy_last_seen_time
+		// enemy_last_seen_from_position
+		if ( enemy_is_around && !enemy_in_sight ) {
+			if ( squad1.enemy_in_sight || squad1.enemy_last_seen_time > enemy_last_seen_time ) {
+				enemy_last_known_position = squad1.enemy_last_known_position;
+				enemy_last_seen_from_position = squad1.enemy_last_seen_from_position;
+				enemy_last_seen_time = squad1.enemy_last_seen_time;
+			}
+			if ( squad2.enemy_in_sight || squad2.enemy_last_seen_time > enemy_last_seen_time ) {
+				enemy_last_known_position = squad2.enemy_last_known_position;
+				enemy_last_seen_from_position = squad2.enemy_last_seen_from_position;
+				enemy_last_seen_time = squad2.enemy_last_seen_time;
+			}
+			if ( squad3.enemy_in_sight || squad3.enemy_last_seen_time > enemy_last_seen_time ) {
+				enemy_last_known_position = squad3.enemy_last_known_position;
+				enemy_last_seen_from_position = squad3.enemy_last_seen_from_position;
+				enemy_last_seen_time = squad3.enemy_last_seen_time;
+			}
+			if ( squad4.enemy_in_sight || squad4.enemy_last_seen_time > enemy_last_seen_time ) {
+				enemy_last_known_position = squad4.enemy_last_known_position;
+				enemy_last_seen_from_position = squad4.enemy_last_seen_from_position;
+				enemy_last_seen_time = squad4.enemy_last_seen_time;
+			}
 		}
 
 		// disturbance_exists
@@ -1163,63 +1236,45 @@ void monster_zombie_security_pistol::check_status_loop() {
 			disturbance_position = ent.getOrigin();
 			disturbance_time = currentTime;
 		} else if ( disturbance_exists ) {
-			if ( canSee( disturbance_source ) || ( currentTime > disturbance_time + 120 ) ) {
+			if ( canSee( disturbance_source ) || ( currentTime > disturbance_time + ZSECP_CAUTION_COOLDOWN ) ) {
 				disturbance_exists = false;
 			}
 		}
 
 		// aim_is_blocked
 		// aim_blocked_by
-		ent = TraceEntity( enemy );
-		if ( ent == enemy ) {
-			aim_is_blocked = false;
-			aim_blocked_by = ent;
-		} else {
-			aim_is_blocked = true;
+		if ( enemy_in_sight ) {
+			ent = TraceEntity( enemy );
+			if ( ent == enemy ) {
+				aim_is_blocked = false;
+				aim_blocked_by = ent;
+			} else {
+				aim_is_blocked = true;
+			}
+		}
+
+		// move_is_blocked
+		// move_blocked_by
+		if ( !AI_MOVE_DONE ) {
+			ent = TraceFacingEntity( 40 );
+			if ( ent != $null_entity ) {
+				move_is_blocked = true;
+				move_blocked_by = ent;
+			} else {
+				move_is_blocked = false;
+			}
 		}
 
 		// cover_is_valid
-		// note: in_cover must be set elsewhere
-		if ( in_cover ) {
+		// note: am_in_cover must be set elsewhere
+		if ( am_in_cover ) {
 			if ( enemy_in_sight || enemy_is_attacking_me ) {
 				cover_is_valid = false;
 			} else {
 				cover_is_valid = true;
 			}
 		}
-
-		if ( enemy_is_around ) {
-			sys.println( "[ALERT] " + (60 - (currentTime - enemy_last_seen_time)) + "/60" );
-		} else if ( disturbance_exists ) {
-			sys.println( "[CAUTION] " + (120 - (currentTime - disturbance_time)) + "/120" );
-		}
-
-		if ( enemy_in_sight ) {
-			sys.println( "Contact!" );
-		} else if ( enemy_is_around && disturbance_exists ) {
-			sys.println( "He's over there!" );
-		} else if ( enemy_is_around ) {
-			sys.println( "Stay alert!" );
-		} else if ( disturbance_exists) {
-			sys.println( "I heard something!" );
-		} else {
-			sys.println( "Area clear." );
-		}
-
-		if ( taking_damage ) {
-			sys.println( "Medic!" );
-		} else if ( enemy_is_attacking_me ) {
-			sys.println( "Taking fire!" );
-		} else if ( enemy_is_aiming_at_me ) {
-			sys.println( "Cover me!" );
-		}
-
-		if ( enemy_in_sight && aim_is_blocked ) {
-			sys.println( "Get out of the way!" );
-		}
-
-		sys.println( "" );
 	
-		sys.wait( 1.5 );
+		waitFrame();
 	}
 }

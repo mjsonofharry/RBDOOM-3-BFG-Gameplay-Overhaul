@@ -2122,3 +2122,10 @@ entity monster_base::TraceEntity( entity ent ) {
 	sys.trace( pos, target, '-8 -8 0', '8 8 16', MASK_MONSTERSOLID, self );
 	return sys.getTraceEntity();
 }
+
+entity monster_base::TraceFacingEntity( float distance ) {
+	vector dir = sys.angToForward( getAngles() ) * distance;
+	vector pos = getOrigin() + '0 0 48';
+	sys.trace( pos, pos + dir, '-8 -8 0', '8 8 16', MASK_MONSTERSOLID, self );
+	return sys.getTraceEntity();
+}

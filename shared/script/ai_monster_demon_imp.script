@@ -342,7 +342,7 @@ float monster_demon_imp::check_attacks() {
 		if ( !AI_ENEMY_DEAD && AI_ENEMY_VISIBLE ) {
 			if ( getEnemy() == $player1 ) {
 				player = $player1;
-				if ( player.GetViewedEntity() == self ) {
+				if ( player.TraceView( 1000 ) == self ) {
 					if ( testAnimMove( "evade_left" ) ) {
 						attack_flags |= ATTACK_DODGE_LEFT;
 					}
