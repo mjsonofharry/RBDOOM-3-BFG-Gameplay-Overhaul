@@ -213,10 +213,10 @@ entityDef projectile_plasmablast {
 
 	"model_detonate"			"plasmaimpact.prt"
 
-//	"mtr_light_shader"			""
-//	"light_color"				"0 0 0.8"
-//	"light_radius"				"160"
-//	"light_offset"				"-8 0 0"
+	"mtr_light_shader"			"lights/plasmaglow"
+	"light_color"				"0 0 0.8"
+	"light_radius"				"160"
+	"light_offset"				"-8 0 0"
 
 //	"mtr_explode_light_shader"	"muzzleflash"
 //	"explode_light_color"		"0 0 1"
