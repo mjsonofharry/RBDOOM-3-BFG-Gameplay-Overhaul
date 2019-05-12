@@ -113,11 +113,6 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	void		combat_dodge_left();
 	void		combat_dodge_right();
 
-	// squad
-	void		find_squad();
-	void		find_squad_loop();
-	boolean		add_to_squad( entity team_mate );
-
 	// torso anim states
 	void		Torso_Idle();
 	void		Torso_Pain();
@@ -243,6 +238,7 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 			while( activate_fire_anim && !animDone( ANIMCHANNEL_TORSO, 0 ) ) {
 				if ( AI_PAIN ) {
 					Torso_Pain();
+					break;
 				}
 				waitFrame();
 			}
@@ -251,7 +247,6 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 			while ( activate_fire_anim && !can_hit_enemy ) {
 				if ( AI_PAIN ) {
 					Torso_Pain();
-					break;
 				}
 				if ( !am_in_cover || ( sys.getTime() >= breakCoverTime ) ) {
 					// get to attack position
@@ -774,85 +769,6 @@ void monster_zombie_security_pistol::regroup() {
 	}
 }
 
-void monster_zombie_security_pistol::find_squad() {
-	thread find_squad_loop();
-}
-
-void monster_zombie_security_pistol::find_squad_loop() {
-	string name;
-	entity ent;
-	float monster_type;
-	monster_zombie_security_pistol zsec;
-	float i;
-	float num_found;
-	float dist;
-
-	for( monster_type = 0; monster_type < 8; monster_type++ ) {
-		if ( monster_type == 0 ) {
-			name = "monster_zsec_pistol_";
-		} else if ( monster_type == 1 ) {
-			name = "monster_zsec_shotgun_";
-		} else if ( monster_type == 2 ) {
-			name = "monster_zsec_machinegun_";
-		} else if ( monster_type == 3 ) {
-			name = "monster_zsec_shield_";
-		} else if ( monster_type == 4 ) {
-			name = "idAI_monster_zsec_pistol_";
-		} else if ( monster_type == 5 ) {
-			name = "idAI_monster_zsec_shotgun_";
-		} else if ( monster_type == 6 ) {
-			name = "idAI_monster_zsec_machinegun_";
-		} else if ( monster_type == 7 ) {
-			name = "idAI_monster_zsec_shield_";
-		}
-
-		for( i = 0; ( i < 1000 ) && ( living_squad_count < 4 ); i++ ) {
-			ent = sys.getEntity( name + i );
-			if ( ( ent != $null_entity ) && ( ent != self ) ) {
-				zsec = ent;
-				dist = travelDistanceToEntity(zsec);
-				if ( zsec.AI_DEAD ) {
-					continue;
-				}
-				if ( !canReachEntity( zsec )) {
-					continue;
-				}
-				if ( dist < 0 || dist > 1000 ) {
-					continue;
-				}
-				if ( !zsec.add_to_squad( self ) ) {
-					continue;
-				}
-				self.add_to_squad( zsec );
-			}
-		}
-		if ( living_squad_count >= 4 ) {
-			break;
-		}
-	}
-}
-
-boolean monster_zombie_security_pistol::add_to_squad( entity team_mate ) {
-	if ( ( squad1 == team_mate ) || ( squad2 == team_mate ) || ( squad3 == team_mate ) || ( squad4 == team_mate ) ) {
-		return false;
-	}
-
-	if ( squad1 == $null_entity ) {
-		squad1 = team_mate;
-	} else if ( squad2 == $null_entity ) {
-		squad2 = team_mate;
-	} else if ( squad3 == $null_entity ) {
-		squad3 = team_mate;
-	} else if ( squad4 == $null_entity ) {
-		squad4 = team_mate;
-	} else {
-		return false;
-	}
-
-	living_squad_count++;
-	return true;
-}
-
 void monster_zombie_security_pistol::begin_update_loop() {
 	thread update_loop();
 }
@@ -1235,15 +1151,6 @@ void monster_zombie_security_pistol::update_loop() {
 			enemy_is_around = false;
 		}
 
-		// squad1
-		// squad2
-		// squad3
-		// squad4
-		if ( ( living_squad_count < 4 ) && ( currentTime > next_squad_search ) ) {
-			find_squad();
-			next_squad_search = currentTime + 60;
-		}
-		
 		waitFrame();
 	}
 }
