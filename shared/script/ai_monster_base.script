@@ -114,8 +114,6 @@ object monster_base : ai {
 	void 		path_hide();
 	void 		path_show();
 	void		path_attack();
-
-	entity	TraceEntity( entity ent );
 };
 
 /***********************************************************************
@@ -2115,17 +2113,10 @@ void monster_base::follow_alternate_path3() {
 	setState( "state_FollowAlternatePath" );
 }
 
-
-entity monster_base::TraceEntity( entity ent ) {
-	vector pos = getOrigin() + '0 0 48';
-	vector target = ent.getOrigin();
-	sys.trace( pos, target, '-8 -8 0', '8 8 16', MASK_MONSTERSOLID, self );
-	return sys.getTraceEntity();
-}
-
 entity monster_base::TraceFacingEntity( float distance ) {
 	vector dir = sys.angToForward( getAngles() ) * distance;
-	vector pos = getOrigin() + '0 0 48';
+	vector pos = getOrigin();
+	pos_z += 48;
 	sys.trace( pos, pos + dir, '-8 -8 0', '8 8 16', MASK_MONSTERSOLID, self );
 	return sys.getTraceEntity();
 }
