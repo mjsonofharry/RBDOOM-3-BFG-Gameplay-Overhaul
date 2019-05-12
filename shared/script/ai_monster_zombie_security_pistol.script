@@ -12,25 +12,11 @@ monster_zsec_pistol_shield
 
 #define ZSECP_RUNDISTANCE				192
 #define ZSECP_WALKTURN					65
-#define ZSECP_DODGE_RATE				5
-#define ZSECP_ATTACK_DELAY_MIN			0.5
-#define ZSECP_ATTACK_DELAY_MAX			1
-#define ZSECP_ATTACK_MAX_LENGTH			3
-#define ZSECP_ATTACK_MIN_LENGTH			2
-#define ZSECP_WAIT_MIN_LENGTH			0.3
-#define ZSECP_WAIT_MAX_LENGTH			0.7
-#define ZSECP_CROUCH_ATTACK_MAX_LENGTH	4
-#define ZSECP_CROUCH_ATTACK_MIN_LENGTH	2.5
-#define ZSECP_STAND_ATTACK_MAX_LENGTH	3
-#define ZSECP_STAND_ATTACK_MIN_LENGTH	1.5
-#define ZSECP_ATTACK_MIN_SHOOT_TIME		0.5
-#define ZSECP_NOFOVTIME					4
 
 #define ZSECP_REPOSITION_MAX_LENGTH		11
 #define ZSECP_REPOSITION_MIN_LENGTH		6
-#define ZSECP_REPOSITION_DELAY_MAX		6
-#define ZSECP_REPOSITION_DELAY_MIN		2
-#define ZSECP_PERSONAL_SPACE			40
+#define ZSECP_COVER_MAX_DURATION		5
+#define ZSECP_COVER_MIN_DURATION		3
 
 #define ZSECP_CAUTION_COOLDOWN			120
 #define ZSECP_ALERT_COOLDOWN			60
@@ -252,16 +238,7 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 				}
 			}
 			if ( am_in_cover ) {
-				breakCoverTime = RandomDelay( 2, 5 );
-			}
-		}
-
-		if ( am_in_cover ) {
-			while ( cover_is_valid && ( sys.getTime() < breakCoverTime ) ) {
-				if ( AI_PAIN ) {
-					Torso_Pain();
-				}
-				waitFrame();
+				breakCoverTime = RandomDelay( ZSECP_COVER_MIN_DURATION, ZSECP_COVER_MAX_DURATION );
 			}
 		}
 		
@@ -278,18 +255,23 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 			while ( activate_fire_anim && !can_hit_enemy && !endAttackLoop) {
 				if ( AI_PAIN ) {
 					Torso_Pain();
+					break;
 				}
-				// get to attack position
-				if ( can_left_sidestep_to_attack ) {
-					combat_step_left();
-				} else if ( can_right_sidestep_to_attack ) {
-					combat_step_right();
-				} else if ( can_left_dodge_to_attack ) {
-					combat_dodge_left();
-				} else if ( can_right_dodge_to_attack ) {
-					combat_dodge_right();
+				if ( !am_in_cover || ( sys.getTime() >= breakCoverTime ) ) {
+					// get to attack position
+					if ( can_left_sidestep_to_attack ) {
+						combat_step_left();
+					} else if ( can_right_sidestep_to_attack ) {
+						combat_step_right();
+					} else if ( can_left_dodge_to_attack ) {
+						combat_dodge_left();
+					} else if ( can_right_dodge_to_attack ) {
+						combat_dodge_right();
+					} else {
+						activate_fire_anim = false;
+					}
+					am_in_cover = false;
 				}
-				am_in_cover = false;
 				waitFrame();
 			}
 		}
@@ -563,7 +545,7 @@ void monster_zombie_security_pistol::stand_attack() {
 		if ( sys.influenceActive() ) {
 			activate_fire_anim = false;
 		}
-		if ( !am_in_cover && !enemy_in_sight && ( currentTime > enemy_last_seen_time +  2 )) {
+		if ( !am_in_cover && !enemy_in_sight && ( currentTime > enemy_last_seen_time +  10 )) {
 			activate_fire_anim = false;
 		}
 
@@ -1028,7 +1010,7 @@ void monster_zombie_security_pistol::update_loop() {
 		// sidestep / evade shared properties
 		pos = getOrigin() + '0 0 48';
 		dir = sys.angToRight( getAngles() ) * 40;
-		dir_alt = dir * 2;
+		dir_alt = dir * 3;
 		target = enemy.getOrigin() + '0 0 48';
 
 		// can_right_sidestep_to_attack
