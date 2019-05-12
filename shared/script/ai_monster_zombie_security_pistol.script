@@ -29,8 +29,6 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		activate_crouchfire_anim;
 	entity		combat_node;
 
-	float		goal;
-
 	// squad logistics
 	float		next_squad_search;
 	float		living_squad_count;
@@ -180,7 +178,6 @@ void monster_zombie_security_pistol::Torso_Pain() {
 
 void monster_zombie_security_pistol::Torso_RangeAttack() {
 	float breakCoverTime;
-	boolean endAttackLoop;
 
 	// raise weapon
 	playAnim( ANIMCHANNEL_TORSO, "range_attack" );
@@ -202,8 +199,7 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 	}
 
 	// attack loop
-	endAttackLoop = false;
-	while ( activate_fire_anim && !endAttackLoop ) {
+	while ( activate_fire_anim ) {
 		if ( enemy_is_attacking_me ) {
 			if ( AI_PAIN ) {
 				Torso_Pain();
@@ -252,7 +248,7 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 			}
 		} else {
 			playCycle( ANIMCHANNEL_TORSO, "range_attack_aim" );
-			while ( activate_fire_anim && !can_hit_enemy && !endAttackLoop) {
+			while ( activate_fire_anim && !can_hit_enemy ) {
 				if ( AI_PAIN ) {
 					Torso_Pain();
 					break;
