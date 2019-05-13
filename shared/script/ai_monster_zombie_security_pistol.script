@@ -90,10 +90,7 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	// states
 	void		state_Begin();
 	void		state_Idle();
-	void		state_Retreat();
-	void		state_Advance();
-	void		state_Regroup();
-	// void		state_Investigate();
+	void		state_Controller();
 
 	// control
 	void		begin_update_loop();
@@ -104,10 +101,8 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	// actions
 	void		crouch_attack();
 	void		stand_attack();
-	void		retreat();
+	void		combat_retreat();
 	void		combat_advance();
-	void		regroup();
-	// void		investigate();
 	void		combat_step_left();
 	void		combat_step_right();
 	void		combat_dodge_left();
@@ -173,6 +168,7 @@ void monster_zombie_security_pistol::Torso_Pain() {
 
 void monster_zombie_security_pistol::Torso_RangeAttack() {
 	float breakCoverTime;
+	float nextLeanTime;
 
 	// raise weapon
 	playAnim( ANIMCHANNEL_TORSO, "range_attack" );
@@ -440,29 +436,16 @@ void monster_zombie_security_pistol::state_Idle() {
 
 /*
 =====================
-monster_zombie_security_pistol::state_Retreat
+monster_zombie_security_pistol::state_Controller
 =====================
 */
-void monster_zombie_security_pistol::state_Retreat() {
-	retreat();
-}
-
-/*
-=====================
-monster_zombie_security_pistol::state_Advance
-=====================
-*/
-void monster_zombie_security_pistol::state_Advance() {
-	combat_advance();
-}
-
-/*
-=====================
-monster_zombie_security_pistol::state_Regroup
-=====================
-*/
-void monster_zombie_security_pistol::state_Regroup() {
-	regroup();
+void monster_zombie_security_pistol::state_Controller() {
+	float i = 0;
+	monster_zombie_security_pistol squad = $null_entity;
+	
+	while ( i == 0 || squad != $null_entity ) {
+		squad = getTarget( i );
+	}
 }
 
 /***********************************************************************
@@ -478,17 +461,14 @@ monster_zombie_security_pistol::do_attack
 */
 void monster_zombie_security_pistol::do_attack( float attack_flags ) {
 	if ( attack_flags & ATTACK_ZSECP_ADVANCE ) {
-		sys.println( "combat_advance");
 		combat_advance();
 	} else if ( attack_flags & ATTACK_DODGE_LEFT ) {
 		combat_dodge_left();
 	} else if ( attack_flags & ATTACK_DODGE_RIGHT ) {
 		combat_dodge_right();
 	} else if ( attack_flags & ATTACK_COMBAT_NODE ) {
-		sys.println( "combat_ainode");
 		combat_ainode( combat_node );
 	} else if ( attack_flags & ATTACK_MISSILE ) {
-		sys.println( "stand_attack");
 		stand_attack();
 	}
 }
@@ -503,8 +483,6 @@ float monster_zombie_security_pistol::check_attacks() {
 	float attack_flags;
 	
 	attack_flags = 0;
-
-	sys.println( "check_attacks");
 	
 	combat_node = getCombatNode();
 	if ( combat_node ) {
@@ -605,9 +583,6 @@ void monster_zombie_security_pistol::state_Combat() {
 	float attack_flags;
 
 	eachFrame {
-
-		sys.println( "state_Combat");
-
 		faceEnemy();
 		if ( enemy_in_sight ) {
 			lookAtEnemy( 1 );
@@ -634,10 +609,10 @@ void monster_zombie_security_pistol::state_Combat() {
 
 /*
 =====================
-monster_zombie_security_pistol::retreat
+monster_zombie_security_pistol::combat_retreat
 =====================
 */
-void monster_zombie_security_pistol::retreat() {
+void monster_zombie_security_pistol::combat_retreat() {
 	float cutoffTime;
 	float lastTargetedTime;
 	float currentTime;
@@ -732,41 +707,6 @@ void monster_zombie_security_pistol::combat_advance() {
 	}
 	stopMove();
 	faceEnemy();
-}
-
-void monster_zombie_security_pistol::regroup() {
-	float distance;
-	float shortest_distance;
-	vector closest_regroup_position;
-
-	shortest_distance = travelDistanceToPoint( squad1.getOrigin() );
-	closest_regroup_position = squad1.getOrigin();
-	distance = travelDistanceToPoint( squad2.getOrigin() );
-	if ( distance < shortest_distance ) {
-		shortest_distance = distance;
-		closest_regroup_position = squad2.getOrigin();
-	}
-	distance = travelDistanceToPoint( squad3.getOrigin() );
-	if ( distance < shortest_distance ) {
-		shortest_distance = distance;
-		closest_regroup_position = squad3.getOrigin();
-	}
-	distance = travelDistanceToPoint( squad4.getOrigin() );
-	if ( distance < shortest_distance ) {
-		shortest_distance = distance;
-		closest_regroup_position = squad4.getOrigin();
-	}
-
-	moveToPosition( closest_regroup_position );
-	while ( !AI_MOVE_DONE && !AI_DEST_UNREACHABLE && !AI_BLOCKED && !AI_OBSTACLE_IN_PATH ) {
-		if ( ( AI_ENEMY_VISIBLE && AI_ENEMY_IN_FOV ) || AI_PAIN ) {
-			break;
-		}
-		if ( canSee( squad1 ) || canSee( squad2 ) || canSee( squad3 ) || canSee( squad4 ) ) {
-			break;
-		}
-		waitFrame();
-	}
 }
 
 void monster_zombie_security_pistol::begin_update_loop() {
@@ -898,7 +838,7 @@ void monster_zombie_security_pistol::update_loop() {
 
 		// cover_is_valid
 		if ( am_in_cover ) {
-			if ( can_hit_enemy || enemy_is_attacking_me ) {
+			if ( can_hit_enemy || am_taking_damage ) {
 				cover_is_valid = false;
 			} else {
 				cover_is_valid = true;
