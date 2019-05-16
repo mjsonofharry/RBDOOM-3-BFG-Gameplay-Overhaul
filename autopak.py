@@ -75,22 +75,22 @@ def zip_sources(source_data, zip_dir_path, zip_name, zip_type, container_dir=Non
 
 def copy_sources(source_data, copy_dir_path):
     for source, source_paths in source_data:
-            copy_paths = [
-                (x, os.path.join(copy_dir_path, os.path.relpath(x, source)))
-                for x in source_paths
-            ]
-            for src, dst in copy_paths:
-                dst_parent = os.path.dirname(dst)
-                if not os.path.exists(dst_parent):
-                    os.makedirs(dst_parent)
-                elif os.path.isfile(dst):
-                    with open(src, 'rb') as f_src, open(dst, 'rb') as f_dst:
-                        left = md5(f_src.read()).hexdigest()
-                        right = md5(f_dst.read()).hexdigest()
-                        if left == right:
-                            continue
-                        os.remove(dst)
-                shutil.copy(src, dst)
+        copy_paths = [
+            (x, os.path.join(copy_dir_path, os.path.relpath(x, source)))
+            for x in source_paths
+        ]
+        for src, dst in copy_paths:
+            dst_parent = os.path.dirname(dst)
+            if not os.path.exists(dst_parent):
+                os.makedirs(dst_parent)
+            elif os.path.isfile(dst):
+                with open(src, 'rb') as f_src, open(dst, 'rb') as f_dst:
+                    left = md5(f_src.read()).hexdigest()
+                    right = md5(f_dst.read()).hexdigest()
+                    if left == right:
+                        continue
+                    os.remove(dst)
+            shutil.copy(src, dst)
 
 def display_help():
     print('usage: python autopak.py [install] [deploy] [help]\n')
