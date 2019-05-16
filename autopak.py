@@ -94,6 +94,9 @@ def copy_sources(source_data, copy_dir_path):
 
 def main():
     args = sys.argv
+    if len(args) != 2:
+        help()
+        sys.exit(1)
     goal = args[1]
     mod_defs = json.loads(open(MOD_DEFINITION_PATH, 'r').read(),
         object_hook=mod_definition_decoder)
@@ -116,8 +119,14 @@ def main():
             else:
                 zip_sources(source_data, DEPLOY_TARGET, mod.zip_name, 'zip',
                     container_dir=mod.game)
+        elif goal == 'help':
+            print('usage: python autopak.py [install] [deploy] [help]\n')
+            print('install  ', 'copies mods into their respective install locations, zipping them into pk4 files as needed')
+            print('deploy   ', 'packages mods into zip and pk4 files located in the targets/ directory of this project')
+            print('help     ', 'displays this screen')
         else:
-            pass
+            print('autopak:\'' + goal + '\'', 'is not a valid command. Run \'autopak help\' using Python 3')
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
