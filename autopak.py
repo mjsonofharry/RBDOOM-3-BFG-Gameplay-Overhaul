@@ -129,7 +129,7 @@ def main():
             display_help()
         else:
             print('autopak:\'' + goal + '\'', 'is not a valid command. Run \'autopak help\' using Python 3')
-        sys.exit(1)
+            sys.exit(1)
 
 if __name__ == '__main__':
     main()
