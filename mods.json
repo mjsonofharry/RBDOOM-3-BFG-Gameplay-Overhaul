@@ -1,26 +1,57 @@
 [
     {
-        "game_name": "RBDOOM_3_BFG",
+        "game_title": "RBDOOM 3 BFG",
+        "mod_title": "Gameplay Overhaul",
         "is_pk4": false,
-        "data_sources": ["shared", "bfg"],
-        "game_path": "D:\\RBDOOM-3-BFG"
+        "sources": ["shared", "bfg"],
+        "base_path": "D:\\RBDOOM-3-BFG",
+        "game": "gameplayoverhaul",
+        "zip_name": "rbdoom3_gameplayoverhaul",
+        "pk4_name": null,
+        "should_deploy": true
     },
     {
-        "game_name": "Classic_RBDOOM_3_BFG",
+        "game_title": "Classic RBDOOM 3 BFG",
+        "mod_title": "Gameplay Overhaul",
         "is_pk4": false,
-        "data_sources": ["shared", "bfg"],
-        "game_path": "D:\\Classic-RBDOOM-3-BFG"
+        "sources": ["shared", "bfg"],
+        "base_path": "D:\\Classic-RBDOOM-3-BFG",
+        "game": "gameplayoverhaul",
+        "zip_name": "rbdoom3_gameplayoverhaul",
+        "pk4_name": null,
+        "should_deploy": false
     },
     {
-        "game_name": "dhewm_3",
+        "game_title": "dhewm 3",
+        "mod_title": "Gameplay Overhaul",
         "is_pk4": true,
-        "data_sources": ["shared", "d3"],
-        "game_path": "D:\\dhewm3"
+        "sources": ["shared", "d3"],
+        "base_path": "D:\\dhewm3",
+        "game": "d3xp",
+        "zip_name": "doom3_gameplayoverhaul",
+        "pk4_name": "zzzgameplayoverhaul",
+        "should_deploy": false
     },
     {
-        "game_name": "doom_3",
+        "game_title": "fhDOOM",
+        "mod_title": "Gameplay Overhaul",
         "is_pk4": true,
-        "data_sources": ["shared", "d3"],
-        "game_path": "D:\\SteamLibrary\\steamapps\\common\\Doom 3"
+        "sources": ["shared", "d3"],
+        "base_path": "D:\\fhDOOM",
+        "game": "gameplayoverhaul",
+        "zip_name": "doom3_gameplayoverhaul",
+        "pk4_name": "zzzgameplayoverhaul",
+        "should_deploy": false
+    },
+    {
+        "game_title": "Doom 3",
+        "mod_title": "Gameplay Overhaul",
+        "is_pk4": true,
+        "sources": ["shared", "d3"],
+        "base_path": "D:\\SteamLibrary\\steamapps\\common\\Doom 3",
+        "game": "gameplayoverhaul",
+        "zip_name": "doom3_gameplayoverhaul",
+        "pk4_name": "zzzgameplayoverhaul",
+        "should_deploy": true
     }
 ]

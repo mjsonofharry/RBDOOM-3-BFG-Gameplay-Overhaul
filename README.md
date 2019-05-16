@@ -59,6 +59,7 @@ The following version of Doom 3 are supported:
 
 * [Doom 3](https://store.steampowered.com/app/9050/DOOM_3/) with [Resurrection of Evil](https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/) installed
 * [dhewm 3](https://dhewm3.org/)
+* [fhDOOM](https://github.com/eXistence/fhDOOM)
 * [RBDOOM 3 BFG](https://github.com/RobertBeckebans/RBDOOM-3-BFG)
 * [Classic RBDOOM 3 BFG](https://github.com/MadDeCoDeR/Classic-RBDOOM-3-BFG)
 
