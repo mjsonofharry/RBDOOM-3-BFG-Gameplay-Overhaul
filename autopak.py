@@ -93,8 +93,6 @@ def copy_sources(source_data, copy_dir_path):
                 shutil.copy(src, dst)
 
 def main():
-    print()
-
     args = sys.argv
     goal = args[1]
     mod_defs = json.loads(open(MOD_DEFINITION_PATH, 'r').read(),
