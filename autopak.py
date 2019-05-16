@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
 import json
 import os
 import shutil
@@ -21,8 +22,10 @@ from collections import namedtuple
 from hashlib import md5
 from zipfile import ZipFile
 
+
 MOD_DEFINITION_PATH = 'mods.json'
 DEPLOY_TARGET = 'target'
+
 
 Mod = namedtuple('Mod', [
     'game_title',
@@ -36,8 +39,10 @@ Mod = namedtuple('Mod', [
     'should_deploy'
 ])
 
+
 def get_source_paths(source):
     return [os.path.join(r, f) for r,d,fs in os.walk(source) for f in fs]
+
 
 def mod_definition_decoder(obj):
     return Mod(
@@ -51,6 +56,7 @@ def mod_definition_decoder(obj):
         pk4_name=obj['pk4_name'],
         should_deploy=obj['should_deploy']
     )
+
 
 def zip_sources(source_data, zip_dir_path, zip_name, zip_type, container_dir=None):
     if not os.path.exists(zip_dir_path):
@@ -73,6 +79,7 @@ def zip_sources(source_data, zip_dir_path, zip_name, zip_type, container_dir=Non
             except UserWarning:
                 pass
 
+
 def copy_sources(source_data, copy_dir_path):
     for source, source_paths in source_data:
         copy_paths = [
@@ -92,11 +99,41 @@ def copy_sources(source_data, copy_dir_path):
                     os.remove(dst)
             shutil.copy(src, dst)
 
+
 def display_help():
     print('usage: python autopak.py [install] [deploy] [help]\n')
     print('install  ', 'copies mods into their respective install locations, zipping them into pk4 files as needed')
     print('deploy   ', 'packages mods into zip and pk4 files located in the targets/ directory of this project')
     print('help     ', 'displays this screen')
+
+
+def install(mod):
+    destination = os.path.join(mod.base_path, mod.game, 
+        mod.pk4_name + '.pk4' if mod.is_pk4 and mod.pk4_name else '')
+    print('Installing', mod.mod_title, 'for', mod.game_title, 'to', destination)
+    source_data = [
+        (source, get_source_paths(source))
+        for source in mod.sources
+    ]
+    if mod.is_pk4:
+        zip_sources(source_data, os.path.join(mod.base_path, mod.game), 
+            mod.pk4_name, 'pk4')
+    else:
+        copy_sources(source_data, os.path.join(mod.base_path, mod.game))
+
+
+def deploy(mod):
+    print('Deploying', mod.mod_title, 'for', mod.game_title)
+    source_data = [
+        (source, get_source_paths(source))
+        for source in mod.sources
+    ]
+    if mod.is_pk4:
+        zip_sources(source_data, DEPLOY_TARGET, mod.pk4_name, 'pk4')
+    else:
+        zip_sources(source_data, DEPLOY_TARGET, mod.zip_name, 'zip',
+            container_dir=mod.game)
+
 
 def main():
     args = sys.argv
@@ -107,26 +144,13 @@ def main():
     mod_defs = json.loads(open(MOD_DEFINITION_PATH, 'r').read(),
         object_hook=mod_definition_decoder)
     for mod in mod_defs:
-        source_data = [
-            (source, get_source_paths(source))
-            for source in mod.sources
-        ]
         if goal == 'install':
-            print('Installing', mod.mod_title, 'for', mod.game_title, 'to', os.path.join(mod.base_path, mod.game, mod.pk4_name + '.pk4' if mod.is_pk4 and mod.pk4_name else ''))
-            if mod.is_pk4:
-                zip_sources(source_data, os.path.join(mod.base_path, mod.game), 
-                    mod.pk4_name, 'pk4')
-            else:
-                copy_sources(source_data, os.path.join(mod.base_path, mod.game))
+            install(mod)
         elif goal == 'deploy' and mod.should_deploy:
-            print('Deploying', mod.mod_title, 'for', mod.game_title)
-            if mod.is_pk4:
-                zip_sources(source_data, DEPLOY_TARGET, mod.pk4_name, 'pk4')
-            else:
-                zip_sources(source_data, DEPLOY_TARGET, mod.zip_name, 'zip',
-                    container_dir=mod.game)
+            deploy(mod)
         elif goal == 'help':
             display_help()
+            sys.exit(0)
         else:
             print('autopak:\'' + goal + '\'', 'is not a valid command. Run \'autopak help\' using Python 3')
             sys.exit(1)
