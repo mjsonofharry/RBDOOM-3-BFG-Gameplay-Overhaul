@@ -146,8 +146,9 @@ def main():
     for mod in mod_defs:
         if goal == 'install':
             install(mod)
-        elif goal == 'deploy' and mod.should_deploy:
-            deploy(mod)
+        elif goal == 'deploy':
+            if mod.should_deploy:
+                deploy(mod)
         elif goal == 'help':
             display_help()
             sys.exit(0)
