@@ -97,7 +97,7 @@ def copy_sources(source_data, copy_dir_path):
                     right = md5(f_dst.read()).hexdigest()
                     if left == right:
                         continue
-                    os.remove(dst)
+                os.remove(dst)
             shutil.copy(src, dst)
 
 
