@@ -78,6 +78,7 @@ def zip_sources(source_data, zip_dir_path, zip_name, zip_type, container_dir=Non
                 z.write(src, arcname=arc)
             except UserWarning:
                 pass
+    z.close()
 
 
 def copy_sources(source_data, copy_dir_path):
