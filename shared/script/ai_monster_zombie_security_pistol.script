@@ -25,6 +25,14 @@ monster_zsec_pistol_shield
 #define ATTACK_ZSECP_ADVANCE			ATTACK_SPECIAL2
 #define ATTACK_ZSECP_RETREAT			ATTACK_SPECIAL3
 
+#define TORSO_RAISEWEAPON "Torso_RaiseWeapon"
+#define TORSO_LOWERWEAPON "Torso_LowerWeapon"
+#define TORSO_ATTACK "Torso_Attack"
+#define LEGS_DODGELEFT "Legs_DodgeLeft"
+#define LEGS_DODGERIGHT "Legs_DodgeRight"
+#define LEGS_STEPLEFT "Legs_StepLeft"
+#define LEGS_STEPRIGHT "Legs_StepRight"
+
 boolean arrayContains( string array, string val ) {
 	return arrayFind( array, val ) != -1;
 }
@@ -36,14 +44,11 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		am_in_cover;
 	boolean		am_attacking;
 	boolean		am_crouching;
+	boolean		weapon_raised;
 
 	// animation control
-	boolean		torso_playing;
 	string		torso_anim;
-	string		torso_anim_queue;
-	boolean		legs_playing;
 	string		legs_anim;
-	string		legs_anim_queue;
 
 	// threat status
 	boolean		enemy_is_around;
@@ -81,7 +86,6 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		can_right_dodge;
 	boolean		can_right_dodge_into_cover;
 	boolean		can_right_dodge_to_attack;
-	boolean		weapon_raised;
 	float		player_aim_relative;
 	float		health_percentage;
 
@@ -127,10 +131,10 @@ object monster_zombie_security_pistol : monster_zombie_base {
 
 void monster_zombie_security_pistol::Torso_Idle() {
 	eachFrame {		
-		if ( torso_playing && torso_anim != "" ) {
-			sys.println( "[" + torso_anim + "]" + torso_anim_queue );
+		if ( torso_anim != "" ) {
+			sys.println( torso_anim );
 			callFunction( torso_anim );
-			torso_playing = false;
+			torso_anim = "";
 		}
 	}
 }
@@ -179,6 +183,7 @@ void monster_zombie_security_pistol::Torso_RaiseWeapon() {
 		}
 		waitFrame();
 	}
+	playCycle( ANIMCHANNEL_TORSO, "range_attack_aim" );
 }
 
 void monster_zombie_security_pistol::Torso_LowerWeapon() {
@@ -189,6 +194,7 @@ void monster_zombie_security_pistol::Torso_LowerWeapon() {
 		}
 		waitFrame();
 	}
+	idleAnim( ANIMCHANNEL_TORSO, "stand" );
 }
 
 /***********************************************************************
@@ -207,10 +213,10 @@ void monster_zombie_security_pistol::Legs_Idle() {
 		if ( run && AI_FORWARD )	{ animState( ANIMCHANNEL_LEGS, "Legs_Run", 8 ); }
 		if ( AI_FORWARD )			{ animState( ANIMCHANNEL_LEGS, "Legs_Walk", 8 ); }
 		
-		if ( legs_playing && legs_anim != "" ) {
-			sys.println( "[" + legs_anim + "]" + legs_anim_queue );
+		if ( legs_anim != "" ) {
+			sys.println( legs_anim );
 			callFunction( legs_anim );
-			legs_playing = false;
+			legs_anim = "";
 		}
 	}
 }
@@ -354,119 +360,93 @@ monster_zombie_security_pistol::stand_attack
 */
 void monster_zombie_security_pistol::stand_attack() {
 	float currentTime;
-	float breakCoverTime;
-	boolean canEnterCover;
-	boolean canExitCover;
-	boolean leftStep;
-	boolean leftDodge;
-	boolean rightStep;
-	boolean rightDodge;
-
-	torso_playing = false;
-	legs_playing = false;
-	torso_anim_queue = "Torso_Stand";
-	legs_anim_queue = "Legs_Stand";
-	weapon_raised = false;
+	boolean enterCover;
+	boolean exitCover;
+	string torsoAnim;
+	string legsAnim;
 
 	while ( true ) {
+		torsoAnim = "";
+		legsAnim = "";
+		
 		currentTime = sys.getTime();
 		if ( sys.influenceActive() ) {
 			break;
 		}
 
-		leftStep = false;
-		leftDodge = false;
-		rightStep = false;
-		rightDodge = false;
-
 		if ( enemy_is_attacking_me ) {
-			canEnterCover = !am_in_cover && ( can_left_sidestep_into_cover || can_left_dodge_into_cover || can_right_sidestep_into_cover || can_right_dodge_into_cover );
-			if ( canEnterCover ) {
-				breakCoverTime = RandomDelay( 1.5, 3 );
+			enterCover = can_left_sidestep_into_cover || can_left_dodge_into_cover || can_right_sidestep_into_cover || can_right_dodge_into_cover;
+			if ( enterCover ) {
 				if ( can_left_sidestep_into_cover ) {
-					leftStep = true;
+					legsAnim = LEGS_STEPLEFT;
 				} else if ( can_right_sidestep_into_cover ) {
-					rightStep = true;
+					legsAnim = LEGS_STEPRIGHT;
 				} else if ( can_left_dodge_into_cover ) {
-					leftDodge = true;
+					legsAnim = LEGS_DODGELEFT;
 				} else if ( can_right_dodge_into_cover ) {
-					rightDodge = true;
+					legsAnim = LEGS_DODGERIGHT;
 				}
 				am_in_cover = true;
 			} else if ( getEnemy() == $player1 ) {
 				if ( player_aim_relative > 0 ) {
 					if ( can_left_dodge ) {
-						leftDodge = true;
+						legsAnim = LEGS_DODGELEFT;
 					} else if ( can_left_sidestep ) {
-						leftStep = true;
-					} else {
-						break;
+						legsAnim = LEGS_STEPLEFT;
 					}
 				} else {
 					if ( can_right_dodge ) {
-						rightDodge = true;
+						legsAnim = LEGS_DODGERIGHT;
 					} else if ( can_right_sidestep ) {
-						rightStep = true;
-					} else {
-						break;
+						legsAnim = LEGS_STEPRIGHT;
 					}
 				}
 			}
 		} else if ( can_hit_enemy ) {
-			if ( !arrayContains( torso_anim_queue, "Torso_Attack" ) ) {
-				if ( !weapon_raised && !arrayContains( torso_anim_queue, "Torso_RaiseWeapon" ) ) {
-					torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_RaiseWeapon" );
-					torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_Aim" );
-					weapon_raised = true;
-				}
-				torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_Attack" );
+			lookAtEnemy( 1 );
+			if ( !weapon_raised ) {
+				torsoAnim = TORSO_RAISEWEAPON;
+			} else {
+				torsoAnim = TORSO_ATTACK;
 			}
 		} else {
-			if ( !am_in_cover || ( sys.getTime() > breakCoverTime ) ) {
+			exitCover = can_left_sidestep_to_attack || can_right_sidestep_to_attack || can_left_dodge_to_attack || can_right_dodge_to_attack;
+			if ( exitCover ) {
 				if ( can_left_sidestep_to_attack ) {
-					leftStep = true;
+					legsAnim = LEGS_STEPLEFT;
 				} else if ( can_right_sidestep_to_attack ) {
-					rightStep = true;
+					legsAnim = LEGS_STEPRIGHT;
 				} else if ( can_left_dodge_to_attack ) {
-					leftDodge = true;
+					legsAnim = LEGS_DODGELEFT;
 				} else if ( can_right_dodge_to_attack ) {
-					rightDodge = true;
+					legsAnim = LEGS_DODGERIGHT;
 				} else {
 					am_in_cover = false;
-					if ( weapon_raised && !arrayContains( torso_anim_queue, "Torso_LowerWeapon" ) ) {
-						torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_LowerWeapon" );
-						weapon_raised = false;
+					if ( weapon_raised ) {
+						torsoAnim = TORSO_LOWERWEAPON;
 					}
-					break;
 				}
 			}
 		}
-		if ( leftStep && !arrayContains( legs_anim_queue, "Legs_StepLeft" ) ) {
-			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_StepLeft" );
-		} else if ( rightStep && !arrayContains( legs_anim_queue, "Legs_StepRight" ) ) {
-			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_StepRight" );
-		} else if ( leftDodge && !arrayContains( legs_anim_queue, "Legs_DodgeLeft" ) ) {
-			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_DodgeLeft" );
-		} else if ( rightDodge && !arrayContains( legs_anim_queue, "Legs_DodgeRight" ) ) {
-			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_DodgeRight" );
+
+		if ( torso_anim == "" ) {
+			if ( torsoAnim == TORSO_RAISEWEAPON ) {
+				weapon_raised = true;
+			} else if ( torsoAnim == TORSO_LOWERWEAPON ) {
+				weapon_raised = true;
+			} else if ( torsoAnim == TORSO_ATTACK ) {
+				faceEnemy();
+			}
+			torso_anim = torsoAnim;
 		}
 
-		if ( !torso_playing ) {
-			torso_anim = arrayHead( torso_anim_queue );
-			torso_anim_queue = arrayTail( torso_anim_queue );
-			torso_playing = true;
-		}
-
-		if ( !legs_playing ) {
-			legs_anim = arrayHead( legs_anim_queue );
-			legs_anim_queue = arrayTail( legs_anim_queue );
-			legs_playing = true;
+		if ( legs_anim == "" ) {
+			legs_anim = legsAnim;
 		}
 
 		lookAtEnemy( 1 );
 		waitFrame();
 	}
-	torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_LowerWeapon" );
 }
 
 /*
