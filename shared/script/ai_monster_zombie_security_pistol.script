@@ -67,7 +67,6 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	entity		move_blocked_by;
 	boolean		am_blocking_aim;
 	boolean		am_blocking_move;
-	boolean		enemy_is_attacking_squad;
 	boolean		can_left_sidestep;
 	boolean		can_left_sidestep_into_cover;
 	boolean		can_left_sidestep_to_attack;
@@ -82,16 +81,6 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		can_right_dodge_to_attack;
 	float		player_aim_relative;
 	float		health_percentage;
-
-	// squad logistics
-	float		next_squad_search;
-	float		living_squad_count;
-	float		dead_squad_count;
-	monster_zombie_security_pistol	squad1;
-	monster_zombie_security_pistol	squad2;
-	monster_zombie_security_pistol	squad3;
-	monster_zombie_security_pistol	squad4;
-	monster_zombie_security_pistol	enemy_attack_target;
 
 	// entity
 	void		init();
@@ -360,7 +349,6 @@ void monster_zombie_security_pistol::init() {
 	run_distance	= ZSECP_RUNDISTANCE;
 	walk_turn		= ZSECP_WALKTURN;
 	enemy_last_known_position = getOrigin();
-	next_squad_search = 0;
 
 	begin_update_loop();
 
@@ -398,20 +386,6 @@ monster_zombie_security_pistol::state_Idle
 void monster_zombie_security_pistol::state_Idle() {
 	wait_for_enemy();
 	setState( "state_Combat" );
-}
-
-/*
-=====================
-monster_zombie_security_pistol::state_Controller
-=====================
-*/
-void monster_zombie_security_pistol::state_Controller() {
-	float i = 0;
-	monster_zombie_security_pistol squad = $null_entity;
-	
-	while ( i == 0 || squad != $null_entity ) {
-		squad = getTarget( i );
-	}
 }
 
 /***********************************************************************
@@ -918,152 +892,6 @@ void monster_zombie_security_pistol::update_loop() {
 			can_left_dodge_to_attack = false;
 			can_left_dodge_into_cover = false;
 		}
-
-		// // living_squad_count
-		// // dead_squad_count
-		// // am_blocking_aim
-		// // am_blocking_move
-		// // enemy_last_known_position
-		// // enemy_last_seen_time
-		// // enemy_last_seen_from_position
-		// // enemy_is_attacking_squad
-		// // enemy_attack_target
-		// // enemy_is_around
-		// enemyIsAroundSquad = false;
-		// amBlockingAim = false;
-		// amBlockingMove = false;
-		// if ( currentTime > lastSquadUpdate + 3 ) {
-		// 	lastSquadUpdate = currentTime;
-		// 	livingSquadCount = 0;
-		// 	if ( squad1 != $null_entity ) {
-		// 		if ( squad1.AI_DEAD ) {
-		// 			squad1 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad1.aim_is_blocked && squad1.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad1.move_is_blocked && squad1.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad1.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad1.enemy_in_sight || ( squad1.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad1.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad1.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad1.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad1.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad1;
-		// 			}
-		// 		}
-		// 	}
-		// 	if ( squad2 != $null_entity ) {
-		// 		if ( squad2.AI_DEAD ) {
-		// 			squad2 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad2.aim_is_blocked && squad2.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad2.move_is_blocked && squad2.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad2.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad2.enemy_in_sight || ( squad2.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad2.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad2.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad2.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad2.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad2;
-		// 			}
-		// 		}
-		// 	}
-		// 	if ( squad3 != $null_entity ) {
-		// 		if ( squad3.AI_DEAD ) {
-		// 			squad3 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad3.aim_is_blocked && squad3.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad3.move_is_blocked && squad3.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad3.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad3.enemy_in_sight || ( squad3.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad3.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad3.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad3.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad3.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad3;
-		// 			}
-		// 		}
-		// 	}
-		// 	if ( squad4 != $null_entity ) {
-		// 		if ( squad4.AI_DEAD ) {
-		// 			squad4 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad4.aim_is_blocked && squad4.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad4.move_is_blocked && squad4.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad4.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad4.enemy_in_sight || ( squad4.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad4.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad4.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad4.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad4.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad4;
-		// 			}
-		// 		}
-		// 	}
-		// 	living_squad_count = livingSquadCount;
-		// }
-		// if ( amBlockingAim ) {
-		// 	am_blocking_aim = true;
-		// } else {
-		// 	am_blocking_aim = false;
-		// }
-		// if ( amBlockingMove ) {
-		// 	am_blocking_move = true;
-		// } else {
-		// 	am_blocking_move = false;
-		// }
-		// if ( enemyIsAttackingSquad ) {
-		// 	enemy_is_attacking_squad = true;
-		// } else {
-		// 	enemy_is_attacking_squad = false;
-		// }
 
 		// enemy_is_around
 		if ( enemy_in_sight || enemy_is_attacking_me || enemyIsAroundSquad ) {
