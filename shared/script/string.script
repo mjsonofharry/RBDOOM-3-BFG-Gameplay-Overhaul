@@ -1,0 +1,57 @@
+float strFindFrom( string text, string search, float offset ) {
+    float textLen = sys.strLength( text );
+    float searchLen = sys.strLength( search );
+    string textPart;
+
+    if ( textLen < offset + searchLen ) {
+        return -1;
+    }
+    textPart = sys.strSkip( text, offset );
+    if ( textPart == search ) {
+        return offset;
+    }
+
+    float i;
+    for( i = offset; i < textLen; i++ ) {
+        if ( textLen - i < searchLen ) {
+            break;
+        }
+        textPart = sys.strMid( text, i, searchLen );
+        if ( textPart == search ) {
+            return i;
+        }
+        sys.wait( 0.001 );
+    }
+    return -1;
+}
+
+float strFind( string text, string search ) {
+    return strFindFrom( text, search, 0 );
+}
+
+boolean strIsDigit( string text ) {
+    if ( text == "0" || text == "1" || text == "2" || text == "3" || text == "4" || text == "5" || text == "6" || text == "7" || text == "8" || text == "9" || text == "." ) {
+        return true;
+    }
+    return false;
+}
+
+string strRightDigits( string text ) {
+    if ( text == "" ) {
+        return "";
+    }
+
+    float len = sys.strLength( text );
+    string result = "";
+    string textPart;
+    float i;
+    for ( i = 1; i <= len; i++ ) {
+        textPart = sys.strRight( text, i );
+        if ( !strIsDigit( sys.strLeft( textPart, 1 ) ) ) {
+            break;
+        }
+        result = textPart;
+        sys.wait( 0.001 );
+    }
+    return result;
+}

@@ -1,0 +1,91 @@
+#define ARRAY_MAX_SIZE 128
+
+string arrayAppend( string array, string val ) {
+    if ( val == "" || val == "," ) {
+        return "";
+    } else if ( ( sys.strLength(array) + sys.strLength(val) + 1 ) > ARRAY_MAX_SIZE ) {
+        return "";
+    } else if ( array == "" ) {
+        return val;
+    } else {
+        return array + "," + val;
+    }
+}
+
+string arrayHead( string array ) {
+    float delim = strFind( array, "," );
+    if ( delim < 0 ) {
+        delim = sys.strLength( array );
+    }
+    return sys.strLeft( array, delim );
+}
+
+string arrayTail( string array ) {
+    float delim = strFind( array, "," );
+    if ( delim < 0 ) {
+        return "";
+    }
+    return sys.strSkip( array, delim + 1 );
+}
+
+string arrayGet( string array, float idx ) {
+    if ( idx < 0 ) {
+        return "";
+    }
+    
+    float count;
+    for( count = 0; array != ""; count++ ) {
+        if ( count == idx ) {
+            return arrayHead( array );
+        }
+        array = arrayTail( array );
+        sys.wait( 0.001 );
+    }
+    return "";
+}
+
+float arraySize( string array ) {
+    if ( array == "" ) {
+        return 0;
+    }
+
+    float count;
+    for( count = 0; array != "" ; count++ ) {
+        array = arrayTail( array );
+        sys.wait( 0.001 );
+    }
+    return count;
+}
+
+float arrayFind( string array, string val ) {
+    if ( val == "" || val == "," ) {
+        return -1;
+    }
+
+    float count;
+    for( count = 0; array != ""; count++ ) {
+        if ( arrayHead( array ) == val ) {
+            return count;
+        }
+        array = arrayTail( array );
+    }
+    
+    return -1;
+}
+
+string arrayRemove( string array, float idx ) {
+    if ( idx < 0 ) {
+        return array;
+    }
+
+    string result = "";
+    float count;
+    for( count = 0; array != ""; count++ ) {
+        if ( count != idx ) {
+            result = arrayAppend( result, arrayHead( array ) );
+        }
+        array = arrayTail( array );
+        sys.wait( 0.001 );
+    }
+    return result;
+}

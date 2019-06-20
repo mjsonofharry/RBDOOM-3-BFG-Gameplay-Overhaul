@@ -25,6 +25,10 @@ monster_zsec_pistol_shield
 #define ATTACK_ZSECP_ADVANCE			ATTACK_SPECIAL2
 #define ATTACK_ZSECP_RETREAT			ATTACK_SPECIAL3
 
+boolean arrayContains( string array, string val ) {
+	return arrayFind( array, val ) != -1;
+}
+
 object monster_zombie_security_pistol : monster_zombie_base {
 	entity		combat_node;
 
@@ -34,14 +38,12 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		am_crouching;
 
 	// animation control
-	boolean		anim_fire_loop;
-	boolean		anim_fire_attack;
-	boolean		anim_fire_aim;
-	boolean		anim_crouchfire_anim;
-	boolean		anim_left_sidestep;
-	boolean		anim_left_dodge;
-	boolean		anim_right_sidestep;
-	boolean		anim_right_dodge;
+	boolean		torso_playing;
+	string		torso_anim;
+	string		torso_anim_queue;
+	boolean		legs_playing;
+	string		legs_anim;
+	string		legs_anim_queue;
 
 	// threat status
 	boolean		enemy_is_around;
@@ -67,7 +69,6 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	entity		move_blocked_by;
 	boolean		am_blocking_aim;
 	boolean		am_blocking_move;
-	boolean		enemy_is_attacking_squad;
 	boolean		can_left_sidestep;
 	boolean		can_left_sidestep_into_cover;
 	boolean		can_left_sidestep_to_attack;
@@ -80,18 +81,9 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		can_right_dodge;
 	boolean		can_right_dodge_into_cover;
 	boolean		can_right_dodge_to_attack;
+	boolean		weapon_raised;
 	float		player_aim_relative;
 	float		health_percentage;
-
-	// squad logistics
-	float		next_squad_search;
-	float		living_squad_count;
-	float		dead_squad_count;
-	monster_zombie_security_pistol	squad1;
-	monster_zombie_security_pistol	squad2;
-	monster_zombie_security_pistol	squad3;
-	monster_zombie_security_pistol	squad4;
-	monster_zombie_security_pistol	enemy_attack_target;
 
 	// entity
 	void		init();
@@ -99,14 +91,12 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	// states
 	void		state_Begin();
 	void		state_Idle();
-	void		state_Controller();
 
 	// control
 	void		begin_update_loop();
 	void		update_loop();
 
 	// actions
-	void		crouch_attack();
 	void		stand_attack();
 	void		combat_retreat();
 	void		combat_advance();
@@ -114,13 +104,10 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	// torso anim states
 	void		Torso_Idle();
 	void		Torso_Pain();
-	void		Torso_RangeAttack();
-	void		Torso_TurretAttack();
-	void		Torso_CrouchAttack();
-	void		Step_Left();
-	void		Step_Right();
-	void		Dodge_Left();
-	void		Dodge_Right();
+	void		Torso_Aim();
+	void		Torso_Attack();
+	void		Torso_RaiseWeapon();
+	void		Torso_LowerWeapon();
 	
 	// legs anim states
 	void		Legs_Idle();
@@ -139,18 +126,11 @@ object monster_zombie_security_pistol : monster_zombie_base {
 ***********************************************************************/
 
 void monster_zombie_security_pistol::Torso_Idle() {
-	idleAnim( ANIMCHANNEL_TORSO, "stand" );
-
-	eachFrame {
-		if ( AI_PAIN ) {
-			Torso_Pain();
-			idleAnim( ANIMCHANNEL_TORSO, "stand" );
-		}
-		if ( anim_fire_loop ) {
-			animState( ANIMCHANNEL_TORSO, "Torso_RangeAttack", 4 );
-		}
-		if ( anim_crouchfire_anim ) {
-			animState( ANIMCHANNEL_TORSO, "Torso_CrouchAttack", 4 );
+	eachFrame {		
+		if ( torso_playing && torso_anim != "" ) {
+			sys.println( "[" + torso_anim + "]" + torso_anim_queue );
+			callFunction( torso_anim );
+			torso_playing = false;
 		}
 	}
 }
@@ -173,8 +153,25 @@ void monster_zombie_security_pistol::Torso_Pain() {
 	setBlendFrames( ANIMCHANNEL_TORSO, 4 );
 }
 
-void monster_zombie_security_pistol::Torso_RangeAttack() {
-	// raise weapon
+void monster_zombie_security_pistol::Torso_Stand() {
+	idleAnim( ANIMCHANNEL_TORSO, "stand" );
+}
+
+void monster_zombie_security_pistol::Torso_Aim() {
+	playCycle( ANIMCHANNEL_TORSO, "range_attack_aim" );
+}
+
+void monster_zombie_security_pistol::Torso_Attack() {
+	playAnim( ANIMCHANNEL_TORSO, "range_attack_loop" );
+	while( !animDone( ANIMCHANNEL_TORSO, 0 ) ) {
+		if ( AI_PAIN ) {
+			Torso_Pain();
+		}
+		waitFrame();
+	}
+}
+
+void monster_zombie_security_pistol::Torso_RaiseWeapon() {
 	playAnim( ANIMCHANNEL_TORSO, "range_attack" );
 	while( !animDone( ANIMCHANNEL_TORSO, 0 ) ) {
 		if ( AI_PAIN ) {
@@ -182,58 +179,9 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 		}
 		waitFrame();
 	}
+}
 
-	// aim until ready
-	playCycle( ANIMCHANNEL_TORSO, "range_attack_aim" );
-	float attackStartTime = RandomDelay( 0.1, 0.4 );
-	while ( anim_fire_loop && ( sys.getTime() < attackStartTime ) ) {
-		if ( AI_PAIN ) {
-			Torso_Pain();
-		}
-		waitFrame();
-	}
-
-	// attack loop
-	while ( anim_fire_loop ) {
-		if ( AI_PAIN ) {
-			Torso_Pain();
-		}
-		
-		if ( anim_left_sidestep ) {
-			Step_Left();
-		} else if ( anim_right_sidestep ) {
-			Step_Right();
-		} else if ( anim_left_dodge ) {
-			Dodge_Left();
-		} else if ( anim_right_dodge ) {
-			Dodge_Right();
-		}
-		
-		if ( anim_fire_attack ) {
-			playAnim( ANIMCHANNEL_TORSO, "range_attack_loop" );
-			while( anim_fire_attack && !animDone( ANIMCHANNEL_TORSO, 0 ) ) {
-				anim_fire_attack = anim_fire_attack && anim_fire_loop;
-				if ( AI_PAIN ) {
-					Torso_Pain();
-				}
-				waitFrame();
-			}
-		}
-
-		if ( anim_fire_aim ) {
-			playCycle( ANIMCHANNEL_TORSO, "range_attack_aim" );
-			while ( anim_fire_aim ) {
-				anim_fire_aim = anim_fire_aim && anim_fire_loop;
-				if ( AI_PAIN ) {
-					Torso_Pain();
-				}
-				waitFrame();
-			}
-		}
-		waitFrame();
-	}
-
-	// lower weapon
+void monster_zombie_security_pistol::Torso_LowerWeapon() {
 	playAnim( ANIMCHANNEL_TORSO, "range_attack_end" );
 	while( !animDone( ANIMCHANNEL_TORSO, 4 ) ) {
 		if ( AI_PAIN ) {
@@ -241,15 +189,6 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 		}
 		waitFrame();
 	}
-
-	finishAction( "range_attack" );
-	animState( ANIMCHANNEL_TORSO, "Torso_Idle", 4 );
-}
-
-void monster_zombie_security_pistol::Torso_TurretAttack() {
-}
-
-void monster_zombie_security_pistol::Torso_CrouchAttack() {
 }
 
 /***********************************************************************
@@ -267,7 +206,17 @@ void monster_zombie_security_pistol::Legs_Idle() {
 		}
 		if ( run && AI_FORWARD )	{ animState( ANIMCHANNEL_LEGS, "Legs_Run", 8 ); }
 		if ( AI_FORWARD )			{ animState( ANIMCHANNEL_LEGS, "Legs_Walk", 8 ); }
+		
+		if ( legs_playing && legs_anim != "" ) {
+			sys.println( "[" + legs_anim + "]" + legs_anim_queue );
+			callFunction( legs_anim );
+			legs_playing = false;
+		}
 	}
+}
+
+void monster_zombie_security_pistol::Legs_Stand() {
+	idleAnim( ANIMCHANNEL_LEGS, "stand" );
 }
 
 void monster_zombie_security_pistol::Legs_Walk() {
@@ -309,7 +258,6 @@ void monster_zombie_security_pistol::Legs_DodgeLeft() {
 	}
 	
 	finishAction( "strafe" );
-	animState( ANIMCHANNEL_LEGS, "Legs_Idle", 8 );
 }
 
 void monster_zombie_security_pistol::Legs_DodgeRight() {
@@ -320,7 +268,6 @@ void monster_zombie_security_pistol::Legs_DodgeRight() {
 	}
 
 	finishAction( "strafe" );
-	animState( ANIMCHANNEL_LEGS, "Legs_Idle", 8 );
 }
 
 void monster_zombie_security_pistol::Legs_StepLeft() {
@@ -331,7 +278,6 @@ void monster_zombie_security_pistol::Legs_StepLeft() {
 	}
 	
 	finishAction( "sidestep" );
-	animState( ANIMCHANNEL_LEGS, "Legs_Idle", 4 );
 }
 
 void monster_zombie_security_pistol::Legs_StepRight() {
@@ -342,7 +288,6 @@ void monster_zombie_security_pistol::Legs_StepRight() {
 	}
 
 	finishAction( "sidestep" );
-	animState( ANIMCHANNEL_LEGS, "Legs_Idle", 4 );
 }
 
 /***********************************************************************
@@ -360,7 +305,6 @@ void monster_zombie_security_pistol::init() {
 	run_distance	= ZSECP_RUNDISTANCE;
 	walk_turn		= ZSECP_WALKTURN;
 	enemy_last_known_position = getOrigin();
-	next_squad_search = 0;
 
 	begin_update_loop();
 
@@ -379,9 +323,6 @@ monster_zombie_security_pistol::state_Begin
 =====================
 */
 void monster_zombie_security_pistol::state_Begin() {
-	anim_fire_loop = false;
-	anim_crouchfire_anim = false;
-
 	animState( ANIMCHANNEL_TORSO, "Torso_Idle", 0 );
 	animState( ANIMCHANNEL_LEGS, "Legs_Idle", 0 );
 
@@ -393,25 +334,11 @@ void monster_zombie_security_pistol::state_Begin() {
 /*
 =====================
 monster_zombie_security_pistol::state_Idle
-=====================
+===================== 
 */
 void monster_zombie_security_pistol::state_Idle() {
 	wait_for_enemy();
 	setState( "state_Combat" );
-}
-
-/*
-=====================
-monster_zombie_security_pistol::state_Controller
-=====================
-*/
-void monster_zombie_security_pistol::state_Controller() {
-	float i = 0;
-	monster_zombie_security_pistol squad = $null_entity;
-	
-	while ( i == 0 || squad != $null_entity ) {
-		squad = getTarget( i );
-	}
 }
 
 /***********************************************************************
@@ -430,130 +357,116 @@ void monster_zombie_security_pistol::stand_attack() {
 	float breakCoverTime;
 	boolean canEnterCover;
 	boolean canExitCover;
+	boolean leftStep;
+	boolean leftDodge;
+	boolean rightStep;
+	boolean rightDodge;
 
-	anim_fire_loop = true;
-	while ( anim_fire_loop ) {
+	torso_playing = false;
+	legs_playing = false;
+	torso_anim_queue = "Torso_Stand";
+	legs_anim_queue = "Legs_Stand";
+	weapon_raised = false;
+
+	while ( true ) {
 		currentTime = sys.getTime();
 		if ( sys.influenceActive() ) {
-			anim_fire_loop = false;
 			break;
 		}
+
+		leftStep = false;
+		leftDodge = false;
+		rightStep = false;
+		rightDodge = false;
+
 		if ( enemy_is_attacking_me ) {
-			// avoid enemy attack
 			canEnterCover = !am_in_cover && ( can_left_sidestep_into_cover || can_left_dodge_into_cover || can_right_sidestep_into_cover || can_right_dodge_into_cover );
 			if ( canEnterCover ) {
-				breakCoverTime = RandomDelay( ZSECP_COVER_MIN_DURATION, ZSECP_COVER_MAX_DURATION );
+				breakCoverTime = RandomDelay( 1.5, 3 );
 				if ( can_left_sidestep_into_cover ) {
-					anim_left_sidestep = true;
-					am_in_cover = true;
+					leftStep = true;
 				} else if ( can_right_sidestep_into_cover ) {
-					anim_right_sidestep = true;
-					am_in_cover = true;
+					rightStep = true;
 				} else if ( can_left_dodge_into_cover ) {
-					anim_left_dodge = true;
-					am_in_cover = true;
+					leftDodge = true;
 				} else if ( can_right_dodge_into_cover ) {
-					anim_right_dodge = true;
-					am_in_cover = true;
+					rightDodge = true;
 				}
+				am_in_cover = true;
 			} else if ( getEnemy() == $player1 ) {
 				if ( player_aim_relative > 0 ) {
 					if ( can_left_dodge ) {
-						anim_left_dodge = true;
+						leftDodge = true;
 					} else if ( can_left_sidestep ) {
-						anim_left_sidestep = true;
+						leftStep = true;
+					} else {
+						break;
 					}
 				} else {
 					if ( can_right_dodge ) {
-						anim_right_dodge = true;
+						rightDodge = true;
 					} else if ( can_right_sidestep ) {
-						anim_right_sidestep = true;
+						rightStep = true;
+					} else {
+						break;
 					}
 				}
 			}
-		}
-		
-		if ( can_hit_enemy ) {
-			anim_fire_attack = true;
+		} else if ( can_hit_enemy ) {
+			if ( !arrayContains( torso_anim_queue, "Torso_Attack" ) ) {
+				if ( !weapon_raised && !arrayContains( torso_anim_queue, "Torso_RaiseWeapon" ) ) {
+					torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_RaiseWeapon" );
+					torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_Aim" );
+					weapon_raised = true;
+				}
+				torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_Attack" );
+			}
 		} else {
 			if ( !am_in_cover || ( sys.getTime() > breakCoverTime ) ) {
-				canExitCover = am_in_cover && ( can_left_sidestep_to_attack || can_left_dodge_to_attack || can_right_sidestep_to_attack || can_right_dodge_to_attack );
-				if ( canExitCover ) {
-					am_in_cover = false;
-				}
-
 				if ( can_left_sidestep_to_attack ) {
-					anim_left_sidestep = true;
+					leftStep = true;
 				} else if ( can_right_sidestep_to_attack ) {
-					anim_right_sidestep = true;
+					rightStep = true;
 				} else if ( can_left_dodge_to_attack ) {
-					anim_left_dodge = true;
+					leftDodge = true;
 				} else if ( can_right_dodge_to_attack ) {
-					anim_right_dodge = true;
+					rightDodge = true;
 				} else {
-					anim_fire_loop = false;
+					am_in_cover = false;
+					if ( weapon_raised && !arrayContains( torso_anim_queue, "Torso_LowerWeapon" ) ) {
+						torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_LowerWeapon" );
+						weapon_raised = false;
+					}
+					break;
 				}
 			}
 		}
+		if ( leftStep && !arrayContains( legs_anim_queue, "Legs_StepLeft" ) ) {
+			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_StepLeft" );
+		} else if ( rightStep && !arrayContains( legs_anim_queue, "Legs_StepRight" ) ) {
+			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_StepRight" );
+		} else if ( leftDodge && !arrayContains( legs_anim_queue, "Legs_DodgeLeft" ) ) {
+			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_DodgeLeft" );
+		} else if ( rightDodge && !arrayContains( legs_anim_queue, "Legs_DodgeRight" ) ) {
+			legs_anim_queue = arrayAppend( legs_anim_queue, "Legs_DodgeRight" );
+		}
+
+		if ( !torso_playing ) {
+			torso_anim = arrayHead( torso_anim_queue );
+			torso_anim_queue = arrayTail( torso_anim_queue );
+			torso_playing = true;
+		}
+
+		if ( !legs_playing ) {
+			legs_anim = arrayHead( legs_anim_queue );
+			legs_anim_queue = arrayTail( legs_anim_queue );
+			legs_playing = true;
+		}
 
 		lookAtEnemy( 1 );
 		waitFrame();
 	}
-	while( inAnimState( ANIMCHANNEL_TORSO, "Torso_RangeAttack" ) ) {
-		waitFrame();
-	}
-}
-	
-/*
-=====================
-monster_zombie_security_pistol::crouch_attack
-=====================
-*/
-void monster_zombie_security_pistol::crouch_attack() {
-}
-
-void monster_zombie_security_pistol::Step_Left() {
-	animState( ANIMCHANNEL_LEGS, "Legs_StepLeft", 4 );
-	while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepLeft" ) ) {
-		lookAtEnemy( 1 );
-		waitFrame();
-	}
-	anim_left_sidestep = false;
-}
-
-void monster_zombie_security_pistol::Step_Right() {
-	animState( ANIMCHANNEL_LEGS, "Legs_StepRight", 4 );
-	while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepRight" ) ) {
-		lookAtEnemy( 1 );
-		waitFrame();
-	}
-	anim_right_sidestep = false;
-}
-
-/*
-=====================
-monster_zombie_security_pistol::Dodge_Left
-=====================
-*/
-void monster_zombie_security_pistol::Dodge_Left() {
-	stopMove();
-	faceEnemy();
-	animState( ANIMCHANNEL_LEGS, "Legs_DodgeLeft", 2 );
-	waitAction( "strafe" );
-	anim_left_dodge = false;
-}
-
-/*
-=====================
-monster_zombie_security_pistol::Dodge_Right
-=====================
-*/
-void monster_zombie_security_pistol::Dodge_Right() {
-	stopMove();
-	faceEnemy();
-	animState( ANIMCHANNEL_LEGS, "Legs_DodgeRight", 2 );	
-	waitAction( "strafe" );
-	anim_right_dodge = false;
+	torso_anim_queue = arrayAppend( torso_anim_queue, "Torso_LowerWeapon" );
 }
 
 /*
@@ -565,6 +478,10 @@ void monster_zombie_security_pistol::state_Combat() {
 	entity combat_node;
 
 	eachFrame {
+		stand_attack();
+		waitFrame();
+		continue;
+
 		faceEnemy();
 		if ( enemy_in_sight ) {
 			lookAtEnemy( 1 );
@@ -582,14 +499,6 @@ void monster_zombie_security_pistol::state_Combat() {
 		combat_node = getCombatNode();
 		if ( combat_node ) {
 			combat_ainode( combat_node );
-		}
-		
-		if ( am_taking_damage && ( health_percentage < 0.3 ) ) {
-			combat_retreat();
-		}
-	
-		if ( enemy_is_around && !can_hit_enemy ) {
-			combat_advance();
 		}
 	
 		if ( can_hit_enemy ) {
@@ -718,7 +627,6 @@ void monster_zombie_security_pistol::update_loop() {
 	float lastSquadUpdate;
 	vector pos;
 	vector dir;
-	vector dir_alt;
 	vector target;
 	float initialHealth;
 
@@ -835,23 +743,19 @@ void monster_zombie_security_pistol::update_loop() {
 			dir = pos - target;
 			player_aim_relative = sys.DotProduct( dir, sys.angToRight( player.getViewAngles() ) );
 		}
-		// if ( ang > 0 ) {
-		// 	stepLeft = true;
-		// } else {
-		// 	stepRight = true;
-		// }
 
-		// sidestep / evade shared properties
+		// sidestep / dodge shared properties
 		pos = getOrigin() + '0 0 48';
-		dir = sys.angToRight( getAngles() ) * 40;
-		dir_alt = dir * 3;
 		target = enemy.getOrigin() + '0 0 48';
+
+		// sidestep distance
+		dir = sys.angToRight( getAngles() ) * 40;
 
 		// can_right_sidestep_to_attack
 		// can_right_sidestep_into_cover
 		if ( testAnimMove( "step_right" ) ) {
 			can_right_sidestep = true;
-			sys.trace( pos + dir, target, '-8 -8 0', '8 8 16', MASK_PLAYERSOLID, self );
+			sys.trace( pos + dir, target, '0 0 0', '0 0 0', MASK_PLAYERSOLID, self );
 			if ( sys.getTraceEntity() == enemy ) {
 				can_right_sidestep_to_attack = true;
 				can_right_sidestep_into_cover = false;
@@ -865,29 +769,11 @@ void monster_zombie_security_pistol::update_loop() {
 			can_right_sidestep_into_cover = false;
 		}
 
-		// can_right_dodge_to_attack
-		// can_right_dodge_into_cover
-		if ( testAnimMove( "evade_right" ) ) {
-			can_right_dodge = true;
-			sys.trace( pos + dir_alt, target, '-8 -8 0', '8 8 16', MASK_PLAYERSOLID, self );
-			if ( sys.getTraceEntity() == enemy ) {
-				can_right_dodge_to_attack = true;
-				can_right_dodge_into_cover = false;
-			} else {
-				can_right_dodge_to_attack = false;
-				can_right_dodge_into_cover = true;
-			}
-		} else {
-			can_right_dodge = false;
-			can_right_dodge_to_attack = false;
-			can_right_dodge_into_cover = false;
-		}
-
 		// can_left_sidestep_to_attack
 		// can_left_sidestep_into_cover
 		if ( testAnimMove( "step_left" ) ) {
 			can_left_sidestep = true;
-			sys.trace( pos - dir, target, '-8 -8 0', '8 8 16', MASK_PLAYERSOLID, self );
+			sys.trace( pos - dir, target, '0 0 0', '0 0 0', MASK_PLAYERSOLID, self );
 			if ( sys.getTraceEntity() == enemy ) {
 				can_left_sidestep_to_attack = true;
 				can_left_sidestep_into_cover = false;
@@ -901,11 +787,32 @@ void monster_zombie_security_pistol::update_loop() {
 			can_left_sidestep_into_cover = false;
 		}
 
+		// dodge distance
+		dir *= 3;
+
+		// can_right_dodge_to_attack
+		// can_right_dodge_into_cover
+		if ( testAnimMove( "evade_right" ) ) {
+			can_right_dodge = true;
+			sys.trace( pos + dir, target, '0 0 0', '0 0 0', MASK_PLAYERSOLID, self );
+			if ( sys.getTraceEntity() == enemy ) {
+				can_right_dodge_to_attack = true;
+				can_right_dodge_into_cover = false;
+			} else {
+				can_right_dodge_to_attack = false;
+				can_right_dodge_into_cover = true;
+			}
+		} else {
+			can_right_dodge = false;
+			can_right_dodge_to_attack = false;
+			can_right_dodge_into_cover = false;
+		}
+
 		// can_left_dodge_to_attack
 		// can_left_dodge_into_cover
 		if ( testAnimMove( "evade_left" ) ) {
 			can_left_dodge = true;
-			sys.trace( pos - dir_alt, target, '-8 -8 0', '8 8 16', MASK_PLAYERSOLID, self );
+			sys.trace( pos - dir, target, '0 0 0', '0 0 0', MASK_PLAYERSOLID, self );
 			if ( sys.getTraceEntity() == enemy ) {
 				can_left_dodge_to_attack = true;
 				can_left_dodge_into_cover = false;
@@ -918,152 +825,6 @@ void monster_zombie_security_pistol::update_loop() {
 			can_left_dodge_to_attack = false;
 			can_left_dodge_into_cover = false;
 		}
-
-		// // living_squad_count
-		// // dead_squad_count
-		// // am_blocking_aim
-		// // am_blocking_move
-		// // enemy_last_known_position
-		// // enemy_last_seen_time
-		// // enemy_last_seen_from_position
-		// // enemy_is_attacking_squad
-		// // enemy_attack_target
-		// // enemy_is_around
-		// enemyIsAroundSquad = false;
-		// amBlockingAim = false;
-		// amBlockingMove = false;
-		// if ( currentTime > lastSquadUpdate + 3 ) {
-		// 	lastSquadUpdate = currentTime;
-		// 	livingSquadCount = 0;
-		// 	if ( squad1 != $null_entity ) {
-		// 		if ( squad1.AI_DEAD ) {
-		// 			squad1 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad1.aim_is_blocked && squad1.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad1.move_is_blocked && squad1.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad1.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad1.enemy_in_sight || ( squad1.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad1.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad1.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad1.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad1.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad1;
-		// 			}
-		// 		}
-		// 	}
-		// 	if ( squad2 != $null_entity ) {
-		// 		if ( squad2.AI_DEAD ) {
-		// 			squad2 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad2.aim_is_blocked && squad2.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad2.move_is_blocked && squad2.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad2.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad2.enemy_in_sight || ( squad2.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad2.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad2.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad2.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad2.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad2;
-		// 			}
-		// 		}
-		// 	}
-		// 	if ( squad3 != $null_entity ) {
-		// 		if ( squad3.AI_DEAD ) {
-		// 			squad3 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad3.aim_is_blocked && squad3.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad3.move_is_blocked && squad3.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad3.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad3.enemy_in_sight || ( squad3.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad3.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad3.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad3.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad3.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad3;
-		// 			}
-		// 		}
-		// 	}
-		// 	if ( squad4 != $null_entity ) {
-		// 		if ( squad4.AI_DEAD ) {
-		// 			squad4 = $null_entity;
-		// 			dead_squad_count++;
-		// 		} else {
-		// 			livingSquadCount++;
-		// 			if ( squad4.aim_is_blocked && squad4.aim_blocked_by == self ) {
-		// 				amBlockingAim = true;
-		// 			}
-		// 			if ( squad4.move_is_blocked && squad4.move_blocked_by == self ) {
-		// 				amBlockingMove = true;
-		// 			}
-		// 			if ( squad4.enemy_is_around ) {
-		// 				enemyIsAroundSquad = true;
-		// 				if ( !enemy_in_sight ) {
-		// 					if ( squad4.enemy_in_sight || ( squad4.enemy_last_seen_time > enemy_last_seen_time ) ) {
-		// 						enemy_last_known_position = squad4.enemy_last_known_position;
-		// 						enemy_last_seen_from_position = squad4.enemy_last_seen_from_position;
-		// 						enemy_last_seen_time = squad4.enemy_last_seen_time;
-		// 					}
-		// 				}
-		// 			}
-		// 			if ( squad4.enemy_is_attacking_me ) {
-		// 				enemyIsAttackingSquad = true;
-		// 				enemy_attack_target = squad4;
-		// 			}
-		// 		}
-		// 	}
-		// 	living_squad_count = livingSquadCount;
-		// }
-		// if ( amBlockingAim ) {
-		// 	am_blocking_aim = true;
-		// } else {
-		// 	am_blocking_aim = false;
-		// }
-		// if ( amBlockingMove ) {
-		// 	am_blocking_move = true;
-		// } else {
-		// 	am_blocking_move = false;
-		// }
-		// if ( enemyIsAttackingSquad ) {
-		// 	enemy_is_attacking_squad = true;
-		// } else {
-		// 	enemy_is_attacking_squad = false;
-		// }
 
 		// enemy_is_around
 		if ( enemy_in_sight || enemy_is_attacking_me || enemyIsAroundSquad ) {
