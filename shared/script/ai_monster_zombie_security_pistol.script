@@ -220,24 +220,31 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 						combat_dodge_left();
 					} else if ( can_left_sidestep ) {
 						combat_step_left();
+					} else if ( can_right_dodge ) {
+						combat_dodge_left();
+					} else if ( can_right_sidestep ) {
+						combat_step_right();
 					}
 				} else {
 					if ( can_right_dodge ) {
 						combat_dodge_right();
 					} else if ( can_right_sidestep ) {
 						combat_step_right();
+					} else if ( can_left_dodge ) {
+						combat_dodge_left();
+					} else if ( can_left_sidestep ) {
+						combat_step_left();
 					}
 				}
 			}
 		}
 		
 		if ( can_hit_enemy ) {
+			am_in_cover = false;
 			playAnim( ANIMCHANNEL_TORSO, "range_attack_loop" );
 			while( activate_fire_anim && !animDone( ANIMCHANNEL_TORSO, 0 ) ) {
 				if ( AI_PAIN ) {
 					Torso_Pain();
-					playCycle( ANIMCHANNEL_TORSO, "range_attack_aim" );
-					break;
 				}
 				waitFrame();
 			}
@@ -247,6 +254,7 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 				if ( AI_PAIN ) {
 					Torso_Pain();
 				}
+				// not in cover, or ready to leave cover
 				if ( !am_in_cover || ( sys.getTime() >= breakCoverTime ) ) {
 					// get to attack position
 					if ( can_left_sidestep_to_attack ) {
@@ -260,6 +268,9 @@ void monster_zombie_security_pistol::Torso_RangeAttack() {
 					} else {
 						activate_fire_anim = false;
 					}
+					am_in_cover = false;
+				} else if ( am_taking_damage ) {
+					activate_fire_anim = false;
 					am_in_cover = false;
 				}
 				waitFrame();
@@ -521,12 +532,6 @@ void monster_zombie_security_pistol::stand_attack() {
 	while ( activate_fire_anim ) {
 		currentTime = sys.getTime();
 		if ( sys.influenceActive() ) {
-			activate_fire_anim = false;
-		}
-		if ( !am_in_cover && !enemy_in_sight && ( currentTime > enemy_last_seen_time + 10 )) {
-			activate_fire_anim = false;
-		}
-		if ( am_taking_damage && ( health_percentage < 0.3 ) ) {
 			activate_fire_anim = false;
 		}
 
