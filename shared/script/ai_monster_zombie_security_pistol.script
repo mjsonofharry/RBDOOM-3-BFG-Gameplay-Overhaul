@@ -13,6 +13,7 @@ monster_zsec_pistol_shield
 #define ZSECP_RUNDISTANCE				192
 #define ZSECP_WALKTURN					65
 #define ZSECP_DODGE_RATE				3
+#define ZSECP_STEP_RATE					2
 #define ZSECP_ATTACK_DELAY_MIN			0.5
 #define ZSECP_ATTACK_DELAY_MAX			2
 #define ZSECP_ATTACK_MAX_LENGTH			3
@@ -25,12 +26,10 @@ monster_zsec_pistol_shield
 #define ZSECP_STAND_ATTACK_MIN_LENGTH	3
 #define ZSECP_ATTACK_MIN_SHOOT_TIME		0.5
 #define ZSECP_NOFOVTIME					4
+#define ZSECP_CROUCHFIRE_MIN_RANGE		750
+#define ZSECP_CROUCHFIRE_BREAK_RANGE	500
 
 #define ATTACK_ZSECP_CROUCHFIRE			ATTACK_SPECIAL1
-
-// start out with a 50/50 chance of stand vs. crouch attacks.
-float zsecp_num_stand_attacks = 1;
-float zsecp_num_crouch_attacks = 1;
 
 object monster_zombie_security_pistol : monster_zombie_base {
 	boolean		fire;
@@ -39,6 +38,7 @@ object monster_zombie_security_pistol : monster_zombie_base {
 	float		nextDodge;
 	float		nextAttack;
 	float		nextNoFOVAttack;
+	float		nextStep;
 	entity		combat_node;
 
 	void		state_Begin();
@@ -466,6 +466,7 @@ void monster_zombie_security_pistol::state_Idle() {
 	nextAttack		= 0;
 	nextNoFOVAttack = 0;
 	nextDodge		= RandomTime( ZSECP_DODGE_RATE );
+	nextStep		= RandomTime( ZSECP_STEP_RATE );
 
 	setState( "state_Combat" );
 }
@@ -545,8 +546,7 @@ float monster_zombie_security_pistol::check_attacks() {
 	}
 
 	if ( try_attack ) {
-		// adjust the likelyhood of a crouch vs. stand attack based on the # of each.
-		if ( sys.random( zsecp_num_stand_attacks + zsecp_num_crouch_attacks ) < zsecp_num_stand_attacks ) {
+		if ( distanceTo( getEnemy() ) > ZSECP_CROUCHFIRE_MIN_RANGE ) {
 			if ( canHitEnemyFromAnim( "crouch_range_attack_loop" ) ) {
 				attack_flags |= ATTACK_ZSECP_CROUCHFIRE;
 			} else if ( canHitEnemyFromAnim( "range_attack_loop" ) ) {
@@ -572,8 +572,6 @@ void monster_zombie_security_pistol::stand_attack() {
 	float right;
 	float attack_flags;
 	boolean do_run_attack;
-
-	zsecp_num_stand_attacks++;
 
 	if ( sys.random( 10 ) < 6 ) {
 		do_run_attack = run_attack;
@@ -626,27 +624,33 @@ void monster_zombie_security_pistol::stand_attack() {
 			break;
 		}
 		
-		left  = testAnimMove( "step_left" );
-		right =	testAnimMove( "step_right" );
-		if ( left && right ) {
-			if ( sys.random( 100 ) < 50 ) {
-				left = false;
-			} else {
-				right = false;
+		if ( sys.getTime() > nextStep ) {
+			left  = testAnimMove( "step_left" );
+			right =	testAnimMove( "step_right" );
+			if ( left && right ) {
+				if ( sys.random( 100 ) < 50 ) {
+					left = false;
+				} else {
+					right = false;
+				}
 			}
-		}
-		
-		if ( left ) {
-			animState( ANIMCHANNEL_LEGS, "Legs_StepLeft", 4 );
-			while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepLeft" ) ) {
-				lookAtEnemy( 1 );
-				waitFrame();
+
+			if ( left ) {
+				animState( ANIMCHANNEL_LEGS, "Legs_StepLeft", 4 );
+				while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepLeft" ) ) {
+					lookAtEnemy( 1 );
+					waitFrame();
+				}
+			} else if ( right ) {
+				animState( ANIMCHANNEL_LEGS, "Legs_StepRight", 4 );
+				while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepRight" ) ) {
+					lookAtEnemy( 1 );
+					waitFrame();
+				}
 			}
-		} else if ( right ) {
-			animState( ANIMCHANNEL_LEGS, "Legs_StepRight", 4 );
-			while( inAnimState( ANIMCHANNEL_LEGS, "Legs_StepRight" ) ) {
-				lookAtEnemy( 1 );
-				waitFrame();
+
+			if ( left || right ) {
+				nextStep = DelayTime( ZSECP_DODGE_RATE );
 			}
 		}
 	}
@@ -670,8 +674,6 @@ void monster_zombie_security_pistol::crouch_attack() {
 	float attackTime;
 	float attack_flags;
 
-	zsecp_num_crouch_attacks++;
-
 	faceEnemy();
 	crouch_fire = true;
 	
@@ -693,6 +695,10 @@ void monster_zombie_security_pistol::crouch_attack() {
 				do_attack( attack_flags );
 				return;
 			}
+		}
+
+		if ( distanceTo( getEnemy() ) < ZSECP_CROUCHFIRE_BREAK_RANGE ) {
+			break;
 		}
 		
 		lookAtEnemy( 1 );
