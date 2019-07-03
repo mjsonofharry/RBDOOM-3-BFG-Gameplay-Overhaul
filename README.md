@@ -147,11 +147,7 @@ When you do grab it, you will find that its spread has been greatly improved. It
 
 #### Machinegun
 
-The machinegun now fires in rapid three-round bursts. The first burst is very accurate, but sustained fire will result in worse accuracy. Also, each bullet deals more damage than before and comes with a different, less plastic-y sound effect.
-
-These changes are intended to make the machinegun feel like more of a companion to the shotgun. For comparison, the shotgun can deal a huge amount of burst damage in a short amount of time, but over longer periods of time the machinegun's DPS should be on top.
-
-Overall, its performance is suspiciously similar to that of another rifle. Both rifles happen to be manufactured on Mars. Perhaps one is a cheap knockoff of the other?
+The machinegun deals more damage and has tighter spread. Accuracy decreases after the first three rounds.
 
 #### Grenades
 
@@ -163,11 +159,7 @@ You'll find that grenades are no longer part of the weapon-scrolling processessi
 
 #### Chaingun
 
-The chaingun spins up faster and has improved accuracy for the first few seconds of sustained fire. This allows for some mid to long-range sniping, although it's not quite as effective in this capacity as either the pistol or machinegun since, well, both of those exist too.
-
-Damage has been decreased slightly to make way for the plasmagun. However, it now fires two shots at a time (when more than two rounds are available), just like the original.
-
-Also, it's been given a more fitting set of firing sound effects.
+The chaingun takes a moment to spin up or spin down, and it cannot stop being fired immediately. It also fires two rounds at a time. Thus, firing this weapon for any duration means committing to both attacking and burning through ammo. Chaingun bullets deal less damage in order to make the plasmagun more valuable.
 
 #### Plasmagun
 
