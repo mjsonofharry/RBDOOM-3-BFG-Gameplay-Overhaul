@@ -247,9 +247,11 @@ The cyberdemon can be harmed by any weapon. Please enjoy shooting at him.
 
 Zombie security ranged attacks have significantly reduced aim kick, because aim kick is annoying in hitscan battles.
 
-All zombie security enemy types have the same total health. Different damage zones (e.g. legs, head, chest, arms) have different levels of damage resistence, based on how armored they look. Shields no longer completely block all damage.
+All zombie security enemy types have the same total health as one another. Different damage zones (e.g. legs, head, chest, arms) have different levels of damage resistence, based on how armored they look. Shields no longer completely block all damage.
 
-Some of the more repetitive sounds (such as when spotting a player) see less frequently usage.
+Some of the more repetitive sounds (such as when spotting a player) see less frequent usage.
+
+Behavior has been adjusted so that decisions like crouching and sidestepping are based on combat conditions rather than random chance.
 
 ### Levels
 
