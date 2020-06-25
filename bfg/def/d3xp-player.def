@@ -352,7 +352,7 @@ entityDef player_base_d3xp_sp {
 
 	"def_weapon7"						"weapon_handgrenade"
 	"weapon7_best"						"0"
-	"weapon7_cycle"						"1"
+	"weapon7_cycle"						"0"
 	"weapon7_toggle"					"0"
 	"weapon7_allowempty"				"0"
 	"weapon7_visible"					"1"					// whether you can see this weapon in the inventory or not
